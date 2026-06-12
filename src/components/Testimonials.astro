@@ -1,0 +1,30 @@
+---
+import { reviews, site } from '../data/site.js';
+const real = reviews.filter((r) => r.real);
+---
+<section class="section alt" id="reviews">
+  <div class="container">
+    <span class="kicker">What Customers Say</span>
+    <h2>Straight from Google</h2>
+    {real.length > 0 ? (
+      <div class="grid grid-3" style="margin-top:28px;">
+        {real.map((r) => (
+          <div class="review-card">
+            <div class="stars" aria-label={`${r.rating} out of 5 stars`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
+            <blockquote>“{r.text}”</blockquote>
+            <cite>— {r.author}, Google review</cite>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="lede" style="margin-top:18px;">
+        Our Google reviews are coming straight to this page — in the meantime,
+        ask any of our customers, or better yet
+        <a href="/free-quote/">become the next one</a>.
+      </p>
+    )}
+    <p class="note" style="margin-top:22px;">
+      Reviews shown verbatim from Google. <a href={site.social.facebook} rel="noopener" target="_blank">See more on Facebook →</a>
+    </p>
+  </div>
+</section>

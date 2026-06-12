@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+const title = 'Privacy Policy | RemarkaPave LLC';
+const description = 'How RemarkaPave LLC collects, uses, and protects information submitted through remarkapave.com.';
+---
+<Base {title} {description}>
+  <section class="section">
+    <div class="container" style="max-width:780px;">
+      <h1>Privacy Policy</h1>
+      <p class="note">Last updated: June 2026</p>
+
+      <h2 style="margin-top:34px; font-size:1.3rem;">What we collect</h2>
+      <p>When you request a quote or contact us, we collect the information you provide: name, phone, email, town, service interests, and any details you include. Our analytics (Google Analytics 4) also collects standard, anonymized usage data — pages visited, device type, and how you found us.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">How we use it</h2>
+      <p>To respond to your request, prepare your quote, and schedule work. That's it. We don't sell, rent, or share your information with third parties for marketing.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Cookies & analytics</h2>
+      <p>We use Google Analytics to understand how visitors use the site (which pages help, which don't). You can block analytics cookies in your browser without affecting your ability to contact us.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Data retention & your rights</h2>
+      <p>Quote requests are kept as business records. Want yours deleted or corrected? Email <a href={`mailto:${site.email}`}>{site.email}</a> and we'll take care of it.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Contact</h2>
+      <p>{site.name} · {site.city}, {site.state} {site.zip} · <a href={site.phoneHref}>{site.phone}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+  </section>
+</Base>

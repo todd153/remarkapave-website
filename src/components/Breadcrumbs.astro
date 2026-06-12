@@ -1,0 +1,15 @@
+---
+// Visible breadcrumbs. BreadcrumbList JSON-LD comes from breadcrumbSchema() on the page.
+const { trail } = Astro.props; // [{ name, href }] — last item is current page
+---
+<nav class="crumbs container" aria-label="Breadcrumb">
+  <ol>
+    {trail.map((c, i) =>
+      i < trail.length - 1 ? (
+        <li><a href={c.href}>{c.name}</a></li>
+      ) : (
+        <li><span aria-current="page">{c.name}</span></li>
+      )
+    )}
+  </ol>
+</nav>

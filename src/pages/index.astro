@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { site, trustSignals, serviceAreas } from '../data/site.js';
+import { services, coreServices, priceDisclaimer } from '../data/services.js';
+import { towns } from '../data/towns.js';
+import { faqSchema } from '../utils/schema.js';
+
+const homeFaqs = [
+  { q: 'How much does parking lot striping cost in Oklahoma?', a: 'RemarkaPave prices striping per stall, with new layouts, ADA stalls, and stencils itemized in a free written quote — most come back within one business day. Job minimums apply.' },
+  { q: 'What areas does RemarkaPave serve?', a: 'We’re based in Ponca City and serve Kay County (Newkirk, Tonkawa, Blackwell), the Tulsa metro (Tulsa, Broken Arrow, Owasso, Bixby, Jenks, Sand Springs, Claremore), and Bartlesville, Oklahoma.' },
+  { q: 'How often should I sealcoat my lot in Oklahoma?', a: 'Every 2–3 years. Oklahoma sun and freeze-thaw cycles dry asphalt out; regular sealcoating costs pennies per square foot compared to repaving.' },
+  { q: 'Is RemarkaPave licensed and insured?', a: 'Yes — RemarkaPave LLC is licensed and insured, gives free estimates, and provides a written materials-and-labor breakdown on every job.' },
+  { q: 'What is a RemarkaReport™?', a: 'Our branded pavement assessment: a documented lot walk with photos, plain-English condition grades, and a prioritized 1–3 year maintenance plan. Free with any estimate.' },
+];
+
+const title = 'RemarkaPave | Parking Lot Striping & Pavement Maintenance — Ponca City & Tulsa, OK';
+const description =
+  'Commercial line striping, sealcoating, crack filling & pressure washing in Ponca City, Kay County, the Tulsa metro & Bartlesville. Licensed & insured. Free quotes — (580) 304-7225.';
+---
+
+<Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/frames/hero/frame_0180.jpg">
+  <!-- ============ CINEMATIC HERO (scroll-scrubbed) ============ -->
+  <section class="hero-cinematic" id="hero" aria-label="RemarkaPave — watch a lot come back to life">
+    <div class="sticky">
+      <img
+        class="poster"
+        src="/frames/hero/frame_0180.jpg"
+        alt="Freshly striped parking lot with bright white stalls and a blue ADA accessible space painted by RemarkaPave"
+        fetchpriority="high"
+      />
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="shade"></div>
+
+      <div class="hero-overlay">
+        <div class="hero-line" data-in="0.00" data-out="0.30">
+          <h1>Your lot is your first impression.</h1>
+          <p class="sub">We make it remarkable.</p>
+        </div>
+        <div class="hero-line" data-in="0.36" data-out="0.62">
+          <p class="h">Crisp stalls. <span class="accent">ADA done right.</span></p>
+          <p class="sub">Striped with a Titan PowrLiner 2850 &amp; PROMAR commercial paint.</p>
+        </div>
+        <div class="hero-line" data-in="0.70" data-out="1.00">
+          <p class="h">Remarka<span class="accent">Pave</span></p>
+          <p class="sub">{site.tagline}</p>
+          <div class="hero-ctas">
+            <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
+            <a class="btn btn-ghost-dark" href={site.phoneHref} data-track="call">Call {site.phone}</a>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST BAR ============ -->
+  <div class="trustbar" role="complementary" aria-label="Credentials">
+    <ul>
+      {trustSignals.map((t) => <li>{t}</li>)}
+    </ul>
+  </div>
+
+  <!-- ============ DIRECT ANSWER (AEO) ============ -->
+  <section class="section">
+    <div class="container">
+      <p class="lede">
+        <strong>{site.name}</strong> is a commercial pavement maintenance contractor based in
+        Ponca City, Oklahoma, serving Kay County, the Tulsa metro, and Bartlesville. We stripe,
+        sealcoat, crack-fill, and pressure wash parking lots for property managers, retail
+        centers, HOAs, and business owners — with free estimates and a written
+        materials-and-labor breakdown on every job. Call <a href={site.phoneHref} data-track="call">{site.phone}</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section alt" id="services">
+    <div class="container">
+      <span class="kicker">What We Do</span>
+      <h2>One crew. One written quote.<br />A finished lot.</h2>
+      <div class="grid grid-3" style="margin-top:30px;">
+        {services.map((s) => (
+          <article class="card">
+            <h3><a href={`/services/${s.slug}/`}>{s.name}</a></h3>
+            <p style="margin-top:8px; font-size:0.95rem;">{s.blurb}</p>
+            <span class="price">{s.priceFrom}</span>
+          </article>
+        ))}
+      </div>
+      <p class="note" style="margin-top:18px;">{priceDisclaimer}</p>
+    </div>
+  </section>
+
+  <!-- ============ REMARKAREPORT BAND ============ -->
+  <section class="section">
+    <div class="container grid grid-2" style="align-items:center;">
+      <div>
+        <span class="kicker">Start Smart</span>
+        <h2>The RemarkaReport™</h2>
+        <p class="lede" style="margin-top:14px;">
+          Before you spend a dollar on your lot, know exactly where it stands. We walk the
+          property, photograph every problem area, grade the condition in plain English, and
+          hand you a prioritized 1–3 year maintenance plan — so you budget instead of react.
+        </p>
+        <p style="margin-top:16px;"><strong>Free with any estimate.</strong></p>
+        <div style="margin-top:20px; display:flex; gap:14px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="/services/remarkareport/">How it works</a>
+          <a class="btn btn-outline" href="/free-quote/">Book my RemarkaReport</a>
+        </div>
+      </div>
+      <div class="card" style="border-left:5px solid var(--yellow);">
+        <h3>Every RemarkaReport™ includes</h3>
+        <ul style="margin:14px 0 0 18px; line-height:2;">
+          <li>Full lot walk &amp; photo documentation</li>
+          <li>Stall count + ADA compliance check</li>
+          <li>Crack, pothole &amp; drainage inventory</li>
+          <li>Plain-English condition grades</li>
+          <li>Prioritized maintenance budget plan</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY TEASER ============ -->
+  <section class="section alt">
+    <div class="container">
+      <span class="kicker">The Work</span>
+      <h2>Before &amp; after is our best salesman</h2>
+      <p class="lede" style="margin:14px 0 26px;">Real lots, real lines. See the difference a RemarkaPave visit makes.</p>
+      <div class="gallery-grid">
+        <figure>
+          <img src="/images/gallery/03-10.webp" alt="Sealcoating crew applying fresh sealer to commercial asphalt" loading="lazy" width="600" height="450" />
+          <figcaption><span class="tag">Placeholder</span> Sealcoating in progress</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/gallery/Line-Striping.webp" alt="Freshly painted white parking stall lines on dark asphalt" loading="lazy" width="600" height="450" />
+          <figcaption><span class="tag">Placeholder</span> Fresh stall lines</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/gallery/02-14.webp" alt="Commercial parking lot after pavement maintenance" loading="lazy" width="600" height="450" />
+          <figcaption><span class="tag">Placeholder</span> Finished lot</figcaption>
+        </figure>
+      </div>
+      <div style="margin-top:26px;">
+        <a class="btn btn-outline" href="/gallery/">See the full gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <!-- ============ SERVICE AREA ============ -->
+  <section class="section" id="area">
+    <div class="container">
+      <span class="kicker">Where We Work</span>
+      <h2>Ponca City roots. Green Country reach.</h2>
+      <p class="lede" style="margin:14px 0 24px;">
+        Home base is Ponca City and Kay County. We also run dedicated routes through the Tulsa
+        metro and Bartlesville — click your town for local details.
+      </p>
+      <div class="area-tags">
+        {serviceAreas.home.map((c) => <span>{c}</span>)}
+        {towns.map((t) => (
+          <a href={`/services/parking-lot-striping-${t.slug}/`}>{t.name}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section alt">
+    <div class="container" style="max-width:860px;">
+      <FaqBlock faqs={homeFaqs} />
+    </div>
+  </section>
+
+  <!-- ============ QUOTE ============ -->
+  <section class="section" id="quote-form">
+    <div class="container grid grid-2" style="align-items:start;">
+      <div>
+        <span class="kicker">Free Estimate</span>
+        <h2>Tell us about your lot</h2>
+        <p class="lede" style="margin-top:14px;">
+          A rough guess on size is fine. You'll hear back within one business day with a
+          written breakdown — materials and labor, no mystery numbers.
+        </p>
+        <ul style="margin:20px 0 0 18px; line-height:2.1;">
+          <li>Free, no-obligation estimates</li>
+          <li>Written materials &amp; labor breakdown</li>
+          <li>Scheduled around your business hours</li>
+        </ul>
+      </div>
+      <QuoteForm />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<!-- Scroll-scrub engine: desktop only; mobile & reduced-motion get the poster. -->
+<script>
+  (() => {
+    const mq = window.matchMedia('(min-width: 761px) and (prefers-reduced-motion: no-preference)');
+    const section = document.getElementById('hero');
+    const canvas = document.getElementById('hero-canvas');
+    const poster = section.querySelector('.poster');
+    const lines = [...section.querySelectorAll('.hero-line')];
+    const FRAMES = 180;
+    const path = (i) => `/frames/hero/frame_${String(i).padStart(4, '0')}.jpg`;
+
+    function updateLines(p) {
+      for (const el of lines) {
+        const a = parseFloat(el.dataset.in), b = parseFloat(el.dataset.out);
+        const mid = (a + b) / 2, half = (b - a) / 2;
+        let o = 1 - Math.abs(p - mid) / half;
+        o = Math.max(0, Math.min(1, o));
+        el.style.opacity = o.toFixed(3);
+        el.style.transform = `translate(-50%, -50%) translateY(${(1 - o) * 28}px)`;
+      }
+    }
+
+    if (!mq.matches) {
+      canvas.remove();
+      updateLines(0.85); // show the brand line statically on mobile
+      lines[2].style.opacity = '1';
+      return;
+    }
+
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const images = [];
+    let firstDrawn = false;
+    for (let i = 0; i < FRAMES; i++) {
+      const img = new Image();
+      img.src = path(i + 1);
+      img.onload = () => { if (!firstDrawn) { firstDrawn = true; draw(0); poster.style.opacity = '0'; } };
+      images[i] = img;
+    }
+
+    let current = -1;
+    function draw(index) {
+      const img = images[index];
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const cw = canvas.clientWidth, ch = canvas.clientHeight;
+      const ir = img.naturalWidth / img.naturalHeight, cr = cw / ch;
+      let dw, dh, dx, dy;
+      if (ir > cr) { dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0; }
+      else { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
+      ctx.fillStyle = '#0E1116';
+      ctx.fillRect(0, 0, cw, ch);
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw(current < 0 ? 0 : current);
+    }
+
+    function update() {
+      const rect = section.getBoundingClientRect();
+      if (rect.bottom < -innerHeight || rect.top > innerHeight) return;
+      const p = Math.min(Math.max(-rect.top / (rect.height - innerHeight), 0), 1);
+      const idx = Math.min(FRAMES - 1, Math.floor(p * (FRAMES - 1)));
+      if (idx !== current) { current = idx; draw(idx); }
+      updateLines(p);
+    }
+
+    addEventListener('resize', resize);
+    addEventListener('scroll', update, { passive: true });
+    resize();
+    let raf = () => { update(); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  })();
+</script>

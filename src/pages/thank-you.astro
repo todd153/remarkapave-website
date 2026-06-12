@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+
+const title = 'Thanks — We Got Your Request | RemarkaPave';
+const description = 'Your quote request is in. We’ll get back to you within one business day.';
+---
+
+<Base {title} {description} noindex={true}>
+  <section class="section" style="min-height:60vh; display:grid; place-items:center;">
+    <div class="container" style="text-align:center; max-width:620px;">
+      <span class="kicker">Request Received</span>
+      <h1>Thanks — we're on it.</h1>
+      <p class="lede" style="margin:18px auto 0;">
+        Your details are in Todd's inbox. <strong>We'll get back to you within one business
+        day</strong> with next steps — usually a quick call to confirm the scope, then your
+        written quote.
+      </p>
+      <p style="margin-top:22px;">
+        Need it faster? Call <a href={site.phoneHref} data-track="call"><strong>{site.phone}</strong></a>.
+      </p>
+      <div style="margin-top:30px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="/services/">Browse services</a>
+        <a class="btn btn-outline" href="/blog/">Read pavement tips</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GA4 conversion: landing here = successful form submit -->
+  <script>
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'quote_form_conversion', { event_category: 'conversion' });
+    }
+  </script>
+</Base>

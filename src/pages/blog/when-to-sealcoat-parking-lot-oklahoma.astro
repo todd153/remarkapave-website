@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FaqBlock from '../../components/FaqBlock.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { articleSchema, faqSchema, breadcrumbSchema } from '../../utils/schema.js';
+
+const url = '/blog/when-to-sealcoat-parking-lot-oklahoma/';
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Resources', href: '/blog/' },
+  { name: 'When to Sealcoat in Oklahoma', href: url },
+];
+const faqs = [
+  { q: 'How often should a parking lot be sealcoated in Oklahoma?', a: 'Every 2–3 years for most commercial lots. High-traffic retail lots trend toward 2; lightly used lots can stretch to 3.' },
+  { q: 'What months can you sealcoat in Oklahoma?', a: 'Roughly April through October. Sealer needs dry pavement, daytime temps in the 50s°F or warmer, and time to cure before rain or freezing nights.' },
+  { q: 'Should cracks be filled before sealcoating?', a: 'Always. Sealcoat is a surface shield, not a crack repair — sealing over open cracks hides the problem while water keeps getting in.' },
+  { q: 'How much does sealcoating cost?', a: 'Sealcoating is priced per square foot based on lot size and condition, with crack filling quoted separately — RemarkaPave itemizes everything in a free written quote.' },
+];
+const title = 'When Should You Sealcoat a Parking Lot in Oklahoma? | RemarkaPave';
+const description =
+  'The 2–3 year sealcoating rule for Oklahoma lots, the April–October application window, and why crack filling must come first. From RemarkaPave, Ponca City OK.';
+---
+
+<Base {title} {description} schema={[
+  articleSchema({ headline: 'When Should You Sealcoat a Parking Lot in Oklahoma?', description, url, datePublished: '2026-06-11' }),
+  faqSchema(faqs),
+  breadcrumbSchema(trail),
+]}>
+  <Breadcrumbs {trail} />
+  <article class="section" style="padding-top:34px;">
+    <div class="container" style="max-width:780px;">
+      <p class="note">June 2026 · Sealcoating</p>
+      <h1>When Should You Sealcoat a Parking Lot in Oklahoma?</h1>
+
+      <p class="lede" style="margin-top:18px;">
+        <strong>Short answer: every 2–3 years, between April and October, and always after
+        crack filling.</strong> Here's the reasoning, so you can sanity-check anyone who
+        quotes you something different.
+      </p>
+
+      <h2 style="margin-top:38px;">Why Oklahoma is hard on asphalt</h2>
+      <p>
+        Asphalt is held together by a petroleum binder, and two things destroy that binder:
+        UV and water. Oklahoma supplies both generously — long, high-sun summers that dry the
+        binder out, and freeze-thaw winters where water in every crack expands like a wedge.
+        An unsealed lot grays out, goes brittle, and starts cracking years ahead of a
+        maintained one.
+      </p>
+
+      <h2 style="margin-top:30px;">The 2–3 year cycle</h2>
+      <p>
+        Fresh sealcoat is a sacrificial layer — it takes the UV and traffic so the asphalt
+        underneath doesn't. It wears off over 2–3 years, faster in drive lanes and high-turn
+        areas. Re-sealing on that cycle costs pennies per square foot. Letting a lot run
+        bare until it cracks costs repaving money — routinely ten times more, and it always
+        seems to come due in the worst budget year.
+      </p>
+
+      <h2 style="margin-top:30px;">Why the calendar matters</h2>
+      <p>
+        Sealer is water-based and needs to cure: dry pavement, daytime temps in the 50s°F or
+        better, and no rain or freezing nights during the cure window. In practice that means
+        April through October in Oklahoma. Crews that spray sealer outside that window are
+        giving you a coat that flakes by spring — it's why we'd rather reschedule than apply
+        in marginal conditions.
+      </p>
+
+      <h2 style="margin-top:30px;">The step you can't skip</h2>
+      <p>
+        Crack filling comes first, every time. Sealcoat is a sunscreen, not a stitch — it
+        shields the surface but doesn't close openings. Hot-applied crack sealant, priced by
+        the linear foot, closes the water's entry points; then the sealcoat protects
+        everything else. Sealing over open cracks just hides the damage while it compounds.
+      </p>
+
+      <h2 style="margin-top:30px;">The easy way to stay on cycle</h2>
+      <p>
+        Most owners don't track when the lot was last sealed — that's what the
+        <a href="/care-plan/">RemarkaPave Care Plan</a> is for. Protect Care puts sealcoating
+        on an automatic 2–3 year cycle with the cost amortized, so it's a line item instead
+        of a surprise. Or start with a free <a href="/services/remarkareport/">RemarkaReport™</a>
+        and find out exactly where your lot stands.
+      </p>
+    </div>
+  </article>
+
+  <section class="section alt">
+    <div class="container" style="max-width:860px;">
+      <FaqBlock {faqs} />
+    </div>
+  </section>
+  <CtaBand heading="Not sure where your lot is in the cycle?" sub="A free RemarkaReport™ tells you — with photos and a plan." />
+</Base>

@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site.js';
+import { breadcrumbSchema } from '../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about/' },
+];
+const title = 'About RemarkaPave | Owner-Operated Pavement Contractor OK';
+const description =
+  'RemarkaPave LLC is an owner-operated pavement maintenance company in Ponca City, OK — commercial-grade equipment, written quotes, and a name on every job.';
+---
+
+<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container" style="max-width:820px;">
+      <span class="kicker">About</span>
+      <h1>Not a race-to-the-bottom outfit.</h1>
+      <p class="lede" style="margin-top:18px;">
+        RemarkaPave LLC is an owner-operated pavement maintenance company based in Ponca City,
+        Oklahoma. The promise is simple: show up on time, do commercial-grade work, and put
+        every number in writing.
+      </p>
+      <p style="margin-top:20px;">
+        Plenty of crews can spray paint on asphalt. Fewer count your stalls against ADA
+        requirements before quoting, fill the cracks before they sealcoat, or hand you a
+        materials-and-labor breakdown so you know exactly what you're paying for. That's the
+        gap RemarkaPave was built to fill.
+      </p>
+      <p>
+        The equipment is commercial-grade — a Titan PowrLiner 2850 for striping with PROMAR
+        solvent-based acrylic traffic paint, and a hot-water pressure washing rig with a
+        20″ surface cleaner — because the result is only as sharp as the tools and the
+        person running them.
+      </p>
+      <p>
+        Home base is Ponca City and Kay County, with regular routes through the Tulsa metro
+        and Bartlesville. Whether it's a 20-stall office lot or a 300-stall retail center,
+        the owner walks the job, quotes the job, and stands behind the job.
+      </p>
+      <p style="margin-top:24px;">
+        <strong>Questions? Call {site.phone} or email {site.email}.</strong>
+      </p>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

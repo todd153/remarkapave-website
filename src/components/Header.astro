@@ -1,0 +1,32 @@
+---
+import { site } from '../data/site.js';
+---
+<header class="site-header">
+  <div class="bar">
+    <a class="logo-link" href="/" aria-label="RemarkaPave home">
+      <img src="/images/logo.png" alt="RemarkaPave LLC logo" width="180" height="54" />
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">☰</button>
+    <nav class="main-nav" id="main-nav" aria-label="Main">
+      <a href="/services/">Services</a>
+      <a href="/services/remarkareport/">RemarkaReport™</a>
+      <a href="/care-plan/">Care Plan</a>
+      <a href="/gallery/">Gallery</a>
+      <a href="/blog/">Resources</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+    <a class="header-phone" href={site.phoneHref} data-track="call">
+      <span class="label">Call </span>{site.phone}
+    </a>
+    <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
+  </div>
+</header>
+<script>
+  const t = document.querySelector('.nav-toggle');
+  const n = document.getElementById('main-nav');
+  t?.addEventListener('click', () => {
+    const open = n.classList.toggle('open');
+    t.setAttribute('aria-expanded', String(open));
+    t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+</script>

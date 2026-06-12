@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+import { services } from '../data/services.js';
+const title = 'Page Not Found | RemarkaPave';
+const description = 'That page has been repaved. Find our services or call (580) 304-7225.';
+---
+<Base {title} {description} noindex={true}>
+  <section class="section" style="min-height:60vh;">
+    <div class="container" style="max-width:720px; text-align:center;">
+      <span class="kicker">404</span>
+      <h1>This page got repaved.</h1>
+      <p class="lede" style="margin:18px auto 0;">
+        The page you're after isn't here anymore — but the lot help you came for is.
+      </p>
+      <div style="margin-top:28px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="/services/">Browse all services</a>
+        <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
+        <a class="btn btn-outline" href={site.phoneHref} data-track="call">Call {site.phone}</a>
+      </div>
+      <div class="area-tags" style="margin-top:36px; justify-content:center;">
+        {services.slice(0, 5).map((s) => <a href={`/services/${s.slug}/`}>{s.short}</a>)}
+      </div>
+    </div>
+  </section>
+</Base>

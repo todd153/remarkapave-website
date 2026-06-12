@@ -1,0 +1,16 @@
+---
+import { site } from '../data/site.js';
+const { heading = 'Ready for a lot that looks the part?', sub = 'Free estimate. Written materials-and-labor breakdown. No pressure.' } = Astro.props;
+---
+<section class="cta-band">
+  <div class="inner">
+    <div>
+      <h2>{heading}</h2>
+      <p>{sub}</p>
+    </div>
+    <div style="display:flex; gap:14px; flex-wrap:wrap;">
+      <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
+      <a class="btn btn-ghost-dark" href={site.phoneHref} data-track="call">Call {site.phone}</a>
+    </div>
+  </div>
+</section>

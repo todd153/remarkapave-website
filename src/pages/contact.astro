@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { site, serviceAreas } from '../data/site.js';
+import { breadcrumbSchema } from '../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Contact', href: '/contact/' },
+];
+const title = 'Contact RemarkaPave | Ponca City & Tulsa Metro OK';
+const description =
+  'Reach RemarkaPave: (580) 304-7225, Todd@remarkapave.com. Serving Ponca City, Kay County, the Tulsa metro & Bartlesville. Mon–Fri 7–6. Free estimates.';
+---
+
+<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container grid grid-2" style="align-items:start;">
+      <div>
+        <span class="kicker">Contact</span>
+        <h1>Talk to Todd</h1>
+        <p class="lede" style="margin-top:16px;">
+          Owner-operated means the person who answers is the person who shows up.
+        </p>
+        <ul style="list-style:none; margin-top:26px; line-height:2.4; font-size:1.05rem;">
+          <li><strong>Phone:</strong> <a href={site.phoneHref} data-track="call">{site.phone}</a></li>
+          <li><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><strong>Hours:</strong> {site.hours}</li>
+          <li><strong>Base:</strong> {site.city}, {site.state} {site.zip} (service-area business)</li>
+        </ul>
+
+        <h2 style="margin-top:40px; font-size:1.4rem;">Service area</h2>
+        <div class="area-tags" style="margin-top:16px;">
+          {[...serviceAreas.home, ...serviceAreas.growth].map((c) => <span>{c}</span>)}
+        </div>
+        <p class="note" style="margin-top:14px;">
+          On the edge of the map? Call anyway — routes change with the season.
+        </p>
+      </div>
+      <QuoteForm heading="Send us the details" />
+    </div>
+  </section>
+</Base>

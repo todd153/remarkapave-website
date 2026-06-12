@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { breadcrumbSchema } from '../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Gallery', href: '/gallery/' },
+];
+const title = 'Before & After Gallery | RemarkaPave Pavement Work OK';
+const description =
+  'Before & after photos of RemarkaPave line striping, sealcoating, and pressure washing across Ponca City and the Tulsa metro, Oklahoma.';
+
+// PLACEHOLDERS — replace with Todd's real before/after pairs, tagged by town.
+// Real photos are the strongest sales tool on the site; swap these first.
+const photos = [
+  { src: '/images/gallery/Line-Striping.webp', alt: 'Freshly painted white parking stall lines on dark asphalt', tag: 'Striping', town: 'Placeholder' },
+  { src: '/images/gallery/03-10.webp', alt: 'Crew applying sealcoat to commercial asphalt with a squeegee', tag: 'Sealcoating', town: 'Placeholder' },
+  { src: '/images/gallery/02-14.webp', alt: 'Commercial parking lot after full pavement maintenance', tag: 'Finished lot', town: 'Placeholder' },
+  { src: '/images/gallery/01-8.webp', alt: 'Parking area surface after cleaning and re-striping', tag: 'Pressure washing', town: 'Placeholder' },
+  { src: '/images/gallery/04-11.webp', alt: 'Asphalt surface during maintenance work', tag: 'Crack filling', town: 'Placeholder' },
+  { src: '/images/gallery/02-7.webp', alt: 'Painted pavement markings on commercial lot', tag: 'Markings', town: 'Placeholder' },
+];
+---
+
+<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container">
+      <span class="kicker">The Work</span>
+      <h1>Before &amp; after</h1>
+      <p class="lede" style="margin-top:16px;">
+        The lot does the talking. These are the kinds of transformations a RemarkaPave visit
+        delivers — real project photos from our jobs are being added as we build the gallery
+        out, tagged by town.
+      </p>
+      <div class="gallery-grid" style="margin-top:30px;">
+        {photos.map((p) => (
+          <figure>
+            <img src={p.src} alt={p.alt} loading="lazy" width="600" height="450" />
+            <figcaption><span class="tag">{p.tag}</span>{p.town}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="note" style="margin-top:20px;">
+        Want to see work near you before booking? Ask — we'll point you to lots we've done in
+        your area.
+      </p>
+    </div>
+  </section>
+  <CtaBand heading="Want your lot in this gallery?" />
+</Base>

@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+const title = 'Terms of Service | RemarkaPave LLC';
+const description = 'Terms governing use of remarkapave.com and RemarkaPave LLC service estimates.';
+---
+<Base {title} {description}>
+  <section class="section">
+    <div class="container" style="max-width:780px;">
+      <h1>Terms of Service</h1>
+      <p class="note">Last updated: June 2026</p>
+
+      <h2 style="margin-top:34px; font-size:1.3rem;">Estimates & pricing</h2>
+      <p>"From" prices shown on this site are starting points for typical conditions. Final pricing is provided in a written quote after we assess your property, and only the written quote is binding. Quotes are valid for 30 days unless stated otherwise.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Site content</h2>
+      <p>Content on remarkapave.com is provided for general information about our services. While we keep it accurate, pavement conditions vary — recommendations on this site aren't a substitute for an on-site assessment.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Scheduling & weather</h2>
+      <p>Striping and sealcoating are weather-dependent. If conditions won't allow a proper application, we reschedule rather than deliver work that won't last — we'll communicate promptly when weather forces a change.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Liability</h2>
+      <p>{site.name} is licensed and insured. Our liability for any claim related to this website is limited to the maximum extent permitted by Oklahoma law.</p>
+
+      <h2 style="margin-top:28px; font-size:1.3rem;">Contact</h2>
+      <p>{site.name} · {site.city}, {site.state} {site.zip} · <a href={site.phoneHref}>{site.phone}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+  </section>
+</Base>

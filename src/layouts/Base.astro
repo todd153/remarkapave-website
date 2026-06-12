@@ -1,0 +1,150 @@
+---
+import { site, serviceAreas, reviews } from '../data/site.js';
+import { services } from '../data/services.js';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ChatBot from '../components/ChatBot.astro';
+import '../styles/global.css';
+
+const {
+  title,
+  description,
+  ogImage = '/images/og-default.jpg',
+  schema = [],          // page-specific JSON-LD objects
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+
+const realReviews = reviews.filter((r) => r.real);
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${site.url}/#business`,
+  name: site.name,
+  image: `${site.url}/images/logo.png`,
+  logo: `${site.url}/images/logo.png`,
+  url: site.url,
+  telephone: '+1-580-304-7225',
+  email: site.email,
+  priceRange: '$$',
+  description: site.description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.city,
+    addressRegion: site.state,
+    postalCode: site.zip,
+    addressCountry: 'US',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '07:00',
+    closes: '18:00',
+  },
+  areaServed: [...serviceAreas.home, ...serviceAreas.growth].map((name) => ({ '@type': 'City', name })),
+  sameAs: Object.values(site.social),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Pavement Services',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, url: `${site.url}/services/${s.slug}/` },
+    })),
+  },
+  // AggregateRating only from REAL reviews — never fabricated.
+  ...(realReviews.length > 0
+    ? {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: (realReviews.reduce((a, r) => a + r.rating, 0) / realReviews.length).toFixed(1),
+          reviewCount: realReviews.length,
+        },
+        review: realReviews.map((r) => ({
+          '@type': 'Review',
+          author: { '@type': 'Person', name: r.author },
+          datePublished: r.date,
+          reviewRating: { '@type': 'Rating', ratingValue: r.rating },
+          reviewBody: r.text,
+        })),
+      }
+    : {}),
+};
+
+const allSchema = [localBusiness, ...schema];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    {site.searchConsoleToken && <meta name="google-site-verification" content={site.searchConsoleToken} />}
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, site.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, site.url).href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Fonts: two families, swap display, preconnected -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Rubik:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {allSchema.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+
+    {site.ga4Id && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`}></script>
+        <script
+          set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${site.ga4Id}');`}
+        />
+      </>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Sticky mobile call bar -->
+    <nav class="callbar" aria-label="Quick contact">
+      <a class="call" href={site.phoneHref} data-track="call">📞 Call Now</a>
+      <a class="quote" href="/free-quote/">Get a Free Quote</a>
+    </nav>
+
+    <ChatBot />
+
+    <!-- Conversion tracking: click-to-call taps fire a GA4 event -->
+    <script>
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[href^="tel:"]');
+        if (a && typeof window.gtag === 'function') {
+          window.gtag('event', 'phone_call', {
+            event_category: 'conversion',
+            event_label: location.pathname,
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

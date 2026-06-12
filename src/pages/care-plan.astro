@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { faqSchema, breadcrumbSchema } from '../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Care Plan', href: '/care-plan/' },
+];
+const faqs = [
+  { q: 'What’s included in a RemarkaPave Care Plan?', a: 'Scheduled maintenance visits — inspection, crack filling, re-striping, sealcoating on cycle, and pressure washing depending on tier — plus priority scheduling and one predictable budget line instead of surprise repair bills.' },
+  { q: 'Why is a plan cheaper than calling when the lot looks bad?', a: 'Because pavement fails quietly. By the time a lot looks bad, water has been in the cracks for seasons and the fix is structural. Plans catch crack-filler problems before they become repaving problems.' },
+  { q: 'Can I change tiers later?', a: 'Yes — tiers adjust at any renewal, and we’ll recommend moving down if your lot doesn’t need the higher tier. The plan serves the pavement, not the other way around.' },
+];
+const title = 'RemarkaPave Care Plan | Parking Lot Maintenance Programs — OK';
+const description =
+  'Three maintenance tiers that keep your lot sharp year-round: Essential, Protect & Total Care. Predictable budgets, priority scheduling. Free consult — (580) 304-7225.';
+
+const plans = [
+  {
+    name: 'Essential Care', visits: '1 visit / year', rec: false,
+    items: ['Annual inspection + written RemarkaReport™', 'Spot crack filling', 'Spot re-striping of worn areas', 'Priority scheduling'],
+  },
+  {
+    name: 'Protect Care', visits: '2 visits / year', rec: true,
+    items: ['Everything in Essential', 'Full crack filling', 'Sealcoating on a 2–3 year cycle (cost amortized)', 'Key re-striping each visit', '1 pressure-washing visit / year'],
+  },
+  {
+    name: 'Total Care', visits: '4+ visits / year', rec: false,
+    items: ['Everything in Protect', 'Annual full re-stripe', 'Quarterly sweeps', 'Unlimited touch-ups', '24–48 hr response time'],
+  },
+];
+---
+
+<Base {title} {description} schema={[faqSchema(faqs), breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container">
+      <span class="kicker">Maintenance Program</span>
+      <h1>The RemarkaPave Care Plan</h1>
+      <p class="lede" style="margin-top:16px;">
+        <strong>
+          A Care Plan puts your lot on a maintenance schedule — inspections, crack filling,
+          striping, and sealing handled automatically, for one predictable budget line.
+          It's how well-run properties stay looking that way.
+        </strong>
+      </p>
+
+      <div class="plans" style="margin-top:44px;">
+        {plans.map((p) => (
+          <div class={`plan${p.rec ? ' recommended' : ''}`}>
+            <h3>{p.name}</h3>
+            <p class="note" style="margin-top:4px; font-weight:700;">{p.visits}</p>
+            <ul>
+              {p.items.map((i) => <li>{i}</li>)}
+            </ul>
+            <a class={`btn ${p.rec ? 'btn-primary' : 'btn-outline'}`} href="/free-quote/">Get plan pricing</a>
+          </div>
+        ))}
+      </div>
+      <p class="note" style="margin-top:18px;">Plan pricing is quoted per property based on lot size and condition — your written quote breaks it all out.</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container" style="max-width:860px;">
+      <h2>Why a plan beats calling when it looks bad</h2>
+      <p style="margin-top:16px;">
+        Asphalt doesn't fail loudly. A hairline crack drinks water all spring, freezes and
+        widens all winter, and undermines the base all year — silently. By the time a lot
+        <em>looks</em> bad enough to call someone, the cheap fixes are off the table.
+      </p>
+      <p>
+        A Care Plan flips that: small problems get caught at the crack-filler stage, sealcoat
+        goes down on schedule instead of after the damage, and striping never gets the chance
+        to fade into liability. Your tenants see a managed property; you see a flat,
+        predictable line in the budget instead of surprise capital repairs.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:860px;">
+      <FaqBlock {faqs} />
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container" style="max-width:640px;">
+      <QuoteForm heading="Ask about Care Plan pricing" />
+    </div>
+  </section>
+  <CtaBand heading="Put your lot on autopilot." sub="Free consult — we'll recommend the right tier for your property, even if it's the cheapest one." />
+</Base>

@@ -1,0 +1,15 @@
+---
+// Visible FAQ accordion. FAQPage JSON-LD is emitted by the page via faqSchema().
+const { faqs, heading = 'Frequently Asked Questions' } = Astro.props;
+---
+<section class="faq" aria-label="Frequently asked questions">
+  <h2>{heading}</h2>
+  <div style="margin-top:22px;">
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p class="a">{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>

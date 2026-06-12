@@ -1,0 +1,105 @@
+---
+// The Kit's 7 fields + spam protection (honeypot + time check) + lead-source URL.
+import { site, serviceAreas } from '../data/site.js';
+const { heading = 'Get a Free Quote', compact = false } = Astro.props;
+const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
+---
+<form
+  class="quote-form"
+  method="POST"
+  action={site.formEndpoint}
+  data-quote-form
+>
+  <h3>{heading}</h3>
+  <p class="sub">Tell us about your lot — we'll get back to you within one business day.</p>
+
+  <!-- FormSubmit config -->
+  <input type="hidden" name="_subject" value="New quote request — remarkapave.com" />
+  <input type="hidden" name="_next" value={`${site.url}/thank-you/`} />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="lead_source_page" value="" data-lead-source />
+  <input type="hidden" name="form_loaded_at" value="" data-loaded-at />
+  <!-- Honeypot: bots fill it, humans never see it -->
+  <div class="hp-field" aria-hidden="true">
+    <label>Leave this field empty<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <label>Name*
+    <input type="text" name="name" required autocomplete="name" placeholder="Full name" />
+  </label>
+  <label>Phone*
+    <input type="tel" name="phone" required autocomplete="tel" placeholder="(580) 000-0000" />
+  </label>
+  <label>Email*
+    <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+  </label>
+  <label>Town / City*
+    <select name="town" required>
+      <option value="" disabled selected>Select your town</option>
+      {townOptions.map((t) => <option value={t}>{t}</option>)}
+    </select>
+  </label>
+
+  <fieldset>
+    <legend>Service(s) needed*</legend>
+    <label class="check"><input type="checkbox" name="services" value="Line Striping" /> Line striping</label>
+    <label class="check"><input type="checkbox" name="services" value="Sealcoating" /> Sealcoating</label>
+    <label class="check"><input type="checkbox" name="services" value="Crack Filling" /> Crack filling</label>
+    <label class="check"><input type="checkbox" name="services" value="Pressure Washing" /> Pressure washing</label>
+    <label class="check"><input type="checkbox" name="services" value="RemarkaReport Assessment" /> RemarkaReport™ assessment</label>
+    <label class="check"><input type="checkbox" name="services" value="Other" /> Other</label>
+  </fieldset>
+
+  {!compact && (
+    <label>Approximate lot size / sq ft
+      <input type="text" name="lot_size" placeholder="Rough guess is fine — e.g. 50 stalls or 20,000 sq ft" />
+    </label>
+  )}
+  <label>Message / details
+    <textarea name="message" rows={compact ? 3 : 4} placeholder="Timeline, gate codes, photos to follow, anything else…"></textarea>
+  </label>
+  {!compact && (
+    <label>How did you hear about us?
+      <select name="heard_from">
+        <option value="" selected>Optional</option>
+        <option>Google</option>
+        <option>Facebook</option>
+        <option>Referral</option>
+        <option>Yard sign</option>
+        <option>Repeat customer</option>
+      </select>
+    </label>
+  )}
+
+  <button type="submit" class="btn btn-primary">Request My Free Quote</button>
+  <p class="form-fine">Or call us directly: <a href={site.phoneHref} data-track="call">{site.phone}</a></p>
+</form>
+
+<script>
+  document.querySelectorAll('[data-quote-form]').forEach((form) => {
+    form.querySelector('[data-lead-source]').value = location.href;
+    form.querySelector('[data-loaded-at]').value = String(Date.now());
+
+    form.addEventListener('submit', (e) => {
+      // Spam: honeypot filled, or submitted within 3s of page load → block silently.
+      const hp = form.querySelector('input[name="company_website"]');
+      const loaded = Number(form.querySelector('[data-loaded-at]').value || 0);
+      if (hp.value || Date.now() - loaded < 3000) {
+        e.preventDefault();
+        return;
+      }
+      // At least one service checked.
+      if (![...form.querySelectorAll('input[name="services"]')].some((c) => c.checked)) {
+        e.preventDefault();
+        alert('Please pick at least one service so we can route your request.');
+        return;
+      }
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'conversion',
+          event_label: location.pathname,
+        });
+      }
+    });
+  });
+</script>

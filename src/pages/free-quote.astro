@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { site, trustSignals } from '../data/site.js';
+import { breadcrumbSchema } from '../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Free Quote', href: '/free-quote/' },
+];
+const title = 'Get a Free Quote | RemarkaPave — Pavement Services OK';
+const description =
+  'Request a free pavement quote: striping, sealcoating, crack filling, pressure washing. Written materials & labor breakdown within one business day. (580) 304-7225.';
+---
+
+<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container grid grid-2" style="align-items:start;">
+      <div>
+        <span class="kicker">Free Estimate</span>
+        <h1>Get your written quote</h1>
+        <p class="lede" style="margin-top:16px;">
+          One minute of your time, one business day for our answer — a real written quote with
+          materials and labor broken out, not a number scribbled on a card.
+        </p>
+        <ul style="margin:22px 0 0 18px; line-height:2.2;">
+          {trustSignals.map((t) => <li>{t}</li>)}
+        </ul>
+        <p style="margin-top:24px;">
+          Prefer to talk? <a href={site.phoneHref} data-track="call"><strong>{site.phone}</strong></a> — Mon–Fri 7 AM–6 PM.
+        </p>
+      </div>
+      <QuoteForm />
+    </div>
+  </section>
+</Base>

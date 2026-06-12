@@ -1,0 +1,138 @@
+---
+// "RemarkaBot" — self-contained, rule-based chat widget. No API key, no
+// external calls. Answers common questions and funnels to quote/call.
+// Minimize (—) collapses to the launcher; Close (×) hides for the session.
+import { site } from '../data/site.js';
+---
+<button class="rp-chat-launch" id="rp-launch" aria-haspopup="dialog" aria-expanded="false">
+  💬 Questions? Chat with us
+</button>
+
+<section class="rp-chat" id="rp-chat" role="dialog" aria-label="RemarkaPave chat assistant" aria-modal="false">
+  <header class="rp-chat-head">
+    <div class="title">
+      RemarkaBot
+      <span class="sub">RemarkaPave's helper — real humans at {site.phone}</span>
+    </div>
+    <button id="rp-min" aria-label="Minimize chat" title="Minimize">—</button>
+    <button id="rp-close" aria-label="Close chat" title="Close">×</button>
+  </header>
+  <div class="rp-chat-body" id="rp-body" aria-live="polite"></div>
+  <form class="rp-chat-input" id="rp-form">
+    <input type="text" id="rp-text" placeholder="Type a question…" aria-label="Type your question" autocomplete="off" />
+    <button type="submit" aria-label="Send">Send</button>
+  </form>
+</section>
+
+<script define:vars={{ phone: site.phone, phoneHref: site.phoneHref }}>
+  const launch = document.getElementById('rp-launch');
+  const panel = document.getElementById('rp-chat');
+  const body = document.getElementById('rp-body');
+  const form = document.getElementById('rp-form');
+  const text = document.getElementById('rp-text');
+
+  const QUICK = [
+    ['Get a free quote', 'quote'],
+    ['Services & pricing', 'pricing'],
+    ['Service area', 'area'],
+    ['ADA compliance', 'ada'],
+    [`Call ${phone}`, 'call'],
+  ];
+
+  const ANSWERS = {
+    quote: `Easy — the fastest ways are the <a href="/free-quote/">free quote form</a> (takes about a minute) or calling <a href="${phoneHref}">${phone}</a>. We answer most requests within one business day with a written materials-and-labor breakdown.`,
+    pricing: `Straight answer: striping is priced per stall, sealcoating and washing per square foot, crack filling per linear foot — and every number comes in a free written materials-and-labor quote (job minimum $600). Fastest way to a real price: the <a href="/free-quote/">quote form</a>. See <a href="/services/">all services</a>.`,
+    area: `We're based in Ponca City and serve Kay County (Newkirk, Tonkawa, Blackwell) plus the Tulsa metro — Tulsa, Broken Arrow, Owasso, Bixby, Jenks, Sand Springs, Claremore — and Bartlesville.`,
+    ada: `We bring lots into ADA compliance: correct stall counts, van-accessible spaces, access aisles, and symbols that pass inspection — each itemized in your written quote. Details on the <a href="/services/ada-fire-lane-compliance/">ADA & fire lane page</a>.`,
+    call: `Tap to call: <a href="${phoneHref}">${phone}</a> — Mon–Fri, 7 AM to 6 PM. If we're on a lot, leave a message and we'll call back same day.`,
+    sealcoat: `Sealcoating is priced per square foot, and Oklahoma lots should be sealed every 2–3 years (season is roughly April–October). More on the <a href="/services/sealcoating/">sealcoating page</a>.`,
+    stripe: `Striping is priced per stall with PROMAR commercial traffic paint, laid with a Titan PowrLiner 2850. New layouts, arrows, and stencils too — see <a href="/services/parking-lot-striping/">line striping</a>.`,
+    wash: `We pressure wash with hot water and a 20″ surface cleaner — no streaks — priced per square foot, year-round. See <a href="/services/pressure-washing/">pressure washing</a>.`,
+    crack: `Crack filling is priced per linear foot — it's the highest-ROI repair in pavement maintenance because it stops water before potholes form. See <a href="/services/crack-filling/">crack filling</a>.`,
+    report: `The RemarkaReport™ is our pavement assessment: a lot walk, photos, plain-English condition grades, and a prioritized maintenance plan. Free with any estimate — <a href="/services/remarkareport/">details here</a>.`,
+    plan: `The RemarkaPave Care Plan keeps your lot maintained on a schedule — three tiers from one visit a year to full quarterly care. See <a href="/care-plan/">Care Plan tiers</a>.`,
+    hours: `Mon–Fri, 7:00 AM – 6:00 PM. Estimates are free and we schedule work around your business hours.`,
+    fallback: `Good question — that one deserves a real human. Call <a href="${phoneHref}">${phone}</a> or drop your details in the <a href="/free-quote/">quote form</a> and Todd will get back to you within one business day.`,
+  };
+
+  const RULES = [
+    [/quote|estimate|bid|how much.*(lot|my)|price for my/i, 'quote'],
+    [/seal\s?coat/i, 'sealcoat'],
+    [/strip|line|stall|paint/i, 'stripe'],
+    [/wash|clean|power\s?wash|gum|oil/i, 'wash'],
+    [/crack|pothole/i, 'crack'],
+    [/ada|handicap|accessib|fire lane|complian/i, 'ada'],
+    [/report|assess|inspect|condition/i, 'report'],
+    [/care plan|maintenance plan|subscription|recurring/i, 'plan'],
+    [/price|pricing|cost|charge|rate/i, 'pricing'],
+    [/area|where|town|city|serve|location|tulsa|ponca|bartlesville|owasso|bixby|claremore|broken arrow|sand springs/i, 'area'],
+    [/hour|open|schedule|when/i, 'hours'],
+    [/call|phone|number|talk|human/i, 'call'],
+  ];
+
+  function add(kind, html) {
+    const div = document.createElement('div');
+    div.className = `rp-msg ${kind}`;
+    div.innerHTML = html;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addQuick() {
+    const wrap = document.createElement('div');
+    wrap.className = 'rp-quick';
+    QUICK.forEach(([label, key]) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      b.addEventListener('click', () => {
+        add('user', label);
+        setTimeout(() => add('bot', ANSWERS[key]), 250);
+      });
+      wrap.appendChild(b);
+    });
+    body.appendChild(wrap);
+  }
+
+  function greet() {
+    if (body.childElementCount) return;
+    add('bot', `Hey! I'm RemarkaBot 👋 — ask me about pricing, services, or our service area, or grab a free quote.`);
+    addQuick();
+  }
+
+  function open() {
+    panel.classList.add('open');
+    launch.style.display = 'none';
+    launch.setAttribute('aria-expanded', 'true');
+    greet();
+    text.focus();
+  }
+  function minimize() {
+    panel.classList.remove('open');
+    launch.style.display = 'flex';
+    launch.setAttribute('aria-expanded', 'false');
+    launch.focus();
+  }
+  function close() {
+    panel.classList.remove('open');
+    launch.style.display = 'none';
+    sessionStorage.setItem('rpChatClosed', '1');
+  }
+
+  if (sessionStorage.getItem('rpChatClosed') === '1') launch.style.display = 'none';
+
+  launch.addEventListener('click', open);
+  document.getElementById('rp-min').addEventListener('click', minimize);
+  document.getElementById('rp-close').addEventListener('click', close);
+  panel.addEventListener('keydown', (e) => { if (e.key === 'Escape') minimize(); });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = text.value.trim();
+    if (!q) return;
+    add('user', q.replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])));
+    text.value = '';
+    const rule = RULES.find(([re]) => re.test(q));
+    setTimeout(() => add('bot', ANSWERS[rule ? rule[1] : 'fallback']), 300);
+  });
+</script>

@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Resources', href: '/blog/' },
+];
+const title = 'Pavement Tips & Resources | RemarkaPave Blog';
+const description =
+  'Plain-English pavement advice for Oklahoma property owners: striping, sealcoating, crack repair timing, ADA compliance, and maintenance budgeting.';
+
+// One town-relevant post per month keeps SEO/AEO freshness. Add new posts
+// as .astro files in this folder and list them here (newest first).
+const posts = [
+  {
+    href: '/blog/when-to-sealcoat-parking-lot-oklahoma/',
+    title: 'When Should You Sealcoat a Parking Lot in Oklahoma?',
+    date: 'June 2026',
+    excerpt: 'The 2–3 year rule, why the April–October window matters, and the one thing that must happen before any sealer goes down.',
+  },
+];
+---
+
+<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container">
+      <span class="kicker">Resources</span>
+      <h1>Pavement advice, minus the jargon</h1>
+      <p class="lede" style="margin-top:16px;">
+        Straight answers for Oklahoma property owners and managers — written by the people
+        doing the work.
+      </p>
+      <div class="grid grid-2" style="margin-top:34px;">
+        {posts.map((p) => (
+          <article class="card">
+            <p class="note">{p.date}</p>
+            <h3 style="margin-top:6px;"><a href={p.href}>{p.title}</a></h3>
+            <p style="margin-top:10px; font-size:0.96rem;">{p.excerpt}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

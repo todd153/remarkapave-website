@@ -1,0 +1,49 @@
+---
+import { site, trustSignals, serviceAreas } from '../data/site.js';
+import { services } from '../data/services.js';
+---
+<footer class="site-footer">
+  <div class="cols">
+    <div>
+      <h3>{site.name}</h3>
+      <p>{site.tagline}</p>
+      <ul style="margin-top:14px;">
+        {trustSignals.map((t) => <li>✓ {t}</li>)}
+      </ul>
+    </div>
+    <div>
+      <h3>Services</h3>
+      <ul>
+        {services.map((s) => (
+          <li><a href={`/services/${s.slug}/`}>{s.name}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h3>Service Area</h3>
+      <ul>
+        {[...serviceAreas.home, ...serviceAreas.growth].map((c) => <li>{c}, OK</li>)}
+      </ul>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li><a href={site.phoneHref} data-track="call">{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>{site.city}, {site.state} {site.zip}</li>
+        <li>{site.hours}</li>
+        <li style="margin-top:10px;">
+          <a href={site.social.facebook} rel="noopener" target="_blank">Facebook</a> ·
+          <a href={site.social.instagram} rel="noopener" target="_blank">Instagram</a> ·
+          <a href={site.social.youtube} rel="noopener" target="_blank">YouTube</a> ·
+          <a href={site.social.linkedin} rel="noopener" target="_blank">LinkedIn</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-legal">
+    © {new Date().getFullYear()} {site.name}. All rights reserved. ·
+    <a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms/">Terms</a> ·
+    Licensed &amp; Insured · Free Estimates
+  </div>
+</footer>

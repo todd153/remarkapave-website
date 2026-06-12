@@ -1,0 +1,153 @@
+---
+// One dynamic route, two page types:
+//  - 9 service pages  (/services/sealcoating/ …)
+//  - 28 town×service landing pages (/services/sealcoating-tulsa-ok/ …) per the Kit
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import QuoteForm from '../../components/QuoteForm.astro';
+import FaqBlock from '../../components/FaqBlock.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { site } from '../../data/site.js';
+import { services, priceDisclaimer } from '../../data/services.js';
+import { towns, allTownPages } from '../../data/towns.js';
+import { faqSchema, breadcrumbSchema, serviceSchema } from '../../utils/schema.js';
+
+export async function getStaticPaths() {
+  const servicePages = services.map((s) => ({
+    params: { slug: s.slug },
+    props: { type: 'service', svc: s },
+  }));
+  const townPages = allTownPages().map((p) => ({
+    params: { slug: p.slug },
+    props: { type: 'town', page: p },
+  }));
+  return [...servicePages, ...townPages];
+}
+
+const { type } = Astro.props;
+
+let title, description, h1, faqs, trail, schema, body;
+
+if (type === 'service') {
+  const s = Astro.props.svc;
+  h1 = s.name;
+  title = `${s.short} | RemarkaPave — Ponca City & Tulsa OK`;
+  description = `${s.blurb} ${s.priceFrom}. Free written quotes — call ${site.phone}.`.slice(0, 155);
+  faqs = s.faqs;
+  trail = [
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/services/' },
+    { name: s.short, href: `/services/${s.slug}/` },
+  ];
+  schema = [
+    serviceSchema({ name: s.name, description: s.blurb, url: `/services/${s.slug}/` }),
+    faqSchema(s.faqs),
+    breadcrumbSchema(trail),
+  ];
+  body = s;
+} else {
+  const p = Astro.props.page;
+  h1 = p.h1;
+  title = p.title;
+  description = p.meta;
+  faqs = p.faqs;
+  trail = [
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/services/' },
+    { name: `${p.svc.key.replace('-', ' ')} — ${p.town.name}`, href: `/services/${p.slug}/` },
+  ];
+  schema = [
+    serviceSchema({ name: p.h1, description: p.meta, url: `/services/${p.slug}/`, areaName: p.town.name }),
+    faqSchema(p.faqs),
+    breadcrumbSchema(trail),
+  ];
+  body = p;
+}
+
+const otherTowns = type === 'town' ? towns.filter((t) => t.slug !== Astro.props.page.town.slug).slice(0, 4) : [];
+const mainService = type === 'town' ? services.find((s) => s.slug === Astro.props.page.svc.serviceSlug) : null;
+---
+
+<Base {title} {description} {schema}>
+  <Breadcrumbs {trail} />
+
+  <section class="section" style="padding-top:34px;">
+    <div class="container">
+      <h1>{h1}</h1>
+
+      {type === 'service' ? (
+        <>
+          <p class="lede" style="margin-top:16px;"><strong>{body.answer}</strong></p>
+          <p style="margin-top:14px;"><span class="price" style="font-size:1rem;">{body.priceFrom}</span></p>
+          <p class="note" style="margin-top:8px;">{priceDisclaimer}</p>
+
+          <h2 style="margin-top:44px;">What's included</h2>
+          <ul style="margin:16px 0 0 20px; line-height:2.1;">
+            {body.included.map((i) => <li>{i}</li>)}
+          </ul>
+        </>
+      ) : (
+        <>
+          {/* AEO direct answer: who does this service in this town */}
+          <p class="lede" style="margin-top:16px;">
+            <strong>
+              RemarkaPave provides {body.svc.key.replace('-', ' ')} for businesses, property
+              managers, and HOAs across {body.town.name}, Oklahoma — {body.town.local}. Free
+              estimates, written quotes, and work scheduled around your business hours. Call{' '}
+              {site.phone}.
+            </strong>
+          </p>
+
+          <p style="margin-top:22px;">{body.town.intro}</p>
+          <p style="margin-top:14px;">{body.svc.whatMatters}</p>
+
+          <h2 style="margin-top:40px;">What we deliver in {body.town.name}</h2>
+          <ul style="margin:16px 0 0 20px; line-height:2.1;">
+            {body.svc.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+
+          <p style="margin-top:26px;">
+            We work with property managers, retail centers, HOAs, and business owners
+            across {body.town.name}. Whether it's a 20-stall lot or a 300-stall center, we size
+            the job to your property — and every quote comes as a written materials-and-labor
+            breakdown. Based in Ponca City and proudly serving {body.town.name}, OK.
+          </p>
+
+          {mainService && (
+            <p style="margin-top:14px;">
+              Full service details and pricing: <a href={`/services/${mainService.slug}/`}>{mainService.name}</a>.
+            </p>
+          )}
+        </>
+      )}
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container" style="max-width:860px;">
+      <FaqBlock {faqs} heading={type === 'town' ? `${Astro.props.page.town.name} questions, answered` : 'Frequently Asked Questions'} />
+    </div>
+  </section>
+
+  {type === 'town' && (
+    <section class="section">
+      <div class="container">
+        <h2>Nearby towns we serve</h2>
+        <div class="area-tags" style="margin-top:18px;">
+          {otherTowns.map((t) => (
+            <a href={`/services/${Astro.props.page.svc.slugFor(t)}/`}>{t.name}</a>
+          ))}
+          <a href="/services/">All services →</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" id="quote-form">
+    <div class="container" style="max-width:640px;">
+      <QuoteForm heading={type === 'town' ? `Free quote for your ${Astro.props.page.town.name} property` : 'Get a Free Quote'} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

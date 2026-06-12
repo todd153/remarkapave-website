@@ -1,0 +1,67 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import QuoteForm from '../../components/QuoteForm.astro';
+import { services, priceDisclaimer } from '../../data/services.js';
+import { towns, townServices } from '../../data/towns.js';
+import { breadcrumbSchema } from '../../utils/schema.js';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services/' },
+];
+const title = 'Pavement Services & Pricing | RemarkaPave — Ponca City & Tulsa OK';
+const description =
+  'All RemarkaPave services: line striping, sealcoating, crack filling, pressure washing & more across Ponca City & the Tulsa metro. Free written quotes — (580) 304-7225.';
+---
+
+<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+  <Breadcrumbs {trail} />
+  <section class="section" style="padding-top:34px;">
+    <div class="container">
+      <span class="kicker">Services &amp; Pricing</span>
+      <h1>Every service your lot needs.<br />Straight prices, in writing.</h1>
+      <p class="lede" style="margin-top:16px;">
+        RemarkaPave handles the full pavement maintenance cycle — striping, sealing, crack
+        filling, washing, and repairs — across Ponca City, Kay County, the Tulsa metro, and
+        Bartlesville. Every job is quoted in writing with materials and labor broken out.
+      </p>
+      <div class="grid grid-3" style="margin-top:34px;">
+        {services.map((s) => (
+          <article class="card">
+            <h3><a href={`/services/${s.slug}/`}>{s.name}</a></h3>
+            <p style="margin-top:8px; font-size:0.95rem;">{s.blurb}</p>
+            <span class="price">{s.priceFrom}</span>
+          </article>
+        ))}
+      </div>
+      <p class="note" style="margin-top:18px;">{priceDisclaimer}</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <span class="kicker">By Town</span>
+      <h2>Local service pages</h2>
+      <p class="lede" style="margin:14px 0 24px;">Working in the Tulsa metro or Bartlesville? Your town has its own page:</p>
+      {towns.map((t) => (
+        <div style="margin-bottom:16px;">
+          <strong style="color:var(--ink);">{t.name}:</strong>
+          <span class="area-tags" style="display:inline-flex; margin-left:10px;">
+            {townServices.map((s) => (
+              <a href={`/services/${s.slugFor(t)}/`}>{s.key.replace('-', ' ')}</a>
+            ))}
+          </span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:640px;">
+      <QuoteForm />
+    </div>
+  </section>
+  <CtaBand />
+</Base>

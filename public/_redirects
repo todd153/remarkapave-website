@@ -1,0 +1,19 @@
+# 301s from the old WordPress URLs → new structure (Cloudflare Pages / Netlify format).
+# IMPORTANT before cutover: export the full list of indexed URLs from Search Console
+# (Pages report) and add any missing ones here.
+/contact-us/            /contact/        301
+/contact-us             /contact/        301
+/blogs/                 /blog/           301
+/blogs                  /blog/           301
+/how-pavement-inspections-help-you-catch-problems-early/   /services/remarkareport/   301
+/wheel-stoppers-in-parking-lots-5-signs-its-time-for-a-replacement/   /services/pavement-repair/   301
+/pavement-assessment/   /services/remarkareport/   301
+/line-striping/         /services/parking-lot-striping/   301
+/seal-coating/          /services/sealcoating/   301
+/crack-filling/         /services/crack-filling/   301
+/pressure-washing/      /services/pressure-washing/   301
+/parking-lot-sweeping/  /services/parking-lot-sweeping/  301
+/pothole-repair/        /services/pavement-repair/   301
+/mill-overlay/          /services/pavement-repair/   301
+/wheel-stop-installation/   /services/pavement-repair/   301
+/about-us/              /about/          301
