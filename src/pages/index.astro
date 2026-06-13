@@ -283,7 +283,7 @@ const description =
       const rect = section.getBoundingClientRect();
       if (rect.bottom < -innerHeight || rect.top > innerHeight) return;
       const p = Math.min(Math.max(-rect.top / (rect.height - innerHeight), 0), 1);
-      const idx = Math.min(FRAMES - 1, Math.floor(p * (FRAMES - 1)));
+      const idx = Math.min(FRAMES - 1, Math.floor((1 - p) * (FRAMES - 1)));
       if (idx !== current) { current = idx; draw(idx); }
       updateLines(p);
     }
