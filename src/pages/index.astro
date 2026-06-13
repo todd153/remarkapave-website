@@ -237,7 +237,7 @@ const description =
 
     for (let i = 0; i < FRAMES; i++) {
       const img = new Image();
-      img.src = path(FRAMES - i);
+      img.src = path(i + 1);
       img.crossOrigin = 'anonymous';
       img.onload = () => {
         loadCount++;
@@ -248,7 +248,7 @@ const description =
         }
       };
       img.onerror = () => {
-        console.warn(`Failed to load frame ${FRAMES - i} from ${path(FRAMES - i)}`);
+        console.warn(`Failed to load frame ${i + 1} from ${path(i + 1)}`);
       };
       images[i] = img;
     }
