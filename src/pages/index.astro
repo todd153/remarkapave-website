@@ -225,7 +225,7 @@ const description =
 
     if (!mq.matches) {
       canvas.remove();
-      updateLines(0.85); // show the brand line statically on mobile
+      updateLines(0.85);
       lines[2].style.opacity = '1';
       return;
     }
@@ -233,10 +233,23 @@ const description =
     const ctx = canvas.getContext('2d', { alpha: false });
     const images = [];
     let firstDrawn = false;
+    let loadCount = 0;
+
     for (let i = 0; i < FRAMES; i++) {
       const img = new Image();
       img.src = path(i + 1);
-      img.onload = () => { if (!firstDrawn) { firstDrawn = true; draw(0); poster.style.opacity = '0'; } };
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        loadCount++;
+        if (!firstDrawn && loadCount >= 5) {
+          firstDrawn = true;
+          draw(0);
+          poster.style.opacity = '0';
+        }
+      };
+      img.onerror = () => {
+        console.warn(`Failed to load frame ${i + 1} from ${path(i + 1)}`);
+      };
       images[i] = img;
     }
 
@@ -251,7 +264,11 @@ const description =
       else { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
       ctx.fillStyle = '#0E1116';
       ctx.fillRect(0, 0, cw, ch);
-      ctx.drawImage(img, dx, dy, dw, dh);
+      try {
+        ctx.drawImage(img, dx, dy, dw, dh);
+      } catch(e) {
+        console.error('Canvas draw error:', e);
+      }
     }
 
     function resize() {
