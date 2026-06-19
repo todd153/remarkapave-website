@@ -63,12 +63,15 @@ describe('every emitted page', () => {
     }
   });
 
-  it('has a meta description', () => {
+  it('has a meta description within the ~160 char SEO limit', () => {
+    const over = [];
     for (const f of files) {
       if (label(f) === '404.html') continue;
       const desc = parse(f).querySelector('meta[name=description]')?.getAttribute('content')?.trim();
       expect(desc, label(f)).toBeTruthy();
+      if (desc.length > 160) over.push(`${label(f)} (${desc.length})`);
     }
+    expect(over, `meta descriptions over 160 chars:\n${over.join('\n')}`).toEqual([]);
   });
 
   it('contains only valid JSON-LD blocks', () => {
