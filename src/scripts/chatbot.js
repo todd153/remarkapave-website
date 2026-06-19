@@ -10,13 +10,15 @@ export const QUICK = [
 ];
 
 // First matching rule wins; order matters (specific before generic).
+// ADA is checked before striping so "ADA stalls" routes to compliance, not
+// striping — plain "stall" questions still fall through to the striping rule.
 export const RULES = [
   [/quote|estimate|bid|how much.*(lot|my)|price for my/i, 'quote'],
   [/seal\s?coat/i, 'sealcoat'],
+  [/ada|handicap|accessib|fire lane|complian/i, 'ada'],
   [/strip|line|stall|paint/i, 'stripe'],
   [/wash|clean|power\s?wash|gum|oil/i, 'wash'],
   [/crack|pothole/i, 'crack'],
-  [/ada|handicap|accessib|fire lane|complian/i, 'ada'],
   [/report|assess|inspect|condition/i, 'report'],
   [/care plan|maintenance plan|subscription|recurring/i, 'plan'],
   [/price|pricing|cost|charge|rate/i, 'pricing'],

@@ -29,8 +29,16 @@ the logic a build won't catch on its own:
 - **Build output** (`tests/build-output.test.js`) — asserts every service and
   town page emits an `index.html`, the key static pages exist, and the sitemap
   excludes `/thank-you/`. Reuses `dist/`, building on demand if absent.
+- **Rendered-HTML smoke** (`tests/html-smoke.test.js`) — parses every built page
+  with [linkedom](https://github.com/WebReflection/linkedom): non-empty title,
+  canonical + meta description, valid JSON-LD, no broken internal links across
+  the whole site, and the quote-form spam/tracking fields present in markup.
 
 CI (`.github/workflows/ci.yml`) runs `npm run build` then `npm test` on every PR.
+
+Browser-driven E2E (Playwright) isn't included: it would add real-browser checks
+(client JS populating tracking fields at runtime, the chatbot opening). The
+rendered-HTML smoke suite covers the static surface of that without a browser.
 
 ## REPLACE BEFORE LAUNCH (all in src/data/site.js unless noted)
 1. **GA4**: set `ga4Id` (e.g. `G-XXXXXXXXXX`). Conversion events already wired:

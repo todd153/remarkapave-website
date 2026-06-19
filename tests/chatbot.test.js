@@ -37,11 +37,16 @@ describe('routeMessage', () => {
     expect(routeMessage('how much for my lot pricing')).toBe('quote');
   });
 
-  it('documents that "stall" routes to striping even alongside ADA wording', () => {
-    // Known precedence quirk: the striping rule (matches "stall") runs before
-    // the ADA rule, so "ADA stalls" answers with striping, not ADA. The quick-
-    // reply button bypasses this by keying 'ada' directly.
-    expect(routeMessage('how many ADA stalls do I need')).toBe('stripe');
+  it('routes ADA-worded stall questions to ADA, not striping', () => {
+    // The ADA rule precedes the striping rule, so "ADA stalls" answers with
+    // compliance info despite the striping rule also matching "stall".
+    expect(routeMessage('how many ADA stalls do I need')).toBe('ada');
+  });
+
+  it('still routes plain stall/striping questions to striping', () => {
+    // Bare "stall" wording (no ADA keywords) falls through to the striping rule.
+    expect(routeMessage('how many stalls can you stripe')).toBe('stripe');
+    expect(routeMessage('repaint the stall lines')).toBe('stripe');
   });
 });
 

@@ -15,6 +15,7 @@
     "astro": "^5.2.0"
   },
   "devDependencies": {
+    "linkedom": "^0.18.12",
     "vitest": "^4.1.9"
   }
 }
