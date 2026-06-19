@@ -14,7 +14,8 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - name: Unit tests
-        run: npm test
+      # Build first so the build-output tests assert against a fresh dist/.
       - name: Build
         run: npm run build
+      - name: Tests
+        run: npm test

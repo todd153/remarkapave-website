@@ -15,10 +15,22 @@ npm run test:watch
 
 ## Tests
 Unit tests live in `tests/` and run with [Vitest](https://vitest.dev). They cover
-the pure logic that a build won't catch on its own: JSON-LD schema builders
-(`src/utils/schema.js`), the town×service page generator (`src/data/towns.js`),
-and data-integrity invariants for services and NAP (`src/data/`). CI
-(`.github/workflows/ci.yml`) runs `npm test` and `npm run build` on every PR.
+the logic a build won't catch on its own:
+
+- **Schema builders** (`src/utils/schema.js`) — JSON-LD shape, breadcrumb
+  ordering, absolute-URL resolution.
+- **Page generation & data integrity** (`src/data/`) — the town×service
+  generator, unique URL-safe slugs, required fields, meta-length limits, and
+  NAP consistency (phone vs phoneHref).
+- **Client-side logic** (`src/scripts/`) — the quote-form spam/validation guard
+  and the chatbot's message routing + HTML escaping. This logic was extracted
+  out of the inline `<script>` blocks in `QuoteForm.astro` / `ChatBot.astro`
+  into importable modules so it's testable and has one source of truth.
+- **Build output** (`tests/build-output.test.js`) — asserts every service and
+  town page emits an `index.html`, the key static pages exist, and the sitemap
+  excludes `/thank-you/`. Reuses `dist/`, building on demand if absent.
+
+CI (`.github/workflows/ci.yml`) runs `npm run build` then `npm test` on every PR.
 
 ## REPLACE BEFORE LAUNCH (all in src/data/site.js unless noted)
 1. **GA4**: set `ga4Id` (e.g. `G-XXXXXXXXXX`). Conversion events already wired:

@@ -76,6 +76,8 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
 </form>
 
 <script>
+  import { isSpamSubmission, hasSelectedService } from '../scripts/quote-form.js';
+
   document.querySelectorAll('[data-quote-form]').forEach((form) => {
     form.querySelector('[data-lead-source]').value = location.href;
     form.querySelector('[data-loaded-at]').value = String(Date.now());
@@ -83,13 +85,14 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
     form.addEventListener('submit', (e) => {
       // Spam: honeypot filled, or submitted within 3s of page load → block silently.
       const hp = form.querySelector('input[name="company_website"]');
-      const loaded = Number(form.querySelector('[data-loaded-at]').value || 0);
-      if (hp.value || Date.now() - loaded < 3000) {
+      const loadedAt = form.querySelector('[data-loaded-at]').value;
+      if (isSpamSubmission({ honeypot: hp.value, loadedAt, now: Date.now() })) {
         e.preventDefault();
         return;
       }
       // At least one service checked.
-      if (![...form.querySelectorAll('input[name="services"]')].some((c) => c.checked)) {
+      const checked = [...form.querySelectorAll('input[name="services"]')].map((c) => c.checked);
+      if (!hasSelectedService(checked)) {
         e.preventDefault();
         alert('Please pick at least one service so we can route your request.');
         return;
