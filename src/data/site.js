@@ -29,6 +29,7 @@ export const site = {
   // on first submission. Swap for a Formspree endpoint if preferred.
   formEndpoint: 'https://formsubmit.co/Todd@remarkapave.com',
   ga4Id: '', // e.g. 'G-XXXXXXXXXX' — leave empty to disable analytics
+  clarityId: '', // Microsoft Clarity project ID (heatmaps + recordings) — empty to disable
   searchConsoleToken: '', // content value of the google-site-verification meta tag
 };
 
