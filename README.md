@@ -9,7 +9,16 @@ RemarkaReport™, blog, quote funnel, legal.
 npm install
 npm run dev       # local dev at http://localhost:4321
 npm run build     # static output in dist/
+npm test          # run the Vitest unit suite (tests/)
+npm run test:watch
 ```
+
+## Tests
+Unit tests live in `tests/` and run with [Vitest](https://vitest.dev). They cover
+the pure logic that a build won't catch on its own: JSON-LD schema builders
+(`src/utils/schema.js`), the town×service page generator (`src/data/towns.js`),
+and data-integrity invariants for services and NAP (`src/data/`). CI
+(`.github/workflows/ci.yml`) runs `npm test` and `npm run build` on every PR.
 
 ## REPLACE BEFORE LAUNCH (all in src/data/site.js unless noted)
 1. **GA4**: set `ga4Id` (e.g. `G-XXXXXXXXXX`). Conversion events already wired:
