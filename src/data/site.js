@@ -28,8 +28,8 @@ export const site = {
   // FormSubmit works with no signup but requires a one-time activation email
   // on first submission. Swap for a Formspree endpoint if preferred.
   formEndpoint: 'https://formsubmit.co/Todd@remarkapave.com',
-  ga4Id: '', // e.g. 'G-4SQJ4TJGCC' — leave empty to disable analytics
-  clarityId: '', // Microsoft Clarity project ID (heatmaps + recordings) — empty to disable
+  ga4Id: 'G-4SQJ4TJGCC', // e.g. 'G-XXXXXXXXXX' — leave empty to disable analytics
+  clarityId: 'xaaahi064f', // Microsoft Clarity project ID (heatmaps + recordings) — empty to disable
   searchConsoleToken: '', // content value of the google-site-verification meta tag
 };
 
