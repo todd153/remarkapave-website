@@ -139,6 +139,14 @@ const mainService = type === 'town' ? services.find((s) => s.slug === Astro.prop
           ))}
           <a href="/services/">All services →</a>
         </div>
+        <iframe
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(Astro.props.page.town.name + ', Oklahoma')}&output=embed`}
+          style="border:0; width:100%; height:400px; margin-top:28px; border-radius:8px; display:block;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title={`${Astro.props.page.town.name} service area map`}
+        ></iframe>
       </div>
     </section>
   )}

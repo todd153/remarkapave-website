@@ -4,6 +4,7 @@ import QuoteForm from '../components/QuoteForm.astro';
 import FaqBlock from '../components/FaqBlock.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Testimonials from '../components/Testimonials.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
 import { site, trustSignals, serviceAreas } from '../data/site.js';
 import { services, coreServices, priceDisclaimer } from '../data/services.js';
 import { towns } from '../data/towns.js';
@@ -22,14 +23,14 @@ const description =
   'Commercial line striping, sealcoating, crack filling & pressure washing in Ponca City, Kay County, the Tulsa metro & Bartlesville. Licensed & insured. Free quotes — (580) 304-7225.';
 ---
 
-<Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/frames/hero/frame_0180.jpg">
+<Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/frames/hero/frame_0001.jpg">
   <!-- ============ CINEMATIC HERO (scroll-scrubbed) ============ -->
   <section class="hero-cinematic" id="hero" aria-label="RemarkaPave — watch a lot come back to life">
     <div class="sticky">
       <img
         class="poster"
-        src="/frames/hero/frame_0180.jpg"
-        alt="Freshly striped parking lot with bright white stalls and a blue ADA accessible space painted by RemarkaPave"
+        src="/frames/hero/frame_0001.jpg"
+        alt="RemarkaPave crew striping a commercial property fire lane at dusk"
         fetchpriority="high"
       />
       <canvas id="hero-canvas" aria-hidden="true"></canvas>
@@ -130,20 +131,15 @@ const description =
     <div class="container">
       <span class="kicker">The Work</span>
       <h2>Before &amp; after is our best salesman</h2>
-      <p class="lede" style="margin:14px 0 26px;">Real lots, real lines. See the difference a RemarkaPave visit makes.</p>
-      <div class="gallery-grid">
-        <figure>
-          <img src="/images/gallery/03-10.webp" alt="Sealcoating crew applying fresh sealer to commercial asphalt" loading="lazy" width="600" height="450" />
-          <figcaption><span class="tag">Placeholder</span> Sealcoating in progress</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/gallery/Line-Striping.webp" alt="Freshly painted white parking stall lines on dark asphalt" loading="lazy" width="600" height="450" />
-          <figcaption><span class="tag">Placeholder</span> Fresh stall lines</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/gallery/02-14.webp" alt="Commercial parking lot after pavement maintenance" loading="lazy" width="600" height="450" />
-          <figcaption><span class="tag">Placeholder</span> Finished lot</figcaption>
-        </figure>
+      <p class="lede" style="margin:14px 0 22px;">Drag the slider — bare pavement to a finished, striped layout.</p>
+      <div style="max-width:760px; margin:0 auto 30px;">
+        <BeforeAfter
+          before="/images/gallery/osu-before.jpg"
+          after="/images/gallery/osu-after.jpg"
+          beforeAlt="Blank new-poured concrete parking lot before striping at Oklahoma State University, Stillwater"
+          afterAlt="Freshly painted parking-stall layout on new concrete at Oklahoma State University, Stillwater"
+          caption="OSU, Stillwater — a brand-new parking layout striped on fresh concrete. Drag to compare."
+        />
       </div>
       <div style="margin-top:26px;">
         <a class="btn btn-outline" href="/gallery/">See the full gallery</a>
@@ -168,6 +164,14 @@ const description =
           <a href={`/services/parking-lot-striping-${t.slug}/`}>{t.name}</a>
         ))}
       </div>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1575558.0!2d-96.532911!3d36.375682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6aee32aa42ffee41%3A0x7bbd93efc4f1727f!2sRemarkaPave!5e0!3m2!1sen!2sus!4v1718898000000!5m2!1sen!2sus"
+        style="border:0; width:100%; height:450px; margin-top:28px; border-radius:8px; display:block;"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="RemarkaPave service area map"
+      ></iframe>
     </div>
   </section>
 
@@ -219,7 +223,7 @@ const description =
         let o = 1 - Math.abs(p - mid) / half;
         o = Math.max(0, Math.min(1, o));
         el.style.opacity = o.toFixed(3);
-        el.style.transform = `translate(-50%, -50%) translateY(${(1 - o) * 28}px)`;
+        el.style.transform = `translateX(-50%) translateY(${(1 - o) * 28}px)`;
       }
     }
 

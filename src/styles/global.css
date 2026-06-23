@@ -1,12 +1,12 @@
 /* ============================================================
    RemarkaPave design system
-   Blue #104DF3 · Striping yellow #F8FB06 (accent ONLY, never text on white)
+   ADA blue #0057B8 · Striping gold #F5B700 (accent ONLY, never text on white)
    Fredoka One headings · Rubik body · WCAG AA contrast throughout
    ============================================================ */
 :root {
-  --blue: #104DF3;
-  --blue-dark: #0C3AB8;       /* hover + AA-safe large areas */
-  --yellow: #F8FB06;
+  --blue: #0057B8;            /* ADA / accessible-parking blue — matches logo P */
+  --blue-dark: #003F87;       /* hover + AA-safe large areas */
+  --yellow: #F5B700;          /* traffic-striping gold — matches logo R-leg */
   --ink: #1A1A1A;
   --body: #3D434C;
   --muted: #6A7280;
@@ -125,11 +125,63 @@ img { max-width: 100%; height: auto; display: block; }
 .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-link img { height: 54px; width: auto; }
 .main-nav { display: flex; gap: 22px; align-items: center; }
-.main-nav a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 0.98rem; }
-.main-nav a:hover { color: var(--blue); }
+.main-nav > a,
+.nav-trigger { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 0.98rem; }
+.main-nav > a:hover,
+.nav-trigger:hover { color: var(--blue); }
 .header-phone { font-weight: 700; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .header-phone:hover { color: var(--blue); }
 .nav-toggle { display: none; background: none; border: 0; font-size: 1.7rem; color: var(--ink); cursor: pointer; padding: 6px; }
+
+/* ---------- services mega-menu ---------- */
+.nav-item { position: relative; }
+.nav-item.has-mega { display: flex; align-items: center; }
+/* taller hover target so the cursor can travel into the panel without a dead gap */
+.nav-trigger { display: inline-flex; align-items: center; gap: 6px; padding: 18px 0; }
+/* invisible bridge covering the gap between the trigger and the panel */
+.mega::before { content: ""; position: absolute; top: -16px; left: 0; right: 0; height: 16px; }
+.submenu-icon { font-size: 0.7rem; transition: transform 0.25s ease; }
+.nav-item:hover .submenu-icon,
+.nav-item.open .submenu-icon { transform: rotate(180deg); }
+.submenu-toggle { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; font-size: 0.9rem; padding: 6px; }
+
+.mega {
+  position: absolute;
+  top: 100%; left: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr)) 240px;
+  gap: 28px;
+  padding: 26px 30px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+  z-index: 90;
+}
+.nav-item:hover .mega,
+.nav-item.open .mega { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+
+.mega-col h4 { font-family: var(--font-body, inherit); font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue); margin: 0 0 12px; }
+.mega-col ul { list-style: none; margin: 0; padding: 0; }
+.mega-col li { margin-bottom: 9px; }
+.mega-col a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+.mega-col a:hover { color: var(--blue); text-decoration: underline; }
+
+.mega-featured { background: #E5EFF9; border-left: 4px solid var(--blue); border-radius: 10px; padding: 18px; }
+.mega-featured h5 { margin: 0 0 8px; color: var(--blue-dark); font-size: 0.95rem; }
+.mega-featured p { margin: 0 0 14px; font-size: 0.88rem; line-height: 1.45; color: var(--ink); }
+.mega-featured .btn-quote { font-size: 0.85rem; padding: 8px 14px; }
+.mega-all { display: inline-block; margin-top: 12px; font-size: 0.85rem; font-weight: 600; color: var(--blue); text-decoration: none; }
+.mega-all:hover { color: var(--blue-dark); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mega, .submenu-icon { transition: none; }
+}
 
 @media (max-width: 900px) {
   .main-nav {
@@ -147,6 +199,28 @@ img { max-width: 100%; height: auto; display: block; }
   .main-nav.open { display: flex; }
   .nav-toggle { display: block; }
   .header-phone span.label { display: none; }
+
+  /* mobile accordion: hover off, chevron button toggles */
+  .nav-item.has-mega { flex-wrap: wrap; justify-content: space-between; }
+  .nav-trigger { flex: 1; }
+  .submenu-icon { display: none; }
+  .submenu-toggle { display: block; }
+  .mega {
+    position: static;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 10px;
+    transform: none;
+    /* collapsed by default on mobile */
+    display: none;
+    opacity: 1; visibility: visible; pointer-events: auto;
+  }
+  .nav-item:hover .mega { display: none; }
+  .nav-item.open .mega { display: grid; }
+  .mega-featured { display: none; }
 }
 
 /* sticky mobile call bar */
@@ -220,7 +294,7 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--blue-dark);
-  background: #EBF0FF;
+  background: #E5EFF9;
   padding: 4px 12px;
   border-radius: 999px;
 }
@@ -283,6 +357,11 @@ img { max-width: 100%; height: auto; display: block; }
 .quote-form legend { font-weight: 600; font-size: 0.92rem; color: var(--ink); padding: 0 6px; }
 .quote-form .check { display: flex; align-items: center; gap: 9px; font-weight: 400; margin-bottom: 8px; }
 .quote-form .check input { width: auto; margin: 0; }
+/* two-column choice list (e.g. "How did you hear about us?") */
+.quote-form fieldset.choice-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 18px; }
+.quote-form fieldset.choice-grid legend { grid-column: 1 / -1; }
+.quote-form fieldset.choice-grid .check { margin-bottom: 6px; }
+@media (max-width: 480px) { .quote-form fieldset.choice-grid { grid-template-columns: 1fr; } }
 .quote-form button[type="submit"] { width: 100%; }
 .form-fine { text-align: center; margin-top: 14px; font-size: 0.88rem; color: var(--muted); }
 .hp-field { position: absolute !important; left: -9999px !important; height: 1px; overflow: hidden; }
@@ -307,7 +386,7 @@ img { max-width: 100%; height: auto; display: block; }
 .gallery-grid figcaption { padding: 10px 14px; font-size: 0.88rem; color: var(--muted); }
 .tag {
   display: inline-block;
-  background: #EBF0FF;
+  background: #E5EFF9;
   color: var(--blue-dark);
   font-size: 0.78rem;
   font-weight: 700;
@@ -391,29 +470,26 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .hero-cinematic .shade {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(0,0,0,0.42) 0%, transparent 26%, transparent 64%, rgba(0,0,0,0.6) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.40) 0%, transparent 24%, transparent 50%, rgba(0,0,0,0.78) 100%);
 }
 .hero-overlay { position: relative; z-index: 5; width: 100%; height: 100%; }
 .hero-line {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute; left: 50%; bottom: 12%; top: auto;
+  transform: translateX(-50%);
   width: max-content; max-width: 92vw;
   text-align: center; opacity: 0;
   will-change: opacity, transform;
-  /* dark glass panel so copy stays legible over bright frames */
-  background: rgba(8, 10, 15, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: clamp(22px, 4vw, 40px) clamp(28px, 5vw, 56px);
-  border-radius: 22px;
-  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+  /* no glass panel — keep the work visible; legibility comes from text-shadow
+     plus the bottom gradient in .shade */
+  background: transparent;
+  padding: 0 16px;
 }
 .hero-line h1, .hero-line p.h {
   font-family: var(--font-head);
   color: #fff;
   font-size: clamp(2.1rem, 6.4vw, 5rem);
   line-height: 1.06;
-  text-shadow: 0 4px 44px rgba(0,0,0,0.8);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 6px 40px rgba(0,0,0,0.7);
 }
 .hero-line .sub { margin-top: 14px; color: rgba(255,255,255,0.85); font-size: clamp(1rem, 1.7vw, 1.3rem); font-weight: 500; }
 .hero-line .accent { color: var(--yellow); }

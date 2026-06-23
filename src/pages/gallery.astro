@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBand from '../components/CtaBand.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
 import { breadcrumbSchema } from '../utils/schema.js';
 
 const trail = [
@@ -12,16 +13,6 @@ const title = 'Before & After Gallery | RemarkaPave Pavement Work OK';
 const description =
   'Before & after photos of RemarkaPave line striping, sealcoating, and pressure washing across Ponca City and the Tulsa metro, Oklahoma.';
 
-// PLACEHOLDERS — replace with Todd's real before/after pairs, tagged by town.
-// Real photos are the strongest sales tool on the site; swap these first.
-const photos = [
-  { src: '/images/gallery/Line-Striping.webp', alt: 'Freshly painted white parking stall lines on dark asphalt', tag: 'Striping', town: 'Placeholder' },
-  { src: '/images/gallery/03-10.webp', alt: 'Crew applying sealcoat to commercial asphalt with a squeegee', tag: 'Sealcoating', town: 'Placeholder' },
-  { src: '/images/gallery/02-14.webp', alt: 'Commercial parking lot after full pavement maintenance', tag: 'Finished lot', town: 'Placeholder' },
-  { src: '/images/gallery/01-8.webp', alt: 'Parking area surface after cleaning and re-striping', tag: 'Pressure washing', town: 'Placeholder' },
-  { src: '/images/gallery/04-11.webp', alt: 'Asphalt surface during maintenance work', tag: 'Crack filling', town: 'Placeholder' },
-  { src: '/images/gallery/02-7.webp', alt: 'Painted pavement markings on commercial lot', tag: 'Markings', town: 'Placeholder' },
-];
 ---
 
 <Base {title} {description} schema={[breadcrumbSchema(trail)]}>
@@ -35,14 +26,19 @@ const photos = [
         delivers — real project photos from our jobs are being added as we build the gallery
         out, tagged by town.
       </p>
-      <div class="gallery-grid" style="margin-top:30px;">
-        {photos.map((p) => (
-          <figure>
-            <img src={p.src} alt={p.alt} loading="lazy" width="600" height="450" />
-            <figcaption><span class="tag">{p.tag}</span>{p.town}</figcaption>
-          </figure>
-        ))}
+
+      <h2 style="margin-top:30px;">See the difference</h2>
+      <p class="note" style="margin:6px 0 14px;">Drag the slider to reveal the transformation.</p>
+      <div style="max-width:820px;">
+        <BeforeAfter
+          before="/images/gallery/osu-before.jpg"
+          after="/images/gallery/osu-after.jpg"
+          beforeAlt="Blank new-poured concrete parking lot before striping at Oklahoma State University, Stillwater"
+          afterAlt="Freshly painted parking-stall layout on new concrete at Oklahoma State University, Stillwater"
+          caption="OSU, Stillwater — a brand-new parking layout striped on fresh concrete. Drag to compare."
+        />
       </div>
+
       <p class="note" style="margin-top:20px;">
         Want to see work near you before booking? Ask — we'll point you to lots we've done in
         your area.

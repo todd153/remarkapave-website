@@ -59,16 +59,21 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
     <textarea name="message" rows={compact ? 3 : 4} placeholder="Timeline, gate codes, photos to follow, anything else…"></textarea>
   </label>
   {!compact && (
-    <label>How did you hear about us?
-      <select name="heard_from">
-        <option value="" selected>Optional</option>
-        <option>Google</option>
-        <option>Facebook</option>
-        <option>Referral</option>
-        <option>Yard sign</option>
-        <option>Repeat customer</option>
-      </select>
-    </label>
+    <fieldset class="choice-grid">
+      <legend>How did you hear about us?</legend>
+      <label class="check"><input type="radio" name="heard_from" value="Google" /> Google</label>
+      <label class="check"><input type="radio" name="heard_from" value="Facebook" /> Facebook</label>
+      <label class="check"><input type="radio" name="heard_from" value="Instagram / TikTok" /> Instagram / TikTok</label>
+      <label class="check"><input type="radio" name="heard_from" value="Nextdoor" /> Nextdoor</label>
+      <label class="check"><input type="radio" name="heard_from" value="Angi / HomeAdvisor / Google Maps" /> Angi / HomeAdvisor / Maps</label>
+      <label class="check"><input type="radio" name="heard_from" value="ChatGPT / AI assistant" /> ChatGPT / AI assistant</label>
+      <label class="check"><input type="radio" name="heard_from" value="Siri / Alexa / voice search" /> Siri / Alexa / voice search</label>
+      <label class="check"><input type="radio" name="heard_from" value="Drove by / saw a job" /> Drove by / saw a job</label>
+      <label class="check"><input type="radio" name="heard_from" value="Referral / word of mouth" /> Referral / word of mouth</label>
+      <label class="check"><input type="radio" name="heard_from" value="Yard sign" /> Yard sign</label>
+      <label class="check"><input type="radio" name="heard_from" value="Repeat customer" /> Repeat customer</label>
+      <label class="check"><input type="radio" name="heard_from" value="Other" /> Other</label>
+    </fieldset>
   )}
 
   <button type="submit" class="btn btn-primary">Request My Free Quote</button>

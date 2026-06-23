@@ -28,8 +28,8 @@ export const site = {
   // FormSubmit works with no signup but requires a one-time activation email
   // on first submission. Swap for a Formspree endpoint if preferred.
   formEndpoint: 'https://formsubmit.co/Todd@remarkapave.com',
-  ga4Id: '', // e.g. 'G-XXXXXXXXXX' — leave empty to disable analytics
-  searchConsoleToken: '', // content value of the google-site-verification meta tag
+  ga4Id: 'G-4SQJ4TJGCC', // e.g. 'G-XXXXXXXXXX' — leave empty to disable analytics
+  searchConsoleToken: '3_UbAoDZbfim1Zzs5k4cRyBcNcbrS-vkbrARWkMjrV4', // content value of the google-site-verification meta tag
 };
 
 export const trustSignals = [
@@ -48,11 +48,29 @@ export const serviceAreas = {
 // schema turns on automatically once this array has at least one entry
 // with `real: true`. NEVER add invented reviews.
 export const reviews = [
-  // {
-  //   real: true,
-  //   author: 'PASTE REVIEWER NAME',
-  //   rating: 5,
-  //   date: '2026-06-01',
-  //   text: 'PASTE THE REAL GOOGLE REVIEW TEXT VERBATIM',
-  // },
+  {
+    real: true,
+    author: 'Jean Coonrod',
+    rating: 5,
+    date: '2026-06-11',
+    source: 'google',
+    text: 'Excellent professional work striping our parking lot. Bright, even lines and clearly identified handicapped spots.',
+  },
+  {
+    real: true,
+    author: 'Tone',
+    rating: 5,
+    date: '2026-06-16',
+    source: 'google',
+    text: 'Todd is absolutely amazing. Courteous 10, Hardworking 10, Honest 10, Articulate/Paying attention to detail 10... Unlike a lot of asphalt workers, he actually removes his shoes to eliminate tracking materials anywhere except where they\'re supposed to be. Worth every dollar he asks & much more. By far the best experience we\'ve had with a contractor in Ponca City.',
+  },
+  {
+    real: true,
+    author: 'Rena Taylor',
+    rating: 5,
+    date: '2026-06-18',
+    source: 'facebook',
+    text: 'Great company with great prices and an honest hard working owner. I\'m extremely pleased with the sealing job he did on my asphalt driveway, looks better than when it was new! Would definitely recommend Todd & RemarkaPave.',
+  },
+  // Add more real reviews here as they come in. NEVER add invented reviews.
 ];

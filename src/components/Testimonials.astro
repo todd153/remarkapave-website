@@ -5,14 +5,14 @@ const real = reviews.filter((r) => r.real);
 <section class="section alt" id="reviews">
   <div class="container">
     <span class="kicker">What Customers Say</span>
-    <h2>Straight from Google</h2>
+    <h2>Straight from Our Customers</h2>
     {real.length > 0 ? (
-      <div class="grid grid-3" style="margin-top:28px;">
+      <div class=”grid grid-3” style=”margin-top:28px;”>
         {real.map((r) => (
-          <div class="review-card">
-            <div class="stars" aria-label={`${r.rating} out of 5 stars`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
-            <blockquote>“{r.text}”</blockquote>
-            <cite>— {r.author}, Google review</cite>
+          <div class=”review-card”>
+            <div class=”stars” aria-label={`${r.rating} out of 5 stars`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
+            <blockquote>”{r.text}”</blockquote>
+            <cite>— {r.author}, {r.source === 'facebook' ? 'Facebook' : 'Google'} review</cite>
           </div>
         ))}
       </div>

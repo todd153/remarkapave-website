@@ -1,15 +1,59 @@
 ---
 import { site } from '../data/site.js';
+import { services } from '../data/services.js';
+
+// Services mega-menu, grouped. Pulls names/slugs straight from services.js so
+// the menu can't drift out of sync with the actual service pages.
+const byslug = Object.fromEntries(services.map((s) => [s.slug, s]));
+const megaColumns = [
+  {
+    heading: 'Striping & Markings',
+    slugs: ['parking-lot-striping', 'ada-fire-lane-compliance', 'stencils-markings'],
+  },
+  {
+    heading: 'Surface & Repair',
+    slugs: ['sealcoating', 'crack-filling', 'pavement-repair'],
+  },
+  {
+    heading: 'Cleaning & Upkeep',
+    slugs: ['pressure-washing', 'parking-lot-sweeping', 'oil-stain-removal'],
+  },
+];
+const featured = byslug['remarkareport'];
 ---
 <header class="site-header">
   <div class="bar">
     <a class="logo-link" href="/" aria-label="RemarkaPave home">
-      <img src="/images/logo.png" alt="RemarkaPave LLC logo" width="180" height="54" />
+      <img src="/images/logo.png" alt="RemarkaPave LLC logo" width="216" height="50" />
     </a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">☰</button>
     <nav class="main-nav" id="main-nav" aria-label="Main">
-      <a href="/services/">Services</a>
-      <a href="/services/remarkareport/">RemarkaReport™</a>
+      <div class="nav-item has-mega">
+        <a href="/services/" class="nav-trigger" aria-haspopup="true" aria-expanded="false">
+          Services<span class="submenu-icon" aria-hidden="true">▾</span>
+        </a>
+        <button class="submenu-toggle" aria-label="Toggle Services submenu" aria-expanded="false">▾</button>
+        <div class="mega" role="menu">
+          {megaColumns.map((col) => (
+            <div class="mega-col">
+              <h4>{col.heading}</h4>
+              <ul>
+                {col.slugs.map((slug) => (
+                  <li><a href={`/services/${slug}/`} role="menuitem">{byslug[slug].short}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          {featured && (
+            <div class="mega-featured">
+              <h5>The RemarkaReport™</h5>
+              <p>Free pavement assessment with any estimate — a plain-English condition report and a prioritized maintenance plan.</p>
+              <a href={`/services/${featured.slug}/`} class="btn btn-quote">Learn more →</a>
+              <a href="/services/" class="mega-all">View all services →</a>
+            </div>
+          )}
+        </div>
+      </div>
       <a href="/care-plan/">Care Plan</a>
       <a href="/gallery/">Gallery</a>
       <a href="/blog/">Resources</a>
@@ -28,5 +72,21 @@ import { site } from '../data/site.js';
     const open = n.classList.toggle('open');
     t.setAttribute('aria-expanded', String(open));
     t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+
+  // Services mega-menu: hover handles desktop via CSS. This wires the
+  // chevron toggle (mobile accordion) and keyboard/click-away on desktop.
+  const item = document.querySelector('.nav-item.has-mega');
+  const subToggle = item?.querySelector('.submenu-toggle');
+  const trigger = item?.querySelector('.nav-trigger');
+  const setOpen = (open) => {
+    item.classList.toggle('open', open);
+    subToggle?.setAttribute('aria-expanded', String(open));
+    trigger?.setAttribute('aria-expanded', String(open));
+  };
+  subToggle?.addEventListener('click', () => setOpen(!item.classList.contains('open')));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  document.addEventListener('click', (e) => {
+    if (item && !item.contains(e.target)) setOpen(false);
   });
 </script>

@@ -1,0 +1,15 @@
+name = "remarkapave-website"
+compatibility_date = "2025-01-01"
+
+workers_dev = true
+
+[[custom_domains]]
+pattern = "remarkapave.com"
+zone_name = "remarkapave.com"
+
+[[custom_domains]]
+pattern = "www.remarkapave.com"
+zone_name = "remarkapave.com"
+
+[assets]
+directory = "./dist"
