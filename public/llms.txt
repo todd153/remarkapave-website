@@ -33,8 +33,8 @@ applies; smaller services are bundled into a service visit.
 - Phone: (580) 304-7225
 - Email: Todd@remarkapave.com
 - Hours: Monday-Friday, 7:00 AM - 6:00 PM
-- Website: https://remarkapave.com
-- Free quotes: https://remarkapave.com/free-quote/
+- Website: [RemarkaPave](https://remarkapave.com)
+- Free quotes: [Get a Free Quote](https://remarkapave.com/free-quote/)
 
 RemarkaPave is licensed and insured, owner-operated, and provides free estimates with
 a written materials-and-labor breakdown.

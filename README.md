@@ -14,8 +14,10 @@ npm run build     # static output in dist/
 ## REPLACE BEFORE LAUNCH (all in src/data/site.js unless noted)
 1. **GA4**: set `ga4Id` (e.g. `G-XXXXXXXXXX`). Conversion events already wired:
    `generate_lead` (form submit), `quote_form_conversion` (/thank-you/ pageview),
-   `phone_call` (any tel: tap).
-2. **Search Console**: set `searchConsoleToken` (the content value from the HTML-tag
+   `phone_call` (any tel: tap). Leave empty to disable analytics entirely.
+2. **Microsoft Clarity** (optional, free): set `clarityId` (the project ID from
+   clarity.microsoft.com) for heatmaps + session recordings. Empty = disabled.
+3. **Search Console**: set `searchConsoleToken` (the content value from the HTML-tag
    verification method), or verify via DNS instead.
 3. **Form endpoint**: `formEndpoint` is FormSubmit (no signup, emails Todd@remarkapave.com).
    NOTE: the FIRST submission triggers an activation email to Todd — click it once.
