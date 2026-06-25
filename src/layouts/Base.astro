@@ -114,6 +114,7 @@ const allSchema = [localBusiness, ...schema];
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`}></script>
         <script
           set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${site.ga4Id}');`}
+          defer
         />
       </>
     )}
