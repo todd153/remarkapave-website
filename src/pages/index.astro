@@ -24,6 +24,7 @@ const description =
 ---
 
 <Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/frames/hero/frame_0001.webp">
+  <link slot="head" rel="preload" as="image" href="/frames/hero/frame_0001.webp" fetchpriority="high" />
   <!-- ============ CINEMATIC HERO (scroll-scrubbed) ============ -->
   <section class="hero-cinematic" id="hero" aria-label="RemarkaPave — watch a lot come back to life">
     <div class="sticky">
