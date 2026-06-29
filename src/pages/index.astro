@@ -239,7 +239,11 @@ const description =
     let firstDrawn = false;
     let loadCount = 0;
 
-    for (let i = 0; i < FRAMES; i++) {
+    const EAGER = 30;  // load first 30 frames immediately
+    let batch2Loaded = false;
+    let batch3Loaded = false;
+
+    function loadFrame(i) {
       const img = new Image();
       img.src = path(i + 1);
       img.crossOrigin = 'anonymous';
@@ -255,6 +259,8 @@ const description =
       };
       images[i] = img;
     }
+
+    for (let i = 0; i < EAGER; i++) { loadFrame(i); }
 
     let current = -1;
     function draw(index) {
@@ -286,6 +292,14 @@ const description =
       const rect = section.getBoundingClientRect();
       if (rect.bottom < -innerHeight || rect.top > innerHeight) return;
       const p = Math.min(Math.max(-rect.top / (rect.height - innerHeight), 0), 1);
+      if (!batch2Loaded && p > 0.12) {
+        batch2Loaded = true;
+        for (let i = EAGER; i < 90; i++) { if (!images[i]) loadFrame(i); }
+      }
+      if (!batch3Loaded && p > 0.45) {
+        batch3Loaded = true;
+        for (let i = 90; i < FRAMES; i++) { if (!images[i]) loadFrame(i); }
+      }
       const idx = Math.min(FRAMES - 1, Math.floor(p * (FRAMES - 1)));
       if (idx !== current) { current = idx; draw(idx); }
       updateLines(p);
