@@ -1,0 +1,75 @@
+﻿---
+/**
+ * RemarkaPave Service Page Layout
+ * Location: src/layouts/ServiceLayout.astro
+ */
+import { generateServiceSchema, generateFAQSchema, generateBreadcrumbSchema } from "../data/schema";
+import type { ServicePageConfig } from "../types/schema";
+
+interface Props {
+  service: ServicePageConfig;
+}
+
+const { service } = Astro.props;
+
+const serviceSchema = generateServiceSchema(service.name, service.description, service.areaServed);
+const faqSchema = service.faq ? generateFAQSchema(service.faq) : null;
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: "Home", url: "https://remarkapave.com" },
+  { name: "Services", url: "https://remarkapave.com/services" },
+  { name: service.name, url: https://remarkapave.com/services/ },
+]);
+
+const defaultTitle = ${service.name} in Oklahoma | RemarkaPave LLC;
+const defaultDescription = service.description;
+const defaultImage = service.image || "https://remarkapave.com/images/service-default.png";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{defaultTitle}</title>
+    <meta name="description" content={defaultDescription} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={defaultTitle} />
+    <meta property="og:description" content={defaultDescription} />
+    <meta property="og:image" content={defaultImage} />
+    <link rel="canonical" href={https://remarkapave.com/services/} />
+    <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <nav aria-label="Breadcrumb">
+      <ol>
+        <li><a href="https://remarkapave.com">Home</a></li>
+        <li><a href="https://remarkapave.com/services">Services</a></li>
+        <li>{service.name}</li>
+      </ol>
+    </nav>
+    <header>
+      <h1>{service.name}</h1>
+      <p>{service.description}</p>
+    </header>
+    <main>
+      <slot />
+    </main>
+    {service.cta && (
+      <aside class="cta-section">
+        <a href={service.cta.href}>{service.cta.text}</a>
+      </aside>
+    )}
+  </body>
+</html>
+
+<style>
+  nav ol {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+</style>
