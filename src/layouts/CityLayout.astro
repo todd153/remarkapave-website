@@ -1,0 +1,59 @@
+﻿---
+import { generateLocalBusinessSchema, generateFAQSchema, generateBreadcrumbSchema } from "../data/schema";
+import type { CityPageConfig } from "../types/schema";
+
+interface Props {
+  city: CityPageConfig;
+}
+
+const { city } = Astro.props;
+
+const cityBusinessConfig = {
+  name: `RemarkaPave LLC - ${city.cityName}`,
+  image: "https://remarkapave.com/images/logo.png",
+  description: `Professional pavement maintenance services in ${city.cityName}, Oklahoma.`,
+  url: `https://remarkapave.com/services/${city.slug}`,
+  telephone: "(580) 304-7225",
+  email: "todd@remarkapave.com",
+  address: {
+    streetAddress: "2857 Duane Ave",
+    addressLocality: "Ponca City",
+    addressRegion: "OK",
+    postalCode: "74604",
+    addressCountry: "US",
+  },
+  areaServed: [{ name: city.cityName }],
+  openingHours: [
+    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "07:00", closes: "18:00" },
+    { dayOfWeek: "Saturday", opens: "08:00", closes: "16:00" },
+  ],
+  services: city.services,
+  socialProfiles: ["https://www.facebook.com/RemarkaPave", "https://www.instagram.com/remarkapave", "https://www.youtube.com/@remarkapave"],
+  keywords: [`${city.cityName} pavement maintenance`],
+};
+
+const localBusinessSchema = generateLocalBusinessSchema(cityBusinessConfig);
+const faqSchema = city.faq ? generateFAQSchema(city.faq) : null;
+
+const defaultTitle = `Pavement Services in ${city.cityName}, OK | RemarkaPave`;
+const defaultDescription = city.description;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{defaultTitle}</title>
+    <meta name="description" content={defaultDescription} />
+    <meta name="geo:placename" content={city.cityName} />
+    <link rel="canonical" href={`https://remarkapave.com/services/${city.slug}`} />
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+    <slot name="head" />
+  </head>
+  <body>
+    <h1>Pavement Services in {city.cityName}, Oklahoma</h1>
+    <slot />
+  </body>
+</html>
