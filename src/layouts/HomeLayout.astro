@@ -1,0 +1,109 @@
+﻿---
+/**
+ * RemarkaPave Homepage Layout
+ * Location: src/layouts/HomeLayout.astro
+ */
+import { generateLocalBusinessSchema, generateFAQSchema } from "../data/schema";
+import type { LocalBusinessConfig, FAQItem } from "../types/schema";
+
+const businessConfig: LocalBusinessConfig = {
+  name: "RemarkaPave LLC",
+  image: "https://remarkapave.com/images/logo.png",
+  description: "Professional pavement maintenance contractor offering parking lot striping, sealcoating, crack filling, pressure washing, and specialty repairs in Ponca City and Tulsa, Oklahoma.",
+  url: "https://remarkapave.com",
+  telephone: "(580) 304-7225",
+  email: "todd@remarkapave.com",
+  address: {
+    streetAddress: "2857 Duane Ave",
+    addressLocality: "Ponca City",
+    addressRegion: "OK",
+    postalCode: "74604",
+    addressCountry: "US",
+  },
+  areaServed: [
+    { name: "Ponca City, Oklahoma" },
+    { name: "Tulsa, Oklahoma" },
+    { name: "Broken Arrow, Oklahoma" },
+    { name: "Owasso, Oklahoma" },
+    { name: "Bixby, Oklahoma" },
+    { name: "Sand Springs, Oklahoma" },
+    { name: "Claremore, Oklahoma" },
+    { name: "Bartlesville, Oklahoma" },
+  ],
+  openingHours: [
+    {
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "07:00",
+      closes: "18:00",
+    },
+    {
+      dayOfWeek: "Saturday",
+      opens: "08:00",
+      closes: "16:00",
+    },
+  ],
+  services: [
+    { name: "Parking Lot Line Striping" },
+    { name: "Asphalt Sealcoating" },
+    { name: "Crack Filling & Routing" },
+    { name: "Commercial Pressure Washing" },
+    { name: "Pothole Repair" },
+    { name: "Parking Lot Sweeping" },
+    { name: "ADA & Fire Lane Compliance" },
+    { name: "Oil Stain Removal" },
+  ],
+  socialProfiles: [
+    "https://www.facebook.com/RemarkaPave",
+    "https://www.instagram.com/remarkapave",
+    "https://www.youtube.com/@remarkapave",
+    "https://www.linkedin.com/in/remarkapavellc",
+  ],
+  keywords: ["Parking Lot Striping", "Asphalt Maintenance", "Sealcoating", "Pothole Repair", "Pressure Washing"],
+};
+
+const homepageFAQs: FAQItem[] = [
+  {
+    question: "How much does parking lot striping cost in Oklahoma?",
+    answer: "RemarkaPave prices striping per stall. Most quotes come back within one business day.",
+  },
+  {
+    question: "What areas does RemarkaPave serve?",
+    answer: "We're based in Ponca City and serve Kay County, the Tulsa metro, and Bartlesville, Oklahoma.",
+  },
+];
+
+const localBusinessSchema = generateLocalBusinessSchema(businessConfig);
+const faqSchema = generateFAQSchema(homepageFAQs);
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "Parking Lot Striping, Sealcoating & Pothole Repair | RemarkaPave LLC Ponca City OK",
+  description = "Professional parking lot striping, sealcoating, crack filling, infrared pothole repair & pressure washing in Ponca City, Tulsa & Kay County OK.",
+  image = "https://remarkapave.com/images/og-image.png",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="business.business" />
+    <meta property="og:title" content={title} />
+    <meta property="og:image" content={image} />
+    <link rel="canonical" href={businessConfig.url} />
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
