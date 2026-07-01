@@ -160,7 +160,6 @@ const description =
         metro and Bartlesville — click your town for local details.
       </p>
       <div class="area-tags">
-        {serviceAreas.home.map((c) => <span>{c}</span>)}
         {towns.map((t) => (
           <a href={`/services/parking-lot-striping-${t.slug}/`}>{t.name}</a>
         ))}
