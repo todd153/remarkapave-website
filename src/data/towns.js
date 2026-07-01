@@ -3,6 +3,26 @@
 // Each town carries unique local color so pages are never clones.
 export const towns = [
   {
+    slug: 'ponca-city-ok', name: 'Ponca City',
+    local: 'from the Grand Avenue storefronts downtown to the 14th Street retail corridor',
+    intro: 'This is home base — and home to Phillips 66, Oklahoma’s largest refinery, so Ponca City property managers already know what contractor-grade work is supposed to look like.',
+  },
+  {
+    slug: 'newkirk-ok', name: 'Newkirk',
+    local: 'from the courthouse square downtown to the farm and commercial properties along US-77',
+    intro: 'As the Kay County seat, Newkirk is used to things being held to a standard — the 1926 county courthouse still anchors downtown, and property owners here notice when a lot is maintained the same way.',
+  },
+  {
+    slug: 'tonkawa-ok', name: 'Tonkawa',
+    local: 'from the Northern Oklahoma College campus to the Tonkawa Casino and Hotel corridor near I-35',
+    intro: 'Between the college campus and the casino traffic off the interstate, Tonkawa lots see a steady mix of visitors — a clean, well-marked lot is doing marketing work whether you ask it to or not.',
+  },
+  {
+    slug: 'blackwell-ok', name: 'Blackwell',
+    local: 'from the Main Street historic district to the industrial park along US-177 and State Highway 11',
+    intro: 'Blackwell’s industrial roots run deep, and property owners here know the difference between a quick patch job and pavement work built to actually hold up.',
+  },
+  {
     slug: 'tulsa-ok', name: 'Tulsa',
     local: 'from retail centers off 71st Street to industrial yards near the Port of Catoosa',
     intro: 'Tulsa is the biggest lot market in Green Country — and the most competitive for tenants. A sharp lot is table stakes here.',
