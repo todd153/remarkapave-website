@@ -24,10 +24,12 @@ export const site = {
     linkedin: 'https://www.linkedin.com/in/remarkapavellc',
   },
 
-  // ---- REPLACE BEFORE LAUNCH ----
-  // FormSubmit works with no signup but requires a one-time activation email
-  // on first submission. Swap for a Formspree endpoint if preferred.
-  formEndpoint: 'https://formsubmit.co/Todd@remarkapave.com',
+  // Worker endpoint: Turnstile check + FormSubmit email + HubSpot contact.
+  // (FormSubmit is called server-side in worker/index.js.)
+  formEndpoint: '/api/quote',
+  // Cloudflare Turnstile site key (public). Create at dash.cloudflare.com → Turnstile
+  // → Add widget (domain: remarkapave.com, Managed mode). Empty = widget hidden, no check.
+  turnstileSiteKey: '',
   ga4Id: 'G-4SQJ4TJGCC', // e.g. 'G-XXXXXXXXXX' — leave empty to disable analytics
   clarityId: 'xaaahi064f', // Microsoft Clarity project ID (heatmaps + recordings) — empty to disable
   searchConsoleToken: '3_UbAoDZbfim1Zzs5k4cRyBcNcbrS-vkbrARWkMjrV4', // content value of the google-site-verification meta tag

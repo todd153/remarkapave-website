@@ -13,10 +13,6 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
   <h3>{heading}</h3>
   <p class="sub">Tell us about your lot — we'll get back to you within one business day.</p>
 
-  <!-- FormSubmit config -->
-  <input type="hidden" name="_subject" value="New quote request — remarkapave.com" />
-  <input type="hidden" name="_next" value={`${site.url}/thank-you/`} />
-  <input type="hidden" name="_captcha" value="false" />
   <input type="hidden" name="lead_source_page" value="" data-lead-source />
   <input type="hidden" name="form_loaded_at" value="" data-loaded-at />
   <!-- Honeypot: bots fill it, humans never see it -->
@@ -76,10 +72,14 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
     </fieldset>
   )}
 
+  {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey}></div>}
   <button type="submit" class="btn btn-primary">Request My Free Quote</button>
   <p class="form-fine">Or call us directly: <a href={site.phoneHref} data-track="call">{site.phone}</a></p>
 </form>
 
+{site.turnstileSiteKey && (
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+)}
 <script>
   document.querySelectorAll('[data-quote-form]').forEach((form) => {
     form.querySelector('[data-lead-source]').value = location.href;
