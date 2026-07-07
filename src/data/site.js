@@ -42,7 +42,7 @@ export const trustSignals = [
 
 export const serviceAreas = {
   home: ['Ponca City', 'Newkirk', 'Tonkawa', 'Blackwell'],
-  growth: ['Tulsa', 'Broken Arrow', 'Owasso', 'Bixby', 'Jenks', 'Sand Springs', 'Claremore', 'Bartlesville'],
+  growth: ['Tulsa', 'Broken Arrow', 'Owasso', 'Bixby', 'Jenks', 'Sand Springs', 'Claremore', 'Bartlesville', 'Collinsville', 'Skiatook', 'Coweta'],
 };
 
 // Real Google reviews ONLY. Add entries as they come in — AggregateRating
