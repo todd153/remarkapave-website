@@ -72,6 +72,11 @@ export const towns = [
     local: 'from the Highway 51 commercial corridor to the growing development along 353rd Avenue',
     intro: 'Coweta’s commercial corridor is expanding fast along Highway 51, and property owners here are investing in pavement that matches the growth.',
   },
+  {
+    slug: 'jenks-ok', name: 'Jenks',
+    local: 'from the antique shops of downtown Jenks to the shopping and dining along Riverwalk Crossing',
+    intro: 'Jenks pulls in shoppers and tourists from across Green Country — a clean, clearly striped lot is part of the impression before they even walk in.',
+  },
 ];
 
 // The 4 core services that get town pages, with kit metadata patterns.
