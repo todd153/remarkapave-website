@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crack Fill Bid Calculator</title>
+<style>
+  :root {
+    --bg: #f5f4f1; --card: #ffffff; --ink: #1c1b19; --muted: #6b675f;
+    --line: #e2dfd8; --accent: #b45309; --accent-ink: #ffffff;
+    --good: #166534; --warn: #b45309; --bad: #b91c1c;
+    --track: #d6d2c8; --knob: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16150f; --card: #211f18; --ink: #ece9e2; --muted: #a39e92;
+      --line: #38352c; --accent: #e08a2e; --accent-ink: #16150f;
+      --good: #4ade80; --warn: #fbbf24; --bad: #f87171;
+      --track: #454135; --knob: #211f18;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 1.25rem; }
+  .wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 1rem; }
+  h1 { font-size: 1.35rem; }
+  .sub { color: var(--muted); font-size: .9rem; margin-top: .2rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; }
+  .card h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .75rem; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .5rem 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .row:first-of-type { border-top: none; }
+  label.name { font-weight: 600; }
+  .hint { display: block; font-weight: 400; font-size: .8rem; color: var(--muted); }
+  input[type="number"] { width: 7.5rem; padding: .45rem .55rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font-size: 1rem; text-align: right; }
+  .rate-input { display: flex; align-items: center; gap: .35rem; color: var(--muted); font-size: .9rem; }
+  /* toggle switch */
+  .switch { position: relative; display: inline-block; width: 52px; height: 30px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: var(--track); border-radius: 999px; transition: background .15s; cursor: pointer; }
+  .slider::before { content: ""; position: absolute; height: 24px; width: 24px; left: 3px; top: 3px; background: var(--knob); border-radius: 50%; transition: transform .15s; box-shadow: 0 1px 3px rgba(0,0,0,.35); }
+  .switch input:checked + .slider { background: var(--accent); }
+  .switch input:checked + .slider::before { transform: translateX(22px); }
+  .switch input:focus-visible + .slider { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .addon-controls { display: flex; align-items: center; gap: .75rem; }
+  /* results */
+  .totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .75rem; }
+  .stat { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: .7rem .8rem; }
+  .stat .k { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .stat .v { font-size: 1.45rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat .d { font-size: .8rem; color: var(--muted); }
+  #margin.good { color: var(--good); } #margin.warn { color: var(--warn); } #margin.bad { color: var(--bad); }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; font-variant-numeric: tabular-nums; }
+  td { padding: .35rem 0; border-top: 1px solid var(--line); }
+  td:last-child { text-align: right; }
+  tr.total td { font-weight: 700; }
+  .market { font-size: .9rem; }
+  .market b { font-variant-numeric: tabular-nums; }
+  .note { font-size: .8rem; color: var(--muted); margin-top: .6rem; }
+  details summary { cursor: pointer; font-weight: 600; padding: .25rem 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Crack Fill Bid Calculator</h1>
+    <div class="sub">Internal tool — Remark A Pave. Toggle add-ons, see the quote, your cost, and profit update live.</div>
+  </header>
+
+  <div class="card">
+    <h2>Job</h2>
+    <div class="row">
+      <label class="name" for="lf">Job size<span class="hint">linear feet of crack</span></label>
+      <input type="number" id="lf" value="10000" min="100" step="100">
+    </div>
+    <div class="row">
+      <label class="name" for="baseRate">Base rate<span class="hint">clean, blow &amp; direct seal — no routing</span></label>
+      <div class="rate-input">$ <input type="number" id="baseRate" value="0.90" min="0" step="0.05"> /LF</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Optional add-ons</h2>
+    <div class="row">
+      <label class="name" for="routingOn">Crack routing<span class="hint">Cut clean reservoir first. Market upcharge +$0.60–$1.50/LF. Extends sealant life ~50% (FHWA). Halves daily production, uses ~25% more sealant, needs router rental.</span></label>
+      <div class="addon-controls">
+        <div class="rate-input">+$ <input type="number" id="routingRate" value="0.75" min="0" step="0.05"> /LF</div>
+        <label class="switch"><input type="checkbox" id="routingOn"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="row">
+      <label class="name" for="lanceOn">Heat lance prep<span class="hint">Hot-air dry &amp; heat cracks for max adhesion. Market upcharge +$0.15–$0.30/LF. Needs compressor + lance rental (~$175/day).</span></label>
+      <div class="addon-controls">
+        <div class="rate-input">+$ <input type="number" id="lanceRate" value="0.20" min="0" step="0.05"> /LF</div>
+        <label class="switch"><input type="checkbox" id="lanceOn"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="row">
+      <label class="name" for="mobOn">Mobilization fee<span class="hint">Flat call-out fee. OK market: $100–$250. Skip on big jobs, charge on small ones.</span></label>
+      <div class="addon-controls">
+        <div class="rate-input">$ <input type="number" id="mobFee" value="150" min="0" step="25"></div>
+        <label class="switch"><input type="checkbox" id="mobOn"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="row">
+      <label class="name" for="payoffOn">Pay off equipment on this job<span class="hint">Fold the melter + tools purchase into this job's breakeven.</span></label>
+      <div class="addon-controls">
+        <div class="rate-input">$ <input type="number" id="payoffAmt" value="3700" min="0" step="100"></div>
+        <label class="switch"><input type="checkbox" id="payoffOn" checked><span class="slider"></span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quote &amp; profit</h2>
+    <div class="totals">
+      <div class="stat"><div class="k">Quote</div><div class="v" id="quote">–</div><div class="d" id="quoteRate">–</div></div>
+      <div class="stat"><div class="k">Your cost</div><div class="v" id="cost">–</div><div class="d" id="days">–</div></div>
+      <div class="stat"><div class="k">Profit</div><div class="v" id="profit">–</div><div class="d" id="margin">–</div></div>
+    </div>
+    <p class="market" id="market"></p>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>Cost breakdown &amp; assumptions</summary>
+      <table id="breakdown"></table>
+      <p class="note">Assumptions: ~200 LF per 30-lb box at ½" crack +15% waste; $36/box (pallet price); 3,000 LF/day direct seal, 1,500 LF/day routed; helper $175/day; router rental $200/day; compressor+lance rental $175/day; $300 propane/fuel/misc. Edit the numbers above to re-run; refresh to reset.</p>
+    </details>
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const usd = n => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+
+  function calc() {
+    const lf = +$("lf").value || 0;
+    const routing = $("routingOn").checked;
+    const lance = $("lanceOn").checked;
+    const rate = (+$("baseRate").value || 0)
+      + (routing ? +$("routingRate").value || 0 : 0)
+      + (lance ? +$("lanceRate").value || 0 : 0);
+    const mob = $("mobOn").checked ? +$("mobFee").value || 0 : 0;
+    const revenue = lf * rate + mob;
+
+    const days = Math.max(1, Math.ceil(lf / (routing ? 1500 : 3000)));
+    const boxes = Math.ceil((lf / 200) * (routing ? 1.25 : 1) * 1.15);
+    const items = [
+      ["Sealant (" + boxes + " boxes @ $36)", boxes * 36],
+      ["Helper (" + days + " days @ $175)", days * 175],
+      ["Propane / fuel / misc", 300],
+    ];
+    if (routing) items.push(["Router rental (" + days + " days @ $200)", days * 200]);
+    if (lance) items.push(["Compressor + lance rental (" + days + " days @ $175)", days * 175]);
+    if ($("payoffOn").checked) items.push(["Equipment payoff (melter + tools)", +$("payoffAmt").value || 0]);
+    const cost = items.reduce((s, [, v]) => s + v, 0);
+    const profit = revenue - cost;
+    const margin = revenue > 0 ? profit / revenue * 100 : 0;
+
+    $("quote").textContent = usd(revenue);
+    $("quoteRate").textContent = "$" + rate.toFixed(2) + "/LF" + (mob ? " + " + usd(mob) + " mobilization" : "");
+    $("cost").textContent = usd(cost);
+    $("days").textContent = days + " day" + (days > 1 ? "s" : "") + ", " + boxes + " boxes";
+    $("profit").textContent = usd(profit);
+    const m = $("margin");
+    m.textContent = margin.toFixed(0) + "% margin";
+    m.className = margin >= 30 ? "good" : margin >= 15 ? "warn" : "bad";
+
+    // market position: OK band $0.50–$2.00; national commercial $0.90–$1.50 (routed $1.50–$3.00)
+    const lo = routing ? 1.50 : 0.90, hi = routing ? 3.00 : 1.50;
+    let pos;
+    if (rate < 0.50) pos = "below the whole Oklahoma market band — you're leaving money on the table";
+    else if (rate < lo) pos = "inside the Oklahoma band ($0.50–$2.00/LF) and under the national commercial floor — aggressive sub pricing";
+    else if (rate <= hi) pos = "inside the national commercial range — full retail territory";
+    else pos = "above the national commercial range — expect pushback unless the spec is premium";
+    $("market").innerHTML = "Market check: <b>$" + rate.toFixed(2) + "/LF</b> is " + pos +
+      ". National " + (routing ? "routed" : "non-routed") + " commercial range: $" + lo.toFixed(2) + "–$" + hi.toFixed(2) + "/LF. OKC-area band: $0.50–$2.00/LF.";
+
+    $("breakdown").innerHTML =
+      items.map(([k, v]) => "<tr><td>" + k + "</td><td>" + usd(v) + "</td></tr>").join("") +
+      "<tr class='total'><td>Total cost</td><td>" + usd(cost) + "</td></tr>" +
+      "<tr class='total'><td>Breakeven rate</td><td>$" + (lf ? ((cost - mob) / lf).toFixed(2) : "0.00") + "/LF</td></tr>";
+  }
+
+  document.querySelectorAll("input").forEach(el => el.addEventListener("input", calc));
+  calc();
+</script>
+</body>
+</html>

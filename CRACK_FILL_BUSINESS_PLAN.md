@@ -41,6 +41,23 @@ Prepared July 2026 for the contractor crack fill opportunity. Goal: complete the
 - Negotiating context: after this job the equipment is paid for, so cost drops to ~$0.40–$0.50/LF (material + labor only) → future jobs at the same rate run 45–55% margin. Material is typically only 10–15% of billed price in this trade.
 - Day-rate sanity check: ~3,000 LF/day × $0.85 = ~$2,550/day gross for a 2-man crew (industry norm is ~$125+/hr per operator).
 
+### Oklahoma market check (how the quote compares locally)
+- **Oklahoma City area routine crack sealing runs $0.50–$2.00/LF** — a wider, slightly softer band than the $0.90–$1.50 national commercial average, reflecting lower labor costs in OK.
+- The **$0.85–$0.95/LF quote sits mid-band for the OKC market** and just under the national commercial floor — competitive for a sub rate without leaving money on the table.
+- The $0.70/LF walk-away floor is still comfortably above OK's bottom-end ($0.50), so holding the floor doesn't price the job out of the local market.
+- Local extras to know: OK contractors commonly charge **$100–$250 minimum call-out/mobilization** fees — not a factor at 10,000 LF, but relevant when pricing small fill-in jobs later.
+
+### Optional add-on services (upcharges to quote separately)
+Quote these as toggleable line items on top of the base rate — see `tools/crack-fill-bid-calculator.html` for the interactive version.
+
+| Add-on | Market upcharge | What it costs Todd | When to sell it |
+|---|---|---|---|
+| **Crack routing** | **+$0.60–$1.50/LF** (routed jobs bill $1.50–$3.00/LF vs $0.90–$1.50 unrouted) | Router rental ~$150–$250/day + ~25% more sealant (bigger reservoir) + slower production (~half speed) | FHWA data: routing extends sealant life ~50%. Pitch on highway-spec or premium commercial work |
+| **Heat lance prep** | **+$0.15–$0.30/LF** | Compressor + lance rental ~$150–$200/day (or $2k lance purchase later) | Damp conditions, shaded lots, spring/fall work, or when the spec requires dry-heat prep |
+| **Mobilization** (small jobs) | $100–$250 flat | Fuel + drive time | Any future job under ~2,000 LF |
+
+On this 10,000 LF job: routing at even +$0.60/LF adds $6,000 of billing against roughly $1,500–$2,500 of extra cost — but only sell it if the contractor's spec calls for it. Heat lance at +$0.20/LF adds $2,000 against ~$600–$800 of rental — an easy margin add if conditions justify it.
+
 ---
 
 ## 3. Equipment List — Rent vs. Own
