@@ -24,39 +24,24 @@ const description =
   'Commercial line striping, sealcoating, crack filling & pressure washing in Ponca City, the Tulsa metro & Bartlesville. Licensed & insured. Free quotes.';
 ---
 
-<Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/frames/hero/frame_0001.webp">
-  <link slot="head" rel="preload" as="image" href="/frames/hero/frame_0001.webp" fetchpriority="high" />
-  <!-- ============ CINEMATIC HERO (scroll-scrubbed) ============ -->
-  <section class="hero-cinematic" id="hero" aria-label="RemarkaPave — watch a lot come back to life">
-    <div class="sticky">
-      <img
-        class="poster" width="1600" height="900"
-        src="/frames/hero/frame_0001.webp"
-        alt="RemarkaPave crew striping a commercial property fire lane at dusk"
-        fetchpriority="high"
-      />
-      <canvas id="hero-canvas" aria-hidden="true"></canvas>
-      <div class="shade"></div>
-
-      <div class="hero-overlay">
-        <div class="hero-line" data-in="0.00" data-out="0.30">
-          <h1>Your lot is your first impression.</h1>
-          <p class="sub">We make it remarkable.</p>
-        </div>
-        <div class="hero-line" data-in="0.36" data-out="0.62">
-          <p class="h">Crisp stalls. <span class="accent">ADA done right.</span></p>
-          <p class="sub">Striped with a Titan PowrLiner 2850 &amp; PROMAR commercial paint.</p>
-        </div>
-        <div class="hero-line" data-in="0.70" data-out="1.00">
-          <p class="h">Remarka<span class="accent">Pave</span></p>
-          <p class="sub">{site.tagline}</p>
-          <div class="hero-ctas">
-            <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
-            <a class="btn btn-ghost-dark" href={site.phoneHref} data-track="call">Call {site.phone}</a>
-          </div>
-        </div>
+<Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg">
+  <link slot="head" rel="preload" as="image" href="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg" fetchpriority="high" />
+  <!-- ============ HERO ============ -->
+  <section class="hero-static" id="hero" aria-label="RemarkaPave — Integris Ponca City Hospital fire lane restriping">
+    <img
+      class="hero-bg" width="1600" height="900"
+      src="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg"
+      alt="Freshly painted crosswalk and red fire lane curb at the Integris Ponca City Hospital main entrance"
+      fetchpriority="high"
+    />
+    <div class="shade"></div>
+    <div class="hero-overlay">
+      <h1>Your lot is your first impression.</h1>
+      <p class="sub">We make it remarkable.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
+        <a class="btn btn-ghost-dark" href={site.phoneHref} data-track="call">Call {site.phone}</a>
       </div>
-      <div class="scroll-hint" aria-hidden="true">SCROLL</div>
     </div>
   </section>
 
@@ -198,111 +183,3 @@ const description =
 
   <CtaBand />
 </Base>
-
-<!-- Scroll-scrub engine: desktop only; mobile & reduced-motion get the poster. -->
-<script>
-  (() => {
-    const mq = window.matchMedia('(min-width: 761px) and (prefers-reduced-motion: no-preference)');
-    const section = document.getElementById('hero');
-    const canvas = document.getElementById('hero-canvas');
-    const poster = section.querySelector('.poster');
-    const lines = [...section.querySelectorAll('.hero-line')];
-    const FRAMES = 180;
-    const path = (i) => `/frames/hero/frame_${String(i).padStart(4, '0')}.webp`;
-
-    function updateLines(p) {
-      for (const el of lines) {
-        const a = parseFloat(el.dataset.in), b = parseFloat(el.dataset.out);
-        const mid = (a + b) / 2, half = (b - a) / 2;
-        let o = 1 - Math.abs(p - mid) / half;
-        o = Math.max(0, Math.min(1, o));
-        el.style.opacity = o.toFixed(3);
-        el.style.transform = `translateX(-50%) translateY(${(1 - o) * 28}px)`;
-      }
-    }
-
-    if (!mq.matches) {
-      canvas.remove();
-      updateLines(0.85);
-      lines[2].style.opacity = '1';
-      return;
-    }
-
-    const ctx = canvas.getContext('2d', { alpha: false });
-    const images = [];
-    let firstDrawn = false;
-    let loadCount = 0;
-
-    const EAGER = 30;  // load first 30 frames immediately
-    let batch2Loaded = false;
-    let batch3Loaded = false;
-
-    function loadFrame(i) {
-      const img = new Image();
-      img.src = path(i + 1);
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        loadCount++;
-        if (!firstDrawn && loadCount >= 5) {
-          firstDrawn = true;
-          draw(0);
-        }
-      };
-      img.onerror = () => {
-        console.warn(`Failed to load frame ${i + 1} from ${path(i + 1)}`);
-      };
-      images[i] = img;
-    }
-
-    for (let i = 0; i < EAGER; i++) { loadFrame(i); }
-
-    let current = -1;
-    function draw(index) {
-      const img = images[index];
-      if (!img || !img.complete || !img.naturalWidth) return;
-      const cw = canvas.clientWidth, ch = canvas.clientHeight;
-      const ir = img.naturalWidth / img.naturalHeight, cr = cw / ch;
-      let dw, dh, dx, dy;
-      if (ir > cr) { dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0; }
-      else { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
-      ctx.fillStyle = '#0E1116';
-      ctx.fillRect(0, 0, cw, ch);
-      try {
-        ctx.drawImage(img, dx, dy, dw, dh);
-      } catch(e) {
-        console.error('Canvas draw error:', e);
-      }
-    }
-
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = canvas.clientWidth * dpr;
-      canvas.height = canvas.clientHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      draw(current < 0 ? 0 : current);
-    }
-
-    function update() {
-      const rect = section.getBoundingClientRect();
-      if (rect.bottom < -innerHeight || rect.top > innerHeight) return;
-      const p = Math.min(Math.max(-rect.top / (rect.height - innerHeight), 0), 1);
-      if (!batch2Loaded && p > 0.12) {
-        batch2Loaded = true;
-        for (let i = EAGER; i < 90; i++) { if (!images[i]) loadFrame(i); }
-      }
-      if (!batch3Loaded && p > 0.45) {
-        batch3Loaded = true;
-        for (let i = 90; i < FRAMES; i++) { if (!images[i]) loadFrame(i); }
-      }
-      const idx = Math.min(FRAMES - 1, Math.floor(p * (FRAMES - 1)));
-      if (idx !== current) { current = idx; draw(idx); }
-      updateLines(p);
-    }
-
-    addEventListener('resize', resize);
-    addEventListener('scroll', update, { passive: true });
-    resize();
-    let raf = () => { update(); requestAnimationFrame(raf); };
-    requestAnimationFrame(raf);
-  })();
-</script>
