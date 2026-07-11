@@ -638,4 +638,4 @@ img { max-width: 100%; height: auto; display: block; }
   text-decoration: none;
 }
 .area-tags a:hover { border-color: var(--blue); color: var(--blue); }
-.note { font-size: 0.86rem; color: var(--muted); }
+.note { font-size: 0.86rem; color: var(--body); }

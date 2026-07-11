@@ -5,6 +5,7 @@ import FaqBlock from '../components/FaqBlock.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Testimonials from '../components/Testimonials.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
+import ServiceAreaMap from '../components/ServiceAreaMap.astro';
 import { site, trustSignals, serviceAreas } from '../data/site.js';
 import { services, coreServices, priceDisclaimer } from '../data/services.js';
 import { towns } from '../data/towns.js';
@@ -18,9 +19,9 @@ const homeFaqs = [
   { q: 'What is a RemarkaReport™?', a: 'Our branded pavement assessment: a documented lot walk with photos, plain-English condition grades, and a prioritized 1–3 year maintenance plan. Free with any estimate.' },
 ];
 
-const title = 'RemarkaPave | Parking Lot Striping & Pavement Maintenance — Ponca City & Tulsa, OK';
+const title = 'Parking Lot Striping Ponca City & Tulsa, OK | RemarkaPave';
 const description =
-  'Commercial line striping, sealcoating, crack filling & pressure washing in Ponca City, Kay County, the Tulsa metro & Bartlesville. Licensed & insured. Free quotes — (580) 304-7225.';
+  'Commercial line striping, sealcoating, crack filling & pressure washing in Ponca City, the Tulsa metro & Bartlesville. Licensed & insured. Free quotes.';
 ---
 
 <Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/frames/hero/frame_0001.webp">
@@ -164,14 +165,7 @@ const description =
           <a href={`/services/parking-lot-striping-${t.slug}/`}>{t.name}</a>
         ))}
       </div>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1575558.0!2d-96.532911!3d36.375682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6aee32aa42ffee41%3A0x7bbd93efc4f1727f!2sRemarkaPave!5e0!3m2!1sen!2sus!4v1718898000000!5m2!1sen!2sus"
-        style="border:0; width:100%; height:450px; margin-top:28px; border-radius:8px; display:block;"
-        allowfullscreen
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="RemarkaPave service area map"
-      ></iframe>
+      <ServiceAreaMap />
     </div>
   </section>
 

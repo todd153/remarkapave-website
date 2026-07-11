@@ -1,7 +1,12 @@
 ---
 // The Kit's 7 fields + spam protection (honeypot + time check) + lead-source URL.
 import { site, serviceAreas } from '../data/site.js';
-const { heading = 'Get a Free Quote', compact = false } = Astro.props;
+const {
+  heading = 'Get a Free Quote',
+  subheading = 'Tell us about your lot — we\'ll get back to you within one business day.',
+  compact = false,
+  isCarePlan = false
+} = Astro.props;
 const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
 ---
 <form
@@ -11,12 +16,8 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
   data-quote-form
 >
   <h3>{heading}</h3>
-  <p class="sub">Tell us about your lot — we'll get back to you within one business day.</p>
+  <p class="sub">{subheading}</p>
 
-  <!-- FormSubmit config -->
-  <input type="hidden" name="_subject" value="New quote request — remarkapave.com" />
-  <input type="hidden" name="_next" value={`${site.url}/thank-you/`} />
-  <input type="hidden" name="_captcha" value="false" />
   <input type="hidden" name="lead_source_page" value="" data-lead-source />
   <input type="hidden" name="form_loaded_at" value="" data-loaded-at />
   <!-- Honeypot: bots fill it, humans never see it -->
@@ -39,6 +40,12 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
       {townOptions.map((t) => <option value={t}>{t}</option>)}
     </select>
   </label>
+
+  <fieldset>
+    <legend>How would you like your quote?*</legend>
+    <label class="check"><input type="radio" name="quote_preference" value="Call within 2 hours" required /> Call me within 2 hours (Mon–Fri, 7 AM–6 PM)</label>
+    <label class="check"><input type="radio" name="quote_preference" value="Email me a PDF quote" /> Email me a written quote (I'll review it on my own time)</label>
+  </fieldset>
 
   <fieldset>
     <legend>Service(s) needed*</legend>
@@ -76,10 +83,14 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
     </fieldset>
   )}
 
+  {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey}></div>}
   <button type="submit" class="btn btn-primary">Request My Free Quote</button>
   <p class="form-fine">Or call us directly: <a href={site.phoneHref} data-track="call">{site.phone}</a></p>
 </form>
 
+{site.turnstileSiteKey && (
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+)}
 <script>
   document.querySelectorAll('[data-quote-form]').forEach((form) => {
     form.querySelector('[data-lead-source]').value = location.href;
@@ -99,12 +110,25 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
         alert('Please pick at least one service so we can route your request.');
         return;
       }
+      // Quote preference selected.
+      const quotePref = [...form.querySelectorAll('input[name="quote_preference"]')].find((c) => c.checked);
+      if (!quotePref) {
+        e.preventDefault();
+        alert("Please choose how you'd like your quote.");
+        return;
+      }
+      // Store preference in localStorage BEFORE form submits (so thank-you page can read it)
+      localStorage.setItem('quote_preference', quotePref.value);
+      localStorage.setItem('quote_services', [...form.querySelectorAll('input[name="services"]:checked')].map(c => c.value).join(', '));
+      localStorage.setItem('quote_lotsize', form.querySelector('input[name="lot_size"]')?.value || 'Not specified');
+
       if (typeof window.gtag === 'function') {
         window.gtag('event', 'generate_lead', {
           event_category: 'conversion',
           event_label: location.pathname,
         });
       }
+      // Let form submit naturally (Worker redirects to /thank-you/)
     });
   });
 </script>

@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import QuoteForm from '../components/QuoteForm.astro';
+import QuoteFormBranch from '../components/QuoteFormBranch.astro';
 import { site, trustSignals } from '../data/site.js';
 import { breadcrumbSchema } from '../utils/schema.js';
 
@@ -11,7 +11,7 @@ const trail = [
 ];
 const title = 'Get a Free Quote | RemarkaPave — Pavement Services OK';
 const description =
-  'Request a free pavement quote: striping, sealcoating, crack filling, pressure washing. Written materials & labor breakdown within one business day. (580) 304-7225.';
+  'Free pavement quote: striping, sealcoating, crack filling or pressure washing. Written materials & labor breakdown within one business day.';
 ---
 
 <Base {title} {description} schema={[breadcrumbSchema(trail)]}>
@@ -32,7 +32,7 @@ const description =
           Prefer to talk? <a href={site.phoneHref} data-track="call"><strong>{site.phone}</strong></a> — Mon–Fri 7 AM–6 PM.
         </p>
       </div>
-      <QuoteForm />
+      <QuoteFormBranch onetime={true} />
     </div>
   </section>
 </Base>

@@ -57,6 +57,26 @@ export const towns = [
     local: 'from downtown offices near the Price Tower to the US-75 retail corridor',
     intro: 'Bartlesville’s corporate campuses and medical facilities expect contractor-grade work, documentation included.',
   },
+  {
+    slug: 'collinsville-ok', name: 'Collinsville',
+    local: 'from the Main Street business district along US-169 to the newer commercial development near Highway 20',
+    intro: 'Collinsville is growing fast north of Tulsa, and new retail and housing nearby mean an older lot has to compete with brand-new pavement next door.',
+  },
+  {
+    slug: 'skiatook-ok', name: 'Skiatook',
+    local: 'from the US-75 commercial strip to the retail and marina traffic feeding Skiatook Lake',
+    intro: 'Skiatook draws lake traffic on top of everyday local business — a clean, clearly marked lot handles both without confusion.',
+  },
+  {
+    slug: 'coweta-ok', name: 'Coweta',
+    local: 'from the Highway 51 commercial corridor to the growing development along 353rd Avenue',
+    intro: 'Coweta’s commercial corridor is expanding fast along Highway 51, and property owners here are investing in pavement that matches the growth.',
+  },
+  {
+    slug: 'jenks-ok', name: 'Jenks',
+    local: 'from the antique shops of downtown Jenks to the shopping and dining along Riverwalk Crossing',
+    intro: 'Jenks pulls in shoppers and tourists from across Green Country — a clean, clearly striped lot is part of the impression before they even walk in.',
+  },
 ];
 
 // The 4 core services that get town pages, with kit metadata patterns.

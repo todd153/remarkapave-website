@@ -24,10 +24,13 @@ export const site = {
     linkedin: 'https://www.linkedin.com/in/remarkapavellc',
   },
 
-  // ---- REPLACE BEFORE LAUNCH ----
-  // FormSubmit works with no signup but requires a one-time activation email
-  // on first submission. Swap for a Formspree endpoint if preferred.
-  formEndpoint: 'https://formsubmit.co/Todd@remarkapave.com',
+  // Quote form posts here — handled by worker/index.js, which relays to
+  // FormSubmit for email and (optionally) pushes the lead to HubSpot.
+  formEndpoint: '/api/quote',
+  // Cloudflare Turnstile site key — leave empty to keep the CAPTCHA widget
+  // off; the form still works without it. Set the matching TURNSTILE_SECRET_KEY
+  // as a Worker secret to enforce verification server-side.
+  turnstileSiteKey: '',
   ga4Id: 'G-4SQJ4TJGCC', // e.g. 'G-XXXXXXXXXX' — leave empty to disable analytics
   clarityId: 'xaaahi064f', // Microsoft Clarity project ID (heatmaps + recordings) — empty to disable
   searchConsoleToken: '3_UbAoDZbfim1Zzs5k4cRyBcNcbrS-vkbrARWkMjrV4', // content value of the google-site-verification meta tag
@@ -42,7 +45,7 @@ export const trustSignals = [
 
 export const serviceAreas = {
   home: ['Ponca City', 'Newkirk', 'Tonkawa', 'Blackwell'],
-  growth: ['Tulsa', 'Broken Arrow', 'Owasso', 'Bixby', 'Jenks', 'Sand Springs', 'Claremore', 'Bartlesville'],
+  growth: ['Tulsa', 'Broken Arrow', 'Owasso', 'Bixby', 'Jenks', 'Sand Springs', 'Claremore', 'Bartlesville', 'Collinsville', 'Skiatook', 'Coweta'],
 };
 
 // Real Google reviews ONLY. Add entries as they come in — AggregateRating

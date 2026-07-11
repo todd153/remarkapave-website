@@ -15,6 +15,23 @@ const description =
 
 ---
 
+<style>
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
 <Base {title} {description} schema={[breadcrumbSchema(trail)]}>
   <Breadcrumbs {trail} />
   <section class="section" style="padding-top:34px;">
@@ -26,6 +43,17 @@ const description =
         delivers — real project photos from our jobs are being added as we build the gallery
         out, tagged by town.
       </p>
+
+      <div class="video-wrapper" style="margin-top:30px;">
+        <iframe
+          src="https://www.youtube.com/embed/QlLBBzfArWY"
+          title="RemarkaPave pavement work"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
 
       <h2 style="margin-top:30px;">See the difference</h2>
       <p class="note" style="margin:6px 0 14px;">Drag the slider to reveal the transformation.</p>

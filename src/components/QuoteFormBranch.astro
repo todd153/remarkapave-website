@@ -1,0 +1,147 @@
+---
+// Shows two options: one-time quote or care plan inquiry
+// User clicks one, form appears with tailored copy & fields
+import QuoteForm from './QuoteForm.astro';
+
+const { onetime = true } = Astro.props;
+---
+
+<div class="quote-form-branch">
+  <div class="branch-toggle" role="tablist">
+    <button
+      role="tab"
+      aria-selected={onetime}
+      aria-controls="form-onetime"
+      data-branch="onetime"
+      class="branch-btn"
+    >
+      <span class="h">One-Time Service</span>
+      <p>Striping, sealcoating, repairs, or cleanup</p>
+    </button>
+
+    <button
+      role="tab"
+      aria-selected={!onetime}
+      aria-controls="form-recurring"
+      data-branch="recurring"
+      class="branch-btn"
+    >
+      <span class="h">Recurring Care Plan</span>
+      <p>Scheduled maintenance program</p>
+    </button>
+  </div>
+
+  <div id="form-onetime" role="tabpanel" class:list={['form-panel', { hidden: !onetime }]}>
+    <QuoteForm
+      heading="Get Your Free Quote"
+      subheading="One-time striping, sealcoating, repairs, or cleanup. Written quote within one business day."
+      compact={false}
+    />
+  </div>
+
+  <div id="form-recurring" role="tabpanel" class:list={['form-panel', { hidden: onetime }]}>
+    <QuoteForm
+      heading="Learn About Care Plans"
+      subheading="Scheduled maintenance: Essential (1 visit/year), Protect (2 visits/year), or Total Care (4+ visits/year)."
+      isCarePlan={true}
+      compact={false}
+    />
+  </div>
+</div>
+
+<style>
+  .quote-form-branch {
+    margin-top: 2rem;
+  }
+
+  .branch-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .branch-btn {
+    padding: 1.5rem;
+    border: 2px solid var(--border);
+    border-radius: 0.5rem;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--accent);
+      background: var(--bg-light);
+    }
+
+    &[aria-selected='true'] {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+
+      .h {
+        color: white;
+      }
+
+      p {
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+
+  .branch-btn .h {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .branch-btn p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+
+  .form-panel {
+    animation: fadeIn 0.3s ease;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-branch]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const branch = btn.dataset.branch;
+      // Update tab states
+      document.querySelectorAll('[data-branch]').forEach((b) => {
+        b.setAttribute('aria-selected', b.dataset.branch === branch ? 'true' : 'false');
+      });
+      // Show/hide panels
+      document.querySelectorAll('.form-panel').forEach((panel) => {
+        const isTarget = (branch === 'onetime' && panel.id === 'form-onetime') ||
+                         (branch === 'recurring' && panel.id === 'form-recurring');
+        panel.classList.toggle('hidden', !isTarget);
+      });
+    });
+  });
+</script>

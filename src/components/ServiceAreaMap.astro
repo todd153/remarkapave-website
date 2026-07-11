@@ -1,0 +1,120 @@
+---
+// Service area map — draws a circle per service cluster instead of a
+// single business-listing pin. Circles are easier than exact polygon
+// geofences and let each zone visually "reach" into nearby towns without
+// drawing precise boundaries.
+//
+// Requires a Google Maps JavaScript API key in PUBLIC_GOOGLE_MAPS_API_KEY
+// (see .env.example). Falls back to the original single-pin embed if no
+// key is set, so the site never breaks while you're getting the key set up.
+//
+// Adjust `radiusMiles` per area below to widen or shrink coverage.
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+
+const areas = [
+  {
+    name: 'Kay County (Home Base)',
+    color: '#e63946',
+    lat: 36.7056,
+    lng: -97.0862,
+    radiusMiles: 20,
+    towns: 'Ponca City, Newkirk, Tonkawa, Blackwell',
+  },
+  {
+    name: 'Tulsa Metro',
+    color: '#2a6f4f',
+    lat: 36.154,
+    lng: -95.9928,
+    radiusMiles: 28,
+    towns: 'Tulsa, Broken Arrow, Owasso, Bixby, Jenks, Sand Springs, Claremore',
+  },
+  {
+    name: 'Bartlesville Area',
+    color: '#1d4e89',
+    lat: 36.7473,
+    lng: -95.9808,
+    radiusMiles: 15,
+    towns: 'Bartlesville and surrounding area',
+  },
+];
+---
+
+{apiKey ? (
+  <>
+    <div
+      id="service-area-map"
+      style="width:100%; height:450px; margin-top:28px; border-radius:8px; overflow:hidden;"
+    >
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:14px;">
+      {areas.map((a) => (
+        <div style="display:flex; align-items:center; gap:8px; font-size:0.9rem;">
+          <span
+            style={`display:inline-block; width:12px; height:12px; border-radius:50%; background:${a.color};`}
+          >
+          </span>
+          <span><strong>{a.name}</strong> — {a.towns}</span>
+        </div>
+      ))}
+    </div>
+    <script define:vars={{ apiKey, areas }}>
+      function initServiceAreaMap() {
+        const mapEl = document.getElementById('service-area-map');
+        if (!mapEl || !window.google) return;
+
+        const map = new google.maps.Map(mapEl, {
+          zoom: 7,
+          center: { lat: 36.45, lng: -96.4 },
+          mapTypeControl: false,
+          streetViewControl: false,
+        });
+
+        const bounds = new google.maps.LatLngBounds();
+
+        areas.forEach((area) => {
+          const center = { lat: area.lat, lng: area.lng };
+
+          const circle = new google.maps.Circle({
+            strokeColor: area.color,
+            strokeOpacity: 0.9,
+            strokeWeight: 2,
+            fillColor: area.color,
+            fillOpacity: 0.15,
+            map,
+            center,
+            radius: area.radiusMiles * 1609.34, // miles -> meters
+          });
+
+          new google.maps.Marker({
+            position: center,
+            map,
+            title: area.name,
+          });
+
+          bounds.union(circle.getBounds());
+        });
+
+        map.fitBounds(bounds);
+      }
+
+      if (window.google && window.google.maps) {
+        initServiceAreaMap();
+      } else {
+        window.initServiceAreaMap = initServiceAreaMap;
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initServiceAreaMap`;
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    </script>
+  </>
+) : (
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1575558.0!2d-96.532911!3d36.375682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6aee32aa42ffee41%3A0x7bbd93efc4f1727f!2sRemarkaPave!5e0!3m2!1sen!2sus!4v1718898000000!5m2!1sen!2sus"
+    style="border:0; width:100%; height:450px; margin-top:28px; border-radius:8px; display:block;"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="RemarkaPave service area map"
+  ></iframe>
+)}

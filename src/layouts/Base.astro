@@ -19,7 +19,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 const realReviews = reviews.filter((r) => r.real);
 const localBusiness = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'PavingContractor',
   '@id': `${site.url}/#business`,
   name: site.name,
   image: `${site.url}/images/logo.png`,
@@ -36,12 +36,25 @@ const localBusiness = {
     postalCode: site.zip,
     addressCountry: 'US',
   },
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '07:00',
-    closes: '18:00',
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 36.7070,
+    longitude: -97.0856,
   },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '07:00',
+      closes: '18:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Saturday', 'Sunday'],
+      opens: '00:00',
+      closes: '00:00',
+    },
+  ],
   areaServed: [...serviceAreas.home, ...serviceAreas.growth].map((name) => ({ '@type': 'City', name })),
   sameAs: Object.values(site.social),
   hasOfferCatalog: {

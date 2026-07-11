@@ -12,22 +12,66 @@ const description = 'Your quote request is in. We’ll get back to you within on
       <span class="kicker">Request Received</span>
       <h1>Thanks — we're on it.</h1>
       <p class="lede" style="margin:18px auto 0;">
-        Your details are in Todd's inbox. <strong>We'll get back to you within one business
-        day</strong> with next steps — usually a quick call to confirm the scope, then your
-        written quote.
+        Your details are in Todd's inbox.
       </p>
-      <p style="margin-top:22px;">
-        Need it faster? Call <a href={site.phoneHref} data-track="call"><strong>{site.phone}</strong></a>.
+
+      <!-- Branch based on quote preference -->
+      <div id="thank-you-call" style="display:none;">
+        <p style="margin-top:18px; font-size:1.05rem;">
+          <strong>We'll call you within 2 hours</strong> (Mon–Fri, 7 AM–6 PM) to ask a few quick
+          questions, then email your written quote the same day.
+        </p>
+        <p style="margin-top:16px; opacity:0.8; font-size:0.95rem;">
+          <strong>Want to prep?</strong> Have your lot's square footage or stall count handy, plus any
+          access gates or tricky areas. But don't stress — we'll walk the property anyway.
+        </p>
+      </div>
+
+      <div id="thank-you-email" style="display:none;">
+        <p style="margin-top:18px; font-size:1.05rem;">
+          <strong>We'll email your written quote within one business day</strong> with materials,
+          labor, and timeline all broken out.
+        </p>
+        <p style="margin-top:16px; opacity:0.8; font-size:0.95rem;">
+          Have questions about the quote? Just reply to the email or call us at <a href={site.phoneHref}>{site.phone}</a>.
+        </p>
+      </div>
+
+      <p style="margin-top:28px; font-size:0.95rem;">
+        Need it faster? <a href={site.phoneHref} data-track="call"><strong>{site.phone}</strong></a> — we're here Mon–Fri 7 AM–6 PM.
       </p>
-      <div style="margin-top:30px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-        <a class="btn btn-primary" href="/services/">Browse services</a>
-        <a class="btn btn-outline" href="/blog/">Read pavement tips</a>
+
+      <!-- Second question: care plan interest -->
+      <div style="margin-top:42px; padding-top:32px; border-top: 1px solid var(--border);">
+        <p style="margin-bottom:16px; font-size:0.95rem; font-weight:600;">
+          Quick question: <strong>Are you interested in a recurring maintenance plan?</strong>
+        </p>
+        <p style="font-size:0.9rem; margin-bottom:18px; opacity:0.7;">
+          (Scheduled maintenance usually costs 40% less per year than reactive repairs)
+        </p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="/care-plan/">Yes, tell me about plans</a>
+          <a class="btn btn-outline" href="/">No, just the one-time job</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- GA4 conversion: landing here = successful form submit -->
   <script>
+    // Show appropriate thank-you message based on quote preference
+    const pref = localStorage.getItem('quote_preference');
+    if (pref === 'Call within 2 hours') {
+      document.getElementById('thank-you-call').style.display = 'block';
+    } else if (pref === 'Email me a PDF quote') {
+      document.getElementById('thank-you-email').style.display = 'block';
+    } else {
+      // Default to call message if preference not found
+      document.getElementById('thank-you-call').style.display = 'block';
+    }
+    // Clear preference after display
+    localStorage.removeItem('quote_preference');
+
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'quote_form_conversion', { event_category: 'conversion' });
     }
