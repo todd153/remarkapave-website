@@ -131,9 +131,31 @@ Reality check: **big rental chains rarely stock crack-sealing melters** — comp
 
 ---
 
-## 6. Checks Before Ordering
+## 6. Wide Cracks (Over ¾") — Exclusion Clause & Change-Order Pricing
 
-- If average crack width exceeds ¾", re-run material math (order 90+ boxes or plan a sand mix).
+Hot-pour crack sealing has a hard upper limit. Caltrans specs crack sealing for widths of 0.12"–1.00"; Crafco caps even its widest-rated sealants at 1½". Beyond that, hot pour is the wrong product: it consumes absurd material volumes, sinks and re-opens, tracks under tires, and a sagging fill in a wide crack leaves a depression (trip/liability exposure). Wide cracking also usually signals base failure — filling it hides a problem that needs mastic or a patch, and Todd doesn't want his name on that failure.
+
+**Material reality check** (volume scales with width × depth):
+| Crack size | Coverage per 30-lb box | Boxes per 1,000 LF |
+|---|---|---|
+| ½" × ½" (bid basis) | ~200 LF | 5 |
+| ¾" × ¾" | ~90 LF | 12 |
+| 1" × 1" | ~50 LF | 20 |
+
+A job that's quietly 20% wide cracks blows up the material budget by 2–3× on that footage — which is exactly why it gets excluded from the base bid, not absorbed.
+
+**Add this clause to the quote/work order:**
+
+> *Scope & exclusions: Pricing covers cleaning and hot-pour sealing of cracks from 1/8" to 3/4" in width. Cracks exceeding 3/4" in width or 2" in depth, alligatored/interconnected cracking, and areas of base failure are excluded from unit pricing and will not be filled with crack sealant, as sealant application outside manufacturer width specifications fails prematurely and can create surface hazards. Excluded distresses will be documented (photo + location) and quoted separately as mastic repair or patching upon request. Cracks over 2" deep that are within width spec will be dressed with backer rod prior to sealing, billed at cost.*
+
+**Turn exclusions into revenue, not losses:**
+- **Mastic change order: $5–$16/LF market rate** (polymer-modified mastic like Crafco Mastic One / SealMaster CrackMaster Mastic — melts in the same direct-fire kettle on most units; verify machine rating). Quote wide-crack footage at ~$6–$8/LF as a sub.
+- **Backer rod** (foam rope, ~$0.10–$0.20/LF cost) for deep-but-narrow cracks — caps sealant depth so material use stays near the 200 LF/box basis. Cheap insurance; bill at cost or fold into rate.
+- **Walk the lot before finalizing footage.** Measure or estimate the % of cracks over ¾" up front, write that LF into the exclusion, and hand the GC the mastic price alongside the base bid. Never discover wide cracks on day 2 with the kettle already hot.
+
+## 7. Checks Before Ordering
+
+- Walk the job and estimate the LF of cracks over ¾" — that footage comes OUT of the hot-pour material math and moves to the mastic/exclusion line (see section 6).
 - Verify direct-fire rating on whatever sealant brand you land on.
 - Adjust the compressor rent-vs-buy call if local day rates differ much from $100–200/day.
 

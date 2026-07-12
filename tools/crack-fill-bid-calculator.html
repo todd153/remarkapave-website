@@ -75,6 +75,10 @@
       <label class="name" for="baseRate">Base rate<span class="hint">clean, blow &amp; direct seal — no routing</span></label>
       <div class="rate-input">$ <input type="number" id="baseRate" value="0.90" min="0" step="0.05"> /LF</div>
     </div>
+    <div class="row">
+      <label class="name" for="wideLf">Cracks over ¾" wide<span class="hint">Out of hot-pour spec (Caltrans max 1"; Crafco max 1½"). Always excluded from unit pricing — toggle mastic below to bill them as a change order instead of walking away from that footage.</span></label>
+      <input type="number" id="wideLf" value="0" min="0" step="50">
+    </div>
   </div>
 
   <div class="card">
@@ -91,6 +95,13 @@
       <div class="addon-controls">
         <div class="rate-input">+$ <input type="number" id="lanceRate" value="0.20" min="0" step="0.05"> /LF</div>
         <label class="switch"><input type="checkbox" id="lanceOn"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="row">
+      <label class="name" for="masticOn">Mastic for wide cracks<span class="hint">Bill the over-¾" footage as a mastic change order. Market: $5–$16/LF; sub rate $6–$8/LF. Material ~$3/LF, runs in the same direct-fire kettle (verify machine rating).</span></label>
+      <div class="addon-controls">
+        <div class="rate-input">$ <input type="number" id="masticRate" value="7.00" min="0" step="0.50"> /LF</div>
+        <label class="switch"><input type="checkbox" id="masticOn"><span class="slider"></span></label>
       </div>
     </div>
     <div class="row">
@@ -123,7 +134,7 @@
     <details>
       <summary>Cost breakdown &amp; assumptions</summary>
       <table id="breakdown"></table>
-      <p class="note">Assumptions: ~200 LF per 30-lb box at ½" crack +15% waste; $36/box (pallet price); 3,000 LF/day direct seal, 1,500 LF/day routed; helper $175/day; router rental $200/day; compressor+lance rental $175/day; $300 propane/fuel/misc. Edit the numbers above to re-run; refresh to reset.</p>
+      <p class="note">Assumptions: ~200 LF per 30-lb box at ½" crack +15% waste; $36/box (pallet price); 3,000 LF/day direct seal, 1,500 LF/day routed; ~1,000 LF/day mastic; helper $175/day; router rental $200/day; compressor+lance rental $175/day; mastic material ~$3/LF; $300 propane/fuel/misc. Cracks over ¾" are out of hot-pour spec (Caltrans max 1", Crafco max 1½") and are always removed from unit-price scope — with the mastic toggle off they're excluded entirely; put the exclusion clause from the business plan on every quote. Edit the numbers above to re-run; refresh to reset.</p>
     </details>
   </div>
 </div>
@@ -133,22 +144,28 @@
   const usd = n => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
   function calc() {
-    const lf = +$("lf").value || 0;
+    const totalLf = +$("lf").value || 0;
+    const wideLf = Math.min(+$("wideLf").value || 0, totalLf);
+    const lf = totalLf - wideLf; // hot-pour scope: in-spec cracks only
     const routing = $("routingOn").checked;
     const lance = $("lanceOn").checked;
+    const mastic = $("masticOn").checked && wideLf > 0;
     const rate = (+$("baseRate").value || 0)
       + (routing ? +$("routingRate").value || 0 : 0)
       + (lance ? +$("lanceRate").value || 0 : 0);
     const mob = $("mobOn").checked ? +$("mobFee").value || 0 : 0;
-    const revenue = lf * rate + mob;
+    const masticRevenue = mastic ? wideLf * (+$("masticRate").value || 0) : 0;
+    const revenue = lf * rate + masticRevenue + mob;
 
-    const days = Math.max(1, Math.ceil(lf / (routing ? 1500 : 3000)));
+    const masticDays = mastic ? Math.ceil(wideLf / 1000) : 0;
+    const days = Math.max(1, Math.ceil(lf / (routing ? 1500 : 3000)) + masticDays);
     const boxes = Math.ceil((lf / 200) * (routing ? 1.25 : 1) * 1.15);
     const items = [
       ["Sealant (" + boxes + " boxes @ $36)", boxes * 36],
       ["Helper (" + days + " days @ $175)", days * 175],
       ["Propane / fuel / misc", 300],
     ];
+    if (mastic) items.push(["Mastic material (" + wideLf.toLocaleString() + " LF @ $3)", wideLf * 3]);
     if (routing) items.push(["Router rental (" + days + " days @ $200)", days * 200]);
     if (lance) items.push(["Compressor + lance rental (" + days + " days @ $175)", days * 175]);
     if ($("payoffOn").checked) items.push(["Equipment payoff (melter + tools)", +$("payoffAmt").value || 0]);
@@ -157,9 +174,12 @@
     const margin = revenue > 0 ? profit / revenue * 100 : 0;
 
     $("quote").textContent = usd(revenue);
-    $("quoteRate").textContent = "$" + rate.toFixed(2) + "/LF" + (mob ? " + " + usd(mob) + " mobilization" : "");
+    $("quoteRate").textContent = "$" + rate.toFixed(2) + "/LF"
+      + (mastic ? " + mastic " + usd(masticRevenue) : "")
+      + (mob ? " + " + usd(mob) + " mobilization" : "");
     $("cost").textContent = usd(cost);
-    $("days").textContent = days + " day" + (days > 1 ? "s" : "") + ", " + boxes + " boxes";
+    $("days").textContent = days + " day" + (days > 1 ? "s" : "") + ", " + boxes + " boxes"
+      + (wideLf > 0 && !mastic ? " — " + wideLf.toLocaleString() + " LF over ¾\" EXCLUDED from scope" : "");
     $("profit").textContent = usd(profit);
     const m = $("margin");
     m.textContent = margin.toFixed(0) + "% margin";
@@ -178,7 +198,7 @@
     $("breakdown").innerHTML =
       items.map(([k, v]) => "<tr><td>" + k + "</td><td>" + usd(v) + "</td></tr>").join("") +
       "<tr class='total'><td>Total cost</td><td>" + usd(cost) + "</td></tr>" +
-      "<tr class='total'><td>Breakeven rate</td><td>$" + (lf ? ((cost - mob) / lf).toFixed(2) : "0.00") + "/LF</td></tr>";
+      "<tr class='total'><td>Breakeven hot-pour rate</td><td>$" + (lf ? ((cost - mob - (mastic ? wideLf * 3 : 0)) / lf).toFixed(2) : "0.00") + "/LF</td></tr>";
   }
 
   document.querySelectorAll("input").forEach(el => el.addEventListener("input", calc));
