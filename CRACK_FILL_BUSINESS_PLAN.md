@@ -58,6 +58,26 @@ Quote these as toggleable line items on top of the base rate — see `tools/crac
 
 On this 10,000 LF job: routing at even +$0.60/LF adds $6,000 of billing against roughly $1,500–$2,500 of extra cost — but only sell it if the contractor's spec calls for it. Heat lance at +$0.20/LF adds $2,000 against ~$600–$800 of rental — an easy margin add if conditions justify it.
 
+### Four price points for the 10,000 LF job (tiered menu for the GC)
+
+The GC already won his bid at a fixed number, so present these as a menu and let him pick the tier that fits his budget. Costs below exclude the ~$3,700 equipment payoff (shown separately) so each tier's true delivery cost is visible.
+
+| Tier | Prep method | Rate | Quote (10,000 LF) | Delivery cost | Profit before equipment payoff | Days |
+|---|---|---|---|---|---|---|
+| **A** | Wire brush + blower, direct seal | $0.80–$0.90/LF | **$8,000–$9,000** | ~$3,100 | ~$4,900–$5,900 | 4 |
+| **B** | Heat lance prep, direct seal | $0.95–$1.10/LF | **$9,500–$11,000** | ~$3,800 | ~$5,700–$7,200 | 4 |
+| **C** | Rout + wire brush/blow, seal | $1.50–$1.75/LF | **$15,000–$17,500** | ~$5,600 | ~$9,400–$11,900 | 7 |
+| **D** | Rout + heat lance, seal (premium) | $1.70–$2.00/LF | **$17,000–$20,000** | ~$6,800 | ~$10,200–$13,200 | 7 |
+
+Cost detail per tier (10,000 LF): sealant 58 boxes ($2,088) for A/B, 72 boxes ($2,592) for C/D (routing cuts a bigger reservoir, ~25% more material); helper $175/day; compressor + heat lance rental $175/day (B/D); router rental $200/day (C/D); $300–$400 propane/fuel/misc. Routed tiers run ~1,500 LF/day vs ~3,000 LF/day unrouted.
+
+How to use the menu:
+- **Every tier pays off the full ~$3,700 equipment purchase on this one job**, even Tier A at the low end.
+- **First question for the GC: what spec did he bid?** If his winning bid promised routed and sealed cracks, Tier A pricing for Tier C work gives away $7,000 — match the tier to his spec before naming a number.
+- Tier B is the best margin-per-dollar add: +$1,500–$2,000 of billing for ~$700 of rental.
+- Sell C/D on longevity: FHWA data shows routing extends sealant life ~50%, which the GC can pass to his customer as a warranty/durability upgrade.
+- All four rates sit inside the OKC-area band ($0.50–$2.00/LF) and at or below national norms for their scope — defensible if the GC price-checks.
+
 ---
 
 ## 3. Equipment List — Rent vs. Own
