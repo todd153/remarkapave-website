@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WE-CF-0001 — White Eagle Crack Sealing Proposal — RemarkaPave LLC</title>
+<style>
+  :root{
+    --ink:#1b1f24; --muted:#5c6672; --line:#d9dde2; --bg:#eceef1; --paper:#ffffff;
+    --band:#1f2a33; --band-ink:#ffffff; --brand:#b3541e; --brand-soft:#f4ede8;
+    --good:#1a7a3c;
+  }
+  *{box-sizing:border-box; margin:0;}
+  body{font:13.5px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); padding:20px;}
+  .toolbar{max-width:8.5in; margin:0 auto 14px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;}
+  .toolbar .hint{font-size:.82rem; color:var(--muted);}
+  .toolbar button{font:inherit; font-size:.85rem; padding:8px 18px; border:1px solid var(--brand); background:var(--brand); color:#fff; border-radius:6px; cursor:pointer;}
+  .page{max-width:8.5in; min-height:10.6in; margin:0 auto 20px; background:var(--paper); box-shadow:0 2px 16px rgba(0,0,0,.13); padding:0.55in 0.6in 0.5in; display:flex; flex-direction:column;}
+  /* letterhead */
+  .lh{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; padding-bottom:12px; border-bottom:3px solid var(--brand);}
+  .lh .name{font-size:1.5rem; font-weight:800; letter-spacing:.14em; color:var(--ink);}
+  .lh .name b{color:var(--brand);}
+  .lh .slogan{font-size:.66rem; letter-spacing:.26em; color:var(--muted); margin-top:3px;}
+  .lh .contact{text-align:right; font-size:.74rem; color:var(--muted); line-height:1.55;}
+  /* doc title */
+  .doctitle{display:flex; justify-content:space-between; align-items:baseline; margin-top:16px;}
+  .doctitle h1{font-size:1.05rem; letter-spacing:.16em; color:var(--muted); font-weight:700;}
+  .doctitle .num{font-size:1.05rem; font-weight:800; color:var(--brand); letter-spacing:.04em;}
+  .datebar{font-size:.78rem; color:var(--muted); margin-top:3px;}
+  /* project band */
+  .band{background:var(--band); color:var(--band-ink); padding:9px 14px; margin-top:14px; font-weight:700; letter-spacing:.06em; font-size:.98rem;}
+  .who{display:flex; flex-wrap:wrap; gap:2px 26px; font-size:.8rem; color:var(--ink); margin:9px 0 2px; padding:0 2px;}
+  .who b{color:var(--muted); font-weight:600;}
+  .lede{font-size:.82rem; color:var(--muted); margin:7px 2px 0; font-style:italic;}
+  /* table */
+  table{width:100%; border-collapse:collapse; margin-top:12px; font-variant-numeric:tabular-nums;}
+  thead th{background:var(--band); color:#fff; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; text-align:left; padding:7px 9px; font-weight:600;}
+  thead th.r,tbody td.r{text-align:right;}
+  thead th.c{text-align:center;}
+  tbody td{padding:9px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tbody td.desc b{font-weight:600;}
+  tbody td.desc small{display:block; color:var(--muted); font-size:.76rem; margin-top:2px;}
+  tr.opt.off{opacity:.42;}
+  tr.opt.off .amt{text-decoration:line-through;}
+  tr.total td{border-top:2.5px solid var(--ink); border-bottom:none; font-weight:800; font-size:1.02rem; padding-top:11px;}
+  tr.total .lbl{letter-spacing:.04em;}
+  tr.total .amt{color:var(--brand);}
+  .opttag{display:inline-block; font-size:.62rem; letter-spacing:.05em; text-transform:uppercase; color:var(--brand); border:1px solid var(--brand); border-radius:3px; padding:0 5px; margin-left:6px; vertical-align:1px;}
+  /* toggle */
+  .switch{position:relative; display:inline-block; width:44px; height:25px; vertical-align:middle;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; background:#cdd3d9; border-radius:999px; cursor:pointer; transition:background .15s;}
+  .slider::before{content:""; position:absolute; height:19px; width:19px; left:3px; top:3px; background:#fff; border-radius:50%; box-shadow:0 1px 2px rgba(0,0,0,.3); transition:transform .15s;}
+  .switch input:checked + .slider{background:var(--good);}
+  .switch input:checked + .slider::before{transform:translateX(19px);}
+  .tstate{display:block; text-align:center; font-size:.64rem; margin-top:3px; letter-spacing:.03em;}
+  .on-txt{color:var(--good); font-weight:700;} .off-txt{color:var(--muted);}
+  /* scope notes */
+  h2.sec{font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--brand); margin:16px 0 6px; padding-bottom:4px; border-bottom:1px solid var(--line);}
+  ul.notes{list-style:none;}
+  ul.notes li{position:relative; padding-left:16px; margin:4px 0; font-size:.79rem; color:var(--ink);}
+  ul.notes li::before{content:"\25AA"; position:absolute; left:0; top:0; color:var(--brand);}
+  ul.notes li b{font-weight:700;}
+  .callout{background:var(--brand-soft); border-left:3px solid var(--brand); padding:9px 12px; font-size:.79rem; margin-top:10px;}
+  /* T&C */
+  .tc h3{font-size:.82rem; margin:12px 0 3px; color:var(--ink);}
+  .tc p{font-size:.79rem; color:var(--ink); margin:2px 0 2px 0; padding-left:2px;}
+  .tc .art{font-weight:700; letter-spacing:.03em; margin-top:11px; color:var(--band);}
+  .price-note{font-weight:700; color:var(--brand);}
+  /* signatures */
+  .sign{display:flex; gap:36px; margin-top:22px; flex-wrap:wrap;}
+  .sign div{flex:1; min-width:210px;}
+  .sigrow{display:flex; gap:14px;}
+  .sigline{flex:1; border-bottom:1px solid var(--ink); height:30px; margin-bottom:4px;}
+  .sigline.sm{max-width:120px;}
+  .siglabel{font-size:.72rem; color:var(--muted);}
+  /* footer band */
+  .foot{margin-top:auto; padding-top:12px;}
+  .foot .tagband{background:var(--band); color:#fff; text-align:center; letter-spacing:.24em; font-size:.68rem; padding:6px; font-weight:600;}
+  .foot .fine{text-align:center; font-size:.68rem; color:var(--muted); margin-top:5px;}
+  @media (max-width:640px){ body{padding:8px;} .page{padding:0.4in 0.35in;} .lh{flex-direction:column;} .lh .contact{text-align:left;} }
+  @media print{
+    body{background:#fff; padding:0;}
+    .toolbar{display:none;}
+    .page{box-shadow:none; margin:0; min-height:auto; page-break-after:always; width:100%; max-width:none; padding:0.5in 0.55in;}
+    .page:last-child{page-break-after:auto;}
+    .switch,.tstate{display:none;}
+    tr.opt.off{display:none;}
+    thead th.c, tbody td.togglecell{display:none;}
+    @page{size:letter; margin:0.3in;}
+  }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <span class="hint">Toggle optional services below — the total and contract price update automatically. Printed/PDF copies show only the options left switched on.</span>
+  <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<!-- ============ PAGE 1 ============ -->
+<section class="page">
+  <div class="lh">
+    <div>
+      <div class="name">REMARK<b>A</b>PAVE LLC</div>
+      <div class="slogan">WE MAKE PAVEMENT REMARKABLE</div>
+    </div>
+    <div class="contact">
+      (580) 304-7225<br>
+      Todd@remarkapave.com<br>
+      remarkapave.com
+    </div>
+  </div>
+
+  <div class="doctitle">
+    <h1>QUOTE / PROPOSAL</h1>
+    <div class="num">WE-CF-0001</div>
+  </div>
+  <div class="datebar">Date: July 13, 2026&nbsp;&nbsp;|&nbsp;&nbsp;Valid: 30 days&nbsp;&nbsp;|&nbsp;&nbsp;Terms: Net 30</div>
+
+  <div class="band">WHITE EAGLE &mdash; ASPHALT CRACK SEALING</div>
+  <div class="who">
+    <span><b>Client:</b> Central Contractors, Inc. &mdash; Attn: Craig Glover</span>
+    <span><b>GC Contact:</b> Robin Perkins &middot; (918) 351-1404</span>
+    <span><b>Site:</b> White Eagle &mdash; Ponca City, OK &middot; parking lots per bid packet</span>
+  </div>
+  <div class="lede">Clean and hot-pour crack seal of asphalt cracks 1/8"&ndash;3/4" wide. Hot-applied ASTM&nbsp;D6690 rubberized sealant.</div>
+
+  <table>
+    <thead>
+      <tr><th class="desc">Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th><th class="c togglecell">Include</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="desc"><b>Crack sealing &mdash; clean &amp; hot-pour seal</b><small>Cracks 1/8"&ndash;3/4" wide, wire-brushed &amp; air-blown, sealed with hot-applied ASTM D6690 rubberized sealant, squeegeed flush</small></td>
+        <td class="r">10,000 LF</td>
+        <td class="r">$0.94</td>
+        <td class="r amt">$9,400.00</td>
+        <td class="c togglecell"><span class="off-txt" style="font-size:.7rem">Base</span></td>
+      </tr>
+      <tr>
+        <td class="desc"><b>Mobilization</b><small>Equipment transport &amp; setup &mdash; one mobilization</small></td>
+        <td class="r">1 LS</td>
+        <td class="r">$200.00</td>
+        <td class="r amt">$200.00</td>
+        <td class="c togglecell"><span class="off-txt" style="font-size:.7rem">Base</span></td>
+      </tr>
+      <tr class="opt off" id="row-lance">
+        <td class="desc"><b>Heat-lance cleanout</b><span class="opttag">Optional</span><small>Hot-air lance dries &amp; heats cracks immediately before sealing for maximum adhesion &mdash; recommended in damp/shaded areas</small></td>
+        <td class="r">10,000 LF</td>
+        <td class="r">+$0.20</td>
+        <td class="r amt" id="a-lance">$2,000.00</td>
+        <td class="c togglecell">
+          <label class="switch"><input type="checkbox" id="t-lance"><span class="slider"></span></label>
+          <span class="tstate off-txt" id="s-lance">Not included</span>
+        </td>
+      </tr>
+      <tr class="opt off" id="row-rout">
+        <td class="desc"><b>Rout &amp; seal</b><span class="opttag">Optional</span><small>Cracks routed to a uniform reservoir before sealing &mdash; extends sealant life roughly 50% (per FHWA); recommended for high-value/high-traffic pavement</small></td>
+        <td class="r">10,000 LF</td>
+        <td class="r">+$0.75</td>
+        <td class="r amt" id="a-rout">$7,500.00</td>
+        <td class="c togglecell">
+          <label class="switch"><input type="checkbox" id="t-rout"><span class="slider"></span></label>
+          <span class="tstate off-txt" id="s-rout">Not included</span>
+        </td>
+      </tr>
+      <tr class="total">
+        <td class="lbl" colspan="3">TOTAL &mdash; CRACK SEALING</td>
+        <td class="r amt" id="grand">$9,600.00</td>
+        <td class="togglecell"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">Scope Notes</h2>
+  <ul class="notes">
+    <li><b>Unit price basis:</b> Crack sealing priced on an estimated 10,000 LF. Final billing follows field-measured linear footage at the rate shown.</li>
+    <li><b>Crack width:</b> Pricing covers cracks 1/8" to 3/4" in width, cleaned by wire brush and compressed air prior to sealant application.</li>
+    <li><b>After-hours / weekend work:</b> Work performed after normal business hours and/or on weekends to maintain facility traffic flow; schedule window coordinated with the Contractor.</li>
+    <li><b>Weather:</b> Requires clean, dry pavement with surface temperature 50&deg;F and rising. No application on wet, frozen, or contaminated surfaces.</li>
+    <li><b>Mobilization:</b> One mobilization included. Lots must be clear and accessible at scheduled arrival ($200 return mobilization if blocked); additional mobilizations $200 each.</li>
+    <li><b>Optional services:</b> Heat-lance cleanout and rout-and-seal are available at the rates shown and added by selection above or written change order.</li>
+    <li><b>Excludes:</b> Line striping (quoted separately under companion proposal), seal coat (separate proposal), traffic control/permits unless stated, and pavement repairs beyond crack sealing.</li>
+  </ul>
+
+  <div class="callout">
+    <b>Cracks wider than 3/4":</b> Cracks exceeding 3/4" in width, alligatored/interconnected cracking, and areas of base failure are <b>excluded</b> from the pricing above. Hot-pour sealant applied outside its rated width fails prematurely and can create surface hazards. Such areas will be documented and quoted separately as mastic repair or patching upon request.
+  </div>
+
+  <div class="foot">
+    <div class="tagband">PAVEMENT WORTHY OF ATTENTION</div>
+    <div class="fine">RemarkaPave LLC&nbsp;&nbsp;|&nbsp;&nbsp;Ponca City, OK&nbsp;&nbsp;|&nbsp;&nbsp;(580) 304-7225&nbsp;&nbsp;|&nbsp;&nbsp;remarkapave.com&nbsp;&nbsp;|&nbsp;&nbsp;Licensed &amp; Insured &middot; Locally owned &amp; operated</div>
+  </div>
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="page tc">
+  <div class="lh">
+    <div>
+      <div class="name">REMARK<b>A</b>PAVE LLC</div>
+      <div class="slogan">WE MAKE PAVEMENT REMARKABLE</div>
+    </div>
+    <div class="contact">(580) 304-7225<br>Todd@remarkapave.com<br>remarkapave.com</div>
+  </div>
+
+  <div class="doctitle"><h1>TERMS &amp; CONDITIONS</h1><div class="num" style="font-size:.82rem; color:var(--muted)">WE-CF-0001 &middot; Page 2 of 3</div></div>
+
+  <p class="art">ARTICLE 1. CONTRACT DOCUMENTS</p>
+  <p>1.1&nbsp;&nbsp;The contract documents consist of this agreement, scope of work, specifications, all addenda issued prior to execution, and all change orders agreed to by both parties. If there is a conflict between this writing and any other document, this writing shall control. These contract documents represent the entire agreement and supersede any prior oral or written agreement.</p>
+
+  <p class="art">ARTICLE 2. SCOPE OF WORK</p>
+  <p>2.1&nbsp;&nbsp;The scope of work is as described on Page 1 of this proposal (WE-CF-0001), including all line items, quantities, and scope notes. Work shall be performed at: White Eagle &mdash; Ponca City, OK &mdash; parking lots per bid packet.</p>
+
+  <p class="art">ARTICLE 3. CONTRACT PRICE</p>
+  <p>3.1&nbsp;&nbsp;The cost of the project as specified in the scope of work shall be the sum of <span class="price-note" id="tc-price">$9,600.00</span>, subject to additions and deductions pursuant to authorized change orders.</p>
+  <p>3.2&nbsp;&nbsp;If required by the Contractor, the Owner will pay a deposit sufficient to cover the cost of materials prior to the Contractor beginning work, which is included in and applied to the contract price. The deposit amount and due date shall be agreed upon in writing. Failure to pay the deposit by the agreed date shall be sufficient grounds for the Contractor to hold this agreement terminated without further action.</p>
+
+  <p class="art">ARTICLE 4. DUTIES OF THE CONTRACTOR</p>
+  <p>4.1&nbsp;&nbsp;All work shall be in accordance with the provisions of the plans and specifications.</p>
+  <p>4.2&nbsp;&nbsp;All work shall be completed in a workmanlike manner, and shall comply with all applicable national, state and local codes and laws.</p>
+  <p>4.3&nbsp;&nbsp;Contractor shall remove all construction debris resulting from its work.</p>
+  <p>4.4&nbsp;&nbsp;Upon request, and upon satisfactory payment being made for any portion of the work performed, the Contractor shall furnish a full and unconditional release from any claim or mechanics' lien for that portion of the work for which payment has been made.</p>
+
+  <p class="art">ARTICLE 5. OWNER</p>
+  <p>5.1&nbsp;&nbsp;The Owner shall communicate with subcontractors only through the Contractor.</p>
+  <p>5.2&nbsp;&nbsp;The Owner will not assume any liability or responsibility, nor have control over or change the construction means, methods, techniques, sequences, procedures, or safety precautions in connection with the project, since these are solely the Contractor's responsibility.</p>
+
+  <p class="art">ARTICLE 6. CHANGE ORDERS</p>
+  <p>6.1&nbsp;&nbsp;A change order is any change to the original plans, scope of work and/or specifications. All change orders must be agreed upon in writing, including cost, additional time considerations, a sufficient description of the work, and signed by both parties. A deposit may be required. Additional time needed to complete change orders shall be taken into consideration on the project completion date.</p>
+
+  <p class="art">ARTICLE 7. INSURANCE</p>
+  <p>7.1&nbsp;&nbsp;The Owner will purchase and maintain property insurance to the full insurable value of the project, in case of fire, vandalism, malicious mischief or other instances that may occur.</p>
+  <p>7.2&nbsp;&nbsp;To the extent required by law, the Contractor shall purchase and maintain workman's compensation and liability insurance coverage deemed necessary for his own protection.</p>
+
+  <div class="foot">
+    <div class="tagband">PAVEMENT WORTHY OF ATTENTION</div>
+    <div class="fine">RemarkaPave LLC&nbsp;&nbsp;|&nbsp;&nbsp;Ponca City, OK&nbsp;&nbsp;|&nbsp;&nbsp;(580) 304-7225&nbsp;&nbsp;|&nbsp;&nbsp;remarkapave.com&nbsp;&nbsp;|&nbsp;&nbsp;Locally owned &amp; operated</div>
+  </div>
+</section>
+
+<!-- ============ PAGE 3 ============ -->
+<section class="page tc">
+  <div class="lh">
+    <div>
+      <div class="name">REMARK<b>A</b>PAVE LLC</div>
+      <div class="slogan">WE MAKE PAVEMENT REMARKABLE</div>
+    </div>
+    <div class="contact">(580) 304-7225<br>Todd@remarkapave.com<br>remarkapave.com</div>
+  </div>
+
+  <div class="doctitle"><h1>TERMS &amp; CONDITIONS (CONTINUED)</h1><div class="num" style="font-size:.82rem; color:var(--muted)">WE-CF-0001 &middot; Page 3 of 3</div></div>
+
+  <p class="art">ARTICLE 8. GENERAL PROVISIONS</p>
+  <p>8.1&nbsp;&nbsp;If conditions are encountered at the site which are subsurface or otherwise concealed physical conditions of an unusual nature, the Owner will promptly investigate. If conditions differ materially and cause an increase or decrease in cost or time, both parties will negotiate an equitable adjustment and treat it as a change order.</p>
+
+  <p class="art">ARTICLE 9. HAZARDOUS MATERIALS</p>
+  <p>9.1&nbsp;&nbsp;Both parties agree that dealing with hazardous materials, waste or asbestos requires specialized training, processes, precautions and licenses. Upon discovery of such materials, the Contractor shall notify the Owner immediately and allow the Owner to contract with a properly licensed hazardous material contractor. Any such work shall be treated as a change order resulting in additional cost and time.</p>
+
+  <p class="art">ARTICLE 10. WARRANTY</p>
+  <p>10.1&nbsp;&nbsp;At completion of this project the Contractor shall warrant the project for a period of ONE (1) YEAR against defects in workmanship or materials utilized. No legal action of any kind relating to the project or this contract shall be initiated by either party after expiration of the warranty period.</p>
+
+  <p class="art">ARTICLE 11. TERMINATION OF THE CONTRACT</p>
+  <p>11.1&nbsp;&nbsp;Should either party fail to carry out this contract, the non-defaulting party may declare the contract in default and proceed against the defaulting party for recovery of all damages incurred, including reasonable attorney's fees. In the case of a defaulting Owner, the deposit or earnest money shall be applied to legally ascertained damages.</p>
+  <p>11.2&nbsp;&nbsp;In the case of a defaulting Owner, the Contractor may accept, at his option, the deposit as liquidated damages. Should said money not cover expenses to date, the Contractor may make claim to the Owner for all work executed and for proven loss with respect to equipment, materials, tools, and machinery, including reasonable overhead, profit and damages, less said deposit.</p>
+
+  <p class="art">ARTICLE 12. ATTORNEY FEES</p>
+  <p>12.1&nbsp;&nbsp;In the event of litigation relating to the project, project performance or this contract, the prevailing party shall be entitled to reasonable attorney fees, costs and expenses.</p>
+
+  <p class="art">ARTICLE 13. ACCEPTANCE</p>
+  <p>13.1&nbsp;&nbsp;Upon completion, the project shall be inspected by the Owner and Contractor, and any corrections necessary to comply with the contract documents shall be made by the Contractor.</p>
+  <p>13.2&nbsp;&nbsp;The Owner shall not occupy or utilize the project location until final payment has been received by the Contractor and the Owner has signed the completion certificate.</p>
+  <p>13.3&nbsp;&nbsp;Occupancy or utilization of the project area by the Owner in violation of paragraph 13.2 shall constitute unconditional acceptance of the project and a waiver of any defects or uncompleted work.</p>
+
+  <div class="sign">
+    <div>
+      <div class="sigrow"><div class="sigline"></div><div class="sigline sm"></div></div>
+      <div class="siglabel">Contractor &mdash; RemarkaPave LLC&nbsp;&middot;&nbsp;Date</div>
+    </div>
+    <div>
+      <div class="sigrow"><div class="sigline"></div><div class="sigline sm"></div></div>
+      <div class="siglabel">Owner / Representative&nbsp;&middot;&nbsp;Date</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="tagband">PAVEMENT WORTHY OF ATTENTION</div>
+    <div class="fine">RemarkaPave LLC&nbsp;&nbsp;|&nbsp;&nbsp;Ponca City, OK&nbsp;&nbsp;|&nbsp;&nbsp;(580) 304-7225&nbsp;&nbsp;|&nbsp;&nbsp;remarkapave.com&nbsp;&nbsp;|&nbsp;&nbsp;Locally owned &amp; operated</div>
+  </div>
+</section>
+
+<script>
+  const usd = n => n.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:2});
+  const LF=10000, base=9400, mob=200, lanceRate=0.20, routRate=0.75;
+  function recalc(){
+    const lanceOn=document.getElementById("t-lance").checked;
+    const routOn=document.getElementById("t-rout").checked;
+    document.getElementById("row-lance").classList.toggle("off",!lanceOn);
+    document.getElementById("row-rout").classList.toggle("off",!routOn);
+    const sl=document.getElementById("s-lance");
+    sl.textContent=lanceOn?"Included":"Not included"; sl.className="tstate "+(lanceOn?"on-txt":"off-txt");
+    const sr=document.getElementById("s-rout");
+    sr.textContent=routOn?"Included":"Not included"; sr.className="tstate "+(routOn?"on-txt":"off-txt");
+    const total=base+mob+(lanceOn?LF*lanceRate:0)+(routOn?LF*routRate:0);
+    document.getElementById("grand").textContent=usd(total);
+    document.getElementById("tc-price").textContent=usd(total);
+  }
+  document.getElementById("t-lance").addEventListener("change",recalc);
+  document.getElementById("t-rout").addEventListener("change",recalc);
+  recalc();
+</script>
+</body>
+</html>
