@@ -80,6 +80,22 @@
   .fband .fine{text-align:center; color:#fff; font-size:.67rem; margin-top:4px;}
   .footwrap{margin-top:auto;}
 
+  .selnote{font-size:.79rem; color:var(--muted); margin-top:8px; font-style:italic;}
+  .accept{border:2px solid var(--dark); border-radius:8px; padding:14px 16px; margin-top:16px;}
+  .accept h3{font-size:.82rem; color:var(--dark); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;}
+  .accept .ahelp{font-size:.79rem; color:var(--muted); margin-bottom:9px;}
+  .accept .sum{background:var(--shade); border-radius:6px; padding:9px 12px; font-size:.79rem;}
+  .accept .sum .tot{color:var(--blue); font-weight:800; font-size:.95rem;}
+  .afields{display:flex; flex-wrap:wrap; gap:8px 22px; margin:12px 0 10px; font-size:.82rem;}
+  .afields label{display:flex; align-items:baseline; gap:6px;}
+  .afields .fill{min-width:155px; border-bottom:1px solid var(--dark); padding:1px 5px; outline:none;}
+  .afields .fill:focus{background:#e9f0ff;}
+  .abtns{display:flex; gap:10px; flex-wrap:wrap;}
+  .abtns button{font:inherit; font-size:.85rem; font-weight:700; padding:9px 16px; border-radius:6px; cursor:pointer; border:none;}
+  .abtns .accept-btn{background:var(--good); color:#fff;}
+  .abtns .pdf-btn{background:var(--dark); color:var(--yellow);}
+  .accept-msg{font-size:.82rem; color:var(--good); font-weight:700; margin-top:8px; min-height:1.1em;}
+
   @media (max-width:640px){ body{padding:8px;} .hband,.body,.fband{padding-left:0.3in; padding-right:0.3in;} .hband{flex-direction:column; align-items:flex-start;} .hright{text-align:left;} }
   @media print{
     body{background:#fff; padding:0;} .toolbar{display:none;}
@@ -88,13 +104,14 @@
     .switch,.tstate{display:none;}
     tr.opt.off{display:none;}
     thead th.c, td.togglecell{display:none;}
+    .abtns, .accept .ahelp, .selnote{display:none;}
     @page{size:letter; margin:0;}
   }
 </style>
 </head>
 <body>
 <div class="toolbar">
-  <span class="hint">Optional crack-seal upgrades toggle below — total &amp; contract price update live. Printed/PDF copies show only switched-on options.</span>
+  <span class="hint">Flip a switch to add an optional upgrade — your total updates instantly. Then enter your name below and click Accept, or Save as PDF. Only options you switch on appear in the saved/printed copy.</span>
   <button onclick="window.print()">Print / Save as PDF</button>
 </div>
 
@@ -204,6 +221,7 @@
         <tr class="total"><td colspan="3">TOTAL &mdash; CRACK SEAL &amp; STRIPING</td><td class="r amt" id="grand">$21,815.00</td><td class="togglecell"></td></tr>
       </tbody>
     </table>
+    <div class="selnote">&#9656; The two rows with switches are <b>optional upgrades</b>, off by default. Switch one on to add it to your order &mdash; the total updates instantly.</div>
 
     <h2 class="sec">Scope Notes</h2>
     <ul class="notes">
@@ -219,6 +237,22 @@
 
     <div class="callout">
       <b>Cracks wider than 3/4":</b> Cracks exceeding 3/4" in width, alligatored/interconnected cracking, and base failure are <b>excluded</b> from the pricing above. Hot-pour sealant applied outside its rated width fails prematurely and can create surface hazards. Such areas will be documented and quoted separately as mastic repair or patching.
+    </div>
+
+    <div class="accept">
+      <h3>Select &amp; Accept</h3>
+      <div class="ahelp">Use the switches in the <b>Include</b> column above to add any optional upgrades you want &mdash; your total updates instantly. Then enter your name and date and accept. You are only accepting the scope shown in your total below.</div>
+      <div class="sum" id="accept-summary"></div>
+      <div class="afields">
+        <label>Accepted by:&nbsp;<span class="fill" id="a-name" contenteditable="true"></span></label>
+        <label>Title / Company:&nbsp;<span class="fill" id="a-org" contenteditable="true"></span></label>
+        <label>Date:&nbsp;<span class="fill" id="a-date" contenteditable="true"></span></label>
+      </div>
+      <div class="abtns">
+        <button class="accept-btn" onclick="acceptEmail()">&#10003; Accept &amp; send to RemarkaPave</button>
+        <button class="pdf-btn" onclick="window.print()">Save my copy (PDF)</button>
+      </div>
+      <div class="accept-msg" id="accept-msg"></div>
     </div>
   </div>
 
@@ -330,19 +364,42 @@
   const usd = n => n.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:2});
   const parseAmt = el => { const v = parseFloat((el.textContent||"").replace(/[^0-9.\-]/g,"")); return isNaN(v)?0:v; };
   function recalc(){
-    let total = 0, z = 0;
+    let total = 0, z = 0; const opts = [];
     document.querySelectorAll("#items tr.line").forEach(row=>{
       const amt = row.querySelector(".amt"); if(!amt) return;
       const isOpt = row.classList.contains("opt");
       const tog = row.querySelector(".opt-toggle");
       const on = tog ? tog.checked : true;
-      if(isOpt){ row.classList.toggle("off", !on); const st=row.querySelector(".tstate"); if(st){ st.textContent=on?"Included":"Not included"; st.className="tstate "+(on?"on-txt":"off-txt"); } }
+      if(isOpt){ row.classList.toggle("off", !on); const st=row.querySelector(".tstate"); if(st){ st.textContent=on?"Included":"Not included"; st.className="tstate "+(on?"on-txt":"off-txt"); } if(on){ opts.push(row.querySelector(".desc b").textContent.trim()+" ("+amt.textContent.trim()+")"); } }
       if(on){ total += parseAmt(amt); row.classList.toggle("alt", z%2===1); z++; } else { row.classList.remove("alt"); }
     });
-    document.getElementById("grand").textContent = usd(total);
-    document.getElementById("tc-price").textContent = usd(total);
+    const t = usd(total);
+    document.getElementById("grand").textContent = t;
+    document.getElementById("tc-price").textContent = t;
+    const sum = document.getElementById("accept-summary");
+    if(sum){ sum.innerHTML = "<b>You are accepting:</b> base crack seal &amp; line striping" + (opts.length ? ", plus optional upgrade(s): " + opts.join(", ") : " (no optional upgrades)") + ".<br><span class='tot'>Accepted total: " + t + "</span>"; }
+  }
+  function acceptEmail(){
+    const name = (document.getElementById("a-name").textContent||"").trim();
+    const org  = (document.getElementById("a-org").textContent||"").trim();
+    const date = (document.getElementById("a-date").textContent||"").trim() || new Date().toLocaleDateString();
+    const msg  = document.getElementById("accept-msg");
+    if(!name){ msg.style.color = "#b91c1c"; msg.textContent = "Please enter your name above before accepting."; return; }
+    const opts = [];
+    document.querySelectorAll("#items tr.opt").forEach(r=>{ const tg=r.querySelector(".opt-toggle"); if(tg&&tg.checked) opts.push(r.querySelector(".desc b").textContent.trim()+" — "+r.querySelector(".amt").textContent.trim()); });
+    const total = document.getElementById("grand").textContent;
+    const body = [
+      "I accept RemarkaPave proposal GCTC-2026-02 — White Eagle Campus (Crack Seal & Line Striping).", "",
+      "Accepted by: " + name + (org ? " (" + org + ")" : ""),
+      "Date: " + date, "",
+      "Optional upgrades selected: " + (opts.length ? opts.join("; ") : "None"),
+      "Accepted total: " + total
+    ].join("\n");
+    window.location.href = "mailto:todd@remarkapave.com?subject=" + encodeURIComponent("Accepted — GCTC-2026-02 — " + name) + "&body=" + encodeURIComponent(body);
+    msg.style.color = ""; msg.textContent = "✓ Accepted — an email to RemarkaPave has been opened with your selections. Press Send in your mail app to finalize.";
   }
   document.querySelectorAll(".opt-toggle").forEach(t=>t.addEventListener("change", recalc));
+  document.getElementById("a-date").textContent = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
   recalc();
 </script>
 </body>
