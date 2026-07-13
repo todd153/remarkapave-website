@@ -71,6 +71,7 @@
   tbody td.desc small{display:block; color:var(--muted); font-size:.76rem; margin-top:2px;}
   tr.opt.off{opacity:.42;}
   tr.opt.off .amt{text-decoration:line-through;}
+  tr.sect td{background:#eef1f4; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--band); padding:6px 9px; border-bottom:1px solid var(--line);}
   tr.total td{border-top:2.5px solid var(--ink); border-bottom:none; font-weight:800; font-size:1.02rem; padding-top:11px;}
   tr.total .amt{color:var(--brand);}
   .opttag{display:inline-block; font-size:.62rem; letter-spacing:.05em; text-transform:uppercase; color:var(--brand); border:1px solid var(--brand); border-radius:3px; padding:0 5px; margin-left:6px; vertical-align:1px;}
@@ -131,12 +132,15 @@
   <b>Editing this proposal:</b> Click any dashed blue field and type over it. The <b>Total</b> and the
   <b>Article&nbsp;3.1 contract price</b> add themselves up automatically from the Amount column. Optional line
   items count only when their green switch is ON. Use the buttons below to add rows; click the red ✕ to delete one.
+  The pricing table is split into <b>Materials</b>, <b>Labor</b>, and <b>Optional</b> sections, and there is a
+  <b>Job Scope</b> narrative box above it — fill in all of them every time so nothing gets left off.
   When finished, click <b>Print / Save as PDF</b> — all edit helpers and switched-off rows drop out of the PDF.
 </div>
 <div class="toolbar">
   <button class="primary" onclick="window.print()">Print / Save as PDF</button>
-  <button onclick="addLine(false)">＋ Add line item</button>
-  <button onclick="addLine(true)">＋ Add optional item</button>
+  <button onclick="addLine('materials')">＋ Add material</button>
+  <button onclick="addLine('labor')">＋ Add labor</button>
+  <button onclick="addLine('optional')">＋ Add optional item</button>
   <span class="sp"></span>
   <button onclick="location.reload()">Reset unsaved edits</button>
 </div>
@@ -165,29 +169,45 @@
   </div>
   <div class="lede ed" contenteditable="true">[[One-line description of the work and materials.]]</div>
 
+  <h2 class="sec">Job Scope</h2>
+  <p class="ed" contenteditable="true" style="font-size:.82rem;">[[Describe the full scope of work: what will be done, where, the sequence/phasing, and what is included. This is the written version of the priced line items below. ALWAYS fill this in.]]</p>
+
+  <h2 class="sec">Pricing — Materials &amp; Labor</h2>
   <table>
     <thead>
       <tr><th class="desc">Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th><th class="c togglecell">Include</th></tr>
     </thead>
     <tbody id="items">
-      <!-- BASE line item -->
-      <tr class="line">
-        <td class="desc"><b class="ed" contenteditable="true">[[Line item name]]</b><small class="ed" contenteditable="true">[[Short description / spec]]</small></td>
+      <!-- ===== MATERIALS ===== -->
+      <tr class="sect" data-sect="materials"><td colspan="5">Materials</td></tr>
+      <tr class="line" data-sect="materials">
+        <td class="desc"><b class="ed" contenteditable="true">[[Material — e.g. hot-pour sealant / traffic paint / glass beads]]</b><small class="ed" contenteditable="true">[[spec, product, coverage]]</small></td>
         <td class="r ed" contenteditable="true">[[QTY]]</td>
         <td class="r ed" contenteditable="true">[[RATE]]</td>
         <td class="r amt ed" contenteditable="true">$0.00</td>
         <td class="c togglecell"><button class="delrow" title="Delete row" onclick="delRow(this)">✕</button></td>
       </tr>
-      <!-- BASE line item: Mobilization -->
-      <tr class="line">
-        <td class="desc"><b class="ed" contenteditable="true">Mobilization</b><small class="ed" contenteditable="true">Equipment transport &amp; setup</small></td>
-        <td class="r ed" contenteditable="true">1 LS</td>
-        <td class="r ed" contenteditable="true">$200.00</td>
-        <td class="r amt ed" contenteditable="true">$200.00</td>
+
+      <!-- ===== LABOR ===== -->
+      <tr class="sect" data-sect="labor"><td colspan="5">Labor</td></tr>
+      <tr class="line" data-sect="labor">
+        <td class="desc"><b class="ed" contenteditable="true">[[Labor — e.g. application labor / crew hours]]</b><small class="ed" contenteditable="true">[[crew, hours, method]]</small></td>
+        <td class="r ed" contenteditable="true">[[QTY]]</td>
+        <td class="r ed" contenteditable="true">[[RATE]]</td>
+        <td class="r amt ed" contenteditable="true">$0.00</td>
         <td class="c togglecell"><button class="delrow" title="Delete row" onclick="delRow(this)">✕</button></td>
       </tr>
-      <!-- OPTIONAL line item (green switch) -->
-      <tr class="line opt off">
+      <tr class="line" data-sect="labor">
+        <td class="desc"><b class="ed" contenteditable="true">Mobilization</b><small class="ed" contenteditable="true">Crew, transport, setup &amp; breakdown</small></td>
+        <td class="r ed" contenteditable="true">1 LS</td>
+        <td class="r ed" contenteditable="true">$250.00</td>
+        <td class="r amt ed" contenteditable="true">$250.00</td>
+        <td class="c togglecell"><button class="delrow" title="Delete row" onclick="delRow(this)">✕</button></td>
+      </tr>
+
+      <!-- ===== OPTIONAL (green switch) ===== -->
+      <tr class="sect" data-sect="optional"><td colspan="5">Optional Services</td></tr>
+      <tr class="line opt off" data-sect="optional">
         <td class="desc"><b class="ed" contenteditable="true">[[Optional service]]</b><span class="opttag">Optional</span><small class="ed" contenteditable="true">[[Why / when to add it]]</small></td>
         <td class="r ed" contenteditable="true">[[QTY]]</td>
         <td class="r ed" contenteditable="true">[[+RATE]]</td>
@@ -198,6 +218,7 @@
           <button class="delrow" title="Delete row" onclick="delRow(this)">✕</button>
         </td>
       </tr>
+
       <tr class="total">
         <td colspan="3">TOTAL</td>
         <td class="r amt" id="grand">$0.00</td>
@@ -340,11 +361,16 @@
     recalc();
   }
 
-  function addLine(optional){
+  function addLine(sect){
     const tbody = document.getElementById("items");
-    const totalRow = tbody.querySelector("tr.total");
+    const optional = (sect === "optional");
+    // insert right after the last existing row of this section
+    let anchor = null;
+    Array.from(tbody.children).forEach(r=>{ if(r.getAttribute("data-sect") === sect) anchor = r; });
+    const before = anchor ? anchor.nextSibling : tbody.querySelector("tr.total");
     const tr = document.createElement("tr");
     tr.className = "line" + (optional ? " opt off" : "");
+    tr.setAttribute("data-sect", sect);
     const toggleCell = optional
       ? '<td class="c togglecell"><label class="switch"><input type="checkbox" class="opt-toggle"><span class="slider"></span></label><span class="tstate off-txt">Not included</span><button class="delrow" title="Delete row" onclick="delRow(this)">✕</button></td>'
       : '<td class="c togglecell"><button class="delrow" title="Delete row" onclick="delRow(this)">✕</button></td>';
@@ -355,7 +381,7 @@
       '<td class="r ed" contenteditable="true">[[RATE]]</td>'+
       '<td class="r amt ed" contenteditable="true">$0.00</td>'+
       toggleCell;
-    tbody.insertBefore(tr, totalRow);
+    tbody.insertBefore(tr, before);
     tr.querySelectorAll(".amt[contenteditable]").forEach(a=>a.addEventListener("input", recalc));
     const tog = tr.querySelector(".opt-toggle"); if(tog) tog.addEventListener("change", recalc);
     recalc();
