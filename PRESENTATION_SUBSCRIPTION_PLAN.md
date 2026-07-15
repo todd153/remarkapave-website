@@ -71,8 +71,8 @@ Score each factor 1–5 (5 = best/cleanest), multiply by the weight, sum to 100.
 |---|---|---|---|
 | 85–100 | **A** | Sharp, well-kept | Subscribe to **maintain**. Lowest multiplier (×1.0). Tier by size/frequency need. |
 | 70–84 | **B/C** | Minor backlog | Light onboarding (deep clean + spot fixes), then Pro tier. Multiplier ×1.1–1.2. |
-| 55–69 | **D** | Real backlog | **Required restoration project quoted separately** (catch-up crack fill, patch, re-stripe, first deep clean). Subscription starts *after*. Multiplier ×1.2–1.35. |
-| < 55 | **F** | Failed lot | Do **not** subscribe first. Quote capital repair (mill/overlay, base repair) as a standalone job. Presentation plan only makes sense once the lot is back to a C. |
+| 55–69 | **D** | Real backlog | **Required restoration project quoted separately** (catch-up crack fill, patch, re-stripe, first deep clean). Subscription starts *after*. Multiplier ×1.2–1.35. If the owner balks at the restoration price: subscribe now + **Save-to-Pave credit** toward the deferred work (see `RESTORATION_PATHWAY_PLAN.md`). |
+| < 55 | **F** | Failed lot | Do **not** subscribe first. Route into the **RemarkaRestore Pathway** (`RESTORATION_PATHWAY_PLAN.md`): phased or financed mill & overlay / reconstruction, with the subscription auto-quoted for the season after completion. |
 
 Keep the filled-in scorecard **attached to the contract** — it's the baseline the annual
 re-grade compares against, and it's the paper trail that proves lot condition at start (a
