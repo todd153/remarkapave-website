@@ -125,6 +125,14 @@
   .ed[contenteditable="true"]{ border-bottom:1px dashed var(--edit); }
   .hright .ed[contenteditable="true"]{ border-bottom-color:var(--yellow); }
 
+  .photos{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:8px;}
+  .photo{position:relative; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:#fafafa; break-inside:avoid; page-break-inside:avoid;}
+  .photo img{width:100%; display:block; max-height:2.7in; object-fit:cover;}
+  .photo figcaption{padding:6px 10px; font-size:.76rem; color:var(--muted); outline:none;}
+  .photo figcaption:hover,.photo figcaption:focus{background:#e9f0ff;}
+  .photo .delphoto{position:absolute; top:6px; right:6px; width:24px; height:24px; border:none; border-radius:50%; background:rgba(13,13,13,.72); color:#fff; font-size:.85rem; line-height:1; cursor:pointer;}
+  .photos:empty{border:1px dashed #b8bec7; border-radius:7px; padding:18px; text-align:center; color:var(--muted); font-size:.8rem;}
+  .photos:empty::after{content:"No photos yet \2014 use the Add photos button in the toolbar. Images are resized and embedded right in the file.";}
   @media (max-width:640px){ body{padding:8px;} .hband,.body,.fband{padding-left:0.3in; padding-right:0.3in;} .hband{flex-direction:column; align-items:flex-start;} .hright{text-align:left;} }
   @media print{
     body{background:#fff; padding:0;} .editor-note,.toolbar{display:none;}
@@ -135,6 +143,7 @@
     .abtns, .accept .ahelp, .selnote, .delrow{display:none;}
     .ed{border-bottom:none;}
     [contenteditable]:hover,[contenteditable]:focus{background:none; box-shadow:none;}
+    .photo .delphoto{display:none;} .photos:empty{display:none;}
     @page{size:letter; margin:0;}
   }
 </style>
@@ -150,9 +159,12 @@
   <button onclick="addLine('materials')">＋ Add material</button>
   <button onclick="addLine('labor')">＋ Add labor</button>
   <button onclick="addLine('optional')">＋ Add optional item</button>
+  <button onclick="pickPhotos()">＋ Add photos</button>
   <span class="sp"></span>
+  <button onclick="downloadHtml()">⬇ Download proposal (HTML)</button>
   <button onclick="location.reload()">Reset unsaved edits</button>
 </div>
+<input type="file" id="photo-input" accept="image/*" multiple style="display:none" onchange="addPhotoFiles(this.files); this.value='';">
 
 <!-- ============ PAGE 1 ============ -->
 <section class="page">
@@ -247,6 +259,11 @@
       <li class="ed" contenteditable="true"><b>Mobilization:</b> [[what's included; return-trip fee if lots blocked]]</li>
       <li class="ed" contenteditable="true"><b>Excludes:</b> [[striping, seal coat, traffic control, permits, repairs, etc.]]</li>
     </ul>
+
+    <div id="photoSection">
+      <h2 class="sec">Site Photos</h2>
+      <div class="photos" id="photos"></div>
+    </div>
 
     <div class="callout ed" contenteditable="true">
       [[Optional highlighted note — e.g. exclusion clause for out-of-spec conditions. Delete this box if not needed.]]
@@ -483,6 +500,38 @@
     const ad = document.getElementById("a-date"); if(ad && !ad.textContent.trim()) ad.textContent = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
     recalc();
   }
+  /* ---------- Photos ---------- */
+  function pickPhotos(){ const i = document.getElementById("photo-input"); if(i) i.click(); }
+  function addPhotoFiles(files){
+    Array.from(files||[]).forEach(f=>{ if(f && f.type && f.type.indexOf("image/")===0) shrinkImage(f, insertPhoto); });
+  }
+  function shrinkImage(file, cb){
+    const r = new FileReader();
+    r.onload = e => { const img = new Image(); img.onload = () => {
+      const MAX = 1400; let w = img.width, h = img.height;
+      if(w > MAX){ h = Math.round(h * MAX / w); w = MAX; }
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, 0, 0, w, h);
+      cb(c.toDataURL("image/jpeg", 0.82));
+    }; img.src = e.target.result; };
+    r.readAsDataURL(file);
+  }
+  function insertPhoto(src){
+    const wrap = document.getElementById("photos"); if(!wrap) return;
+    const fig = document.createElement("figure"); fig.className = "photo";
+    const btn = document.createElement("button"); btn.className = "delphoto"; btn.title = "Remove photo"; btn.textContent = "\u2715"; btn.onclick = () => fig.remove();
+    const im = document.createElement("img"); im.src = src;
+    const cap = document.createElement("figcaption"); cap.setAttribute("contenteditable","true"); cap.textContent = "Caption (optional)";
+    fig.appendChild(btn); fig.appendChild(im); fig.appendChild(cap); wrap.appendChild(fig);
+  }
+  function downloadHtml(){
+    const q = document.querySelector(".hright .qnum");
+    const name = ((q ? q.textContent : "proposal") || "proposal").trim().replace(/[^\w.-]+/g,"-") || "proposal";
+    const blob = new Blob(["<!doctype html>\n" + document.documentElement.outerHTML], {type:"text/html"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name + ".html";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  }
+  window.addEventListener("beforeprint", () => { const s = document.getElementById("photoSection"), p = document.getElementById("photos"); if(s && p) s.style.display = p.children.length ? "" : "none"; });
   wire();
 </script>
 </body>
