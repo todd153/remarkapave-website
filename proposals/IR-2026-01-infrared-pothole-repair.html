@@ -102,7 +102,7 @@
   .photo figcaption:hover,.photo figcaption:focus{background:#e9f0ff;}
   .photo .delphoto{position:absolute; top:6px; right:6px; width:24px; height:24px; border:none; border-radius:50%; background:rgba(13,13,13,.72); color:#fff; font-size:.85rem; line-height:1; cursor:pointer;}
   .photos:empty{border:1px dashed #b8bec7; border-radius:7px; padding:18px; text-align:center; color:var(--muted); font-size:.8rem;}
-  .photos:empty::after{content:"No photos yet \2014 use the Add photos button in the toolbar. Images are resized and embedded right in the file.";}
+  .photos:empty::after{content:"No photos yet \2014 click \FF0B Add photos, or drag image files onto this box. They are resized and embedded right in the file.";}
   @media (max-width:640px){ body{padding:8px;} .hband,.body,.fband{padding-left:0.3in; padding-right:0.3in;} .hband{flex-direction:column; align-items:flex-start;} .hright{text-align:left;} }
   @media print{
     body{background:#fff; padding:0;} .toolbar{display:none;}
@@ -125,7 +125,7 @@
   <button onclick="downloadHtml()">⬇ Download copy (HTML)</button>
   <button onclick="savePdf()">Save as PDF</button>
 </div>
-<input type="file" id="photo-input" accept="image/*" multiple style="display:none" onchange="addPhotoFiles(this.files); this.value='';">
+<input type="file" id="photo-input" accept="image/*" multiple style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" onchange="addPhotoFiles(this.files); this.value='';">
 
 <!-- ============ PAGE 1 ============ -->
 <section class="page">
@@ -427,6 +427,14 @@
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
   }
   window.addEventListener("beforeprint", () => { const s = document.getElementById("photoSection"), p = document.getElementById("photos"); if(s && p) s.style.display = p.children.length ? "" : "none"; });
+  function wirePhotos(){
+    const wrap = document.getElementById("photos"); if(!wrap) return;
+    ["dragenter","dragover"].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.style.outline = "2px dashed var(--blue)"; }));
+    ["dragleave","drop"].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.style.outline = ""; }));
+    wrap.addEventListener("drop", e => { if(e.dataTransfer && e.dataTransfer.files) addPhotoFiles(e.dataTransfer.files); });
+    document.addEventListener("paste", e => { if(e.clipboardData && e.clipboardData.files && e.clipboardData.files.length) addPhotoFiles(e.clipboardData.files); });
+  }
+  wirePhotos();
   document.querySelectorAll(".line-sel").forEach(c=>c.addEventListener("change", recalc));
   document.getElementById("a-date").textContent = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
   recalc();
