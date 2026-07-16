@@ -72,23 +72,24 @@ and pass the paper through — **never carry the loan on Remark A Pave's balance
 - **Rule: Todd never becomes the lender.** In-house installment plans mean carrying
   collection risk, cash-flow gaps, and possibly lending-law compliance. Refer the paper out.
 
-### Tool 3 — "Save-to-Pave" subscription credit (the flywheel)
+### Tool 3 — Member pricing (the flywheel)
 
-The hook that ties the two product lines together:
+*(Restructured July 2026: the original "Save-to-Pave" accrued-credit idea is superseded by
+the subscription's member-discount ladder — same flywheel, simpler mechanics, no
+held-funds/escrow questions at all.)*
 
-> **Every month on a Presentation Plan earns a credit of [5–10%] of subscription fees paid,
-> applicable toward a future RemarkaRestore capital project (mill & overlay or larger),
-> capped at [10%] of the project price. Credit is a discount at booking — not a refundable
-> balance.**
+The hook that ties the two product lines together is the Presentation Plan's tiered discount
+on capital work (see `PRESENTATION_SUBSCRIPTION_PLAN.md` §3): **10/15/20% off self-performed
+pavement work by tier, and 5–10% off GC'd mill & pave after 12 months of active membership.**
 
-- A D-grade owner who can't afford restoration *yet* still signs the subscription today,
-  stops the bleeding (crack fill, potholes capped, documentation), and banks credit toward
-  the big job. When the RemarkaReport™ photo log shows the lot's decline curve year over
-  year, the restoration sells itself — with a discount already earned.
-- **Structure it as a discount-at-booking, not held funds.** Actually holding client money
-  toward future work is escrow — trust-accounting rules, liability if Todd's business
-  changes, refund fights. A booking credit costs nothing until the job is won and is capped
-  so it never exceeds the margin on the job.
+- A D-grade owner who can't afford restoration *yet* still signs the subscription today —
+  it stops the bleeding (crack fill at member pricing, cold-patch cap, documentation) and
+  starts the mill & pave tenure clock. When the RemarkaReport™ photo log shows the lot's
+  decline curve year over year, the restoration sells itself, at pricing the owner has
+  already "earned."
+- The 12-month tenure gate on mill & pave protects the thin GC markup (15–25%) from
+  subscribe-today-discount-tomorrow gaming, and by the time it vests the member has paid
+  a year of fees — the discount is funded.
 
 ---
 
@@ -121,7 +122,7 @@ Update the §2 grade table in `PRESENTATION_SUBSCRIPTION_PLAN.md` actions:
 
 | Grade | Old action | New action |
 |---|---|---|
-| **D** (55–69) | Restoration quoted separately, then subscribe | Same, **plus**: if the owner balks at the restoration price, offer subscription-now + **Save-to-Pave credit** toward the deferred restoration |
+| **D** (55–69) | Restoration quoted separately, then subscribe | Same, **plus**: if the owner balks at the restoration price, offer subscription-now — **member pricing** applies to the deferred restoration (mill & pave % vests at 12 months) |
 | **F** (< 55) | "Do not subscribe; quote capital repair" | **Enter the RemarkaRestore Pathway**: triage (zones + core sampling if ambiguous) → phased plan or financed single-phase → subscription auto-quoted for the season after completion |
 
 Every Pathway proposal ends with the same page: *"and here's the Presentation Plan that
@@ -151,7 +152,7 @@ website as the top-of-funnel offer for large properties.
 ## 6. Guardrails
 
 1. **Never self-finance** (Tool 2 rule). Refer the paper; get paid at completion.
-2. **Credits are discounts, not deposits** (Tool 3 rule). No held client funds, capped %.
+2. **Member benefits are discounts, never held funds** (Tool 3 rule). No client money is ever collected ahead of capital work; discounts are sized to per-service margin and the mill & pave % is tenure-gated.
 3. **Core-sample ambiguous bases before quoting mill & overlay.** An overlay over a failed
    base is a warranty claim with a 2-year fuse.
 4. **Phase joints and drainage are engineering decisions,** not sales decisions — plan the
@@ -166,7 +167,7 @@ website as the top-of-funnel offer for large properties.
 
 ## 7. Next steps
 
-1. Pick the Save-to-Pave numbers: credit % of subscription fees ([5–10%]) and project cap ([10%]).
+1. Confirm the member-discount ladder numbers (10/15/20% self-performed; 5–10% mill & pave after 12 months) against real quotes from the paving subs.
 2. Identify and price 1–2 paving subs for the GC model; confirm insurance flow-down.
 3. Vet 2–3 financing referral options (owner's-bank first, then regional project-finance shops).
 4. Draft the 5-Year Pavement Capital Plan template (one page, RemarkaReport branding) — I can

@@ -37,10 +37,16 @@ list fight each other, and one clause is dangerous. Both are fixed in the design
 - **Capital-episodic** (crack fill, sealcoat, full re-stripe, pothole patch): big dollars,
   *low frequency* (every 1–3 years), cost scales with **lot square footage**. Priced per sq ft / per stall.
 
-You can't just add them into one flat monthly number without **amortizing the capital work
-across a minimum contract term** — otherwise the sealcoat bill lands in month 30 and eats a
-year of margin. The plan below keeps them as separate mental buckets that roll up into one
-invoice line (§4).
+The resolution (Todd's call, July 2026 — and the right one): run it like the strongest trade
+memberships (HVAC/plumbing service agreements). The monthly fee covers **only the
+labor-recurring services** (porter, dumpster-pad wash, window wash + the photo log), and
+membership earns a **tier-based discount on all the capital work** — striping, crack fill,
+sealcoat, pothole repair, and mill & pave — each quoted per job at then-current prices (§4).
+Capital dollars never hide inside the flat fee, so there's no sinking-fund math to get wrong,
+no month-30 sealcoat eating a year of margin, and no refund fight if a customer cancels
+before the big job. The trade-off: the customer's capital bills still spike (softened by the
+discount) — an optional "all-inclusive" amortized variant can be offered case-by-case to
+property managers who insist on one flat line, priced with a term commitment.
 
 ---
 
@@ -71,7 +77,7 @@ Score each factor 1–5 (5 = best/cleanest), multiply by the weight, sum to 100.
 |---|---|---|---|
 | 85–100 | **A** | Sharp, well-kept | Subscribe to **maintain**. Lowest multiplier (×1.0). Tier by size/frequency need. |
 | 70–84 | **B/C** | Minor backlog | Light onboarding (deep clean + spot fixes), then Pro tier. Multiplier ×1.1–1.2. |
-| 55–69 | **D** | Real backlog | **Required restoration project quoted separately** (catch-up crack fill, patch, re-stripe, first deep clean). Subscription starts *after*. Multiplier ×1.2–1.35. If the owner balks at the restoration price: subscribe now + **Save-to-Pave credit** toward the deferred work (see `RESTORATION_PATHWAY_PLAN.md`). |
+| 55–69 | **D** | Real backlog | **Required restoration project quoted separately** (catch-up crack fill, patch, re-stripe, first deep clean). Subscription starts *after*. Multiplier ×1.2–1.35. If the owner balks at the restoration price: subscribe now — **member pricing applies to the deferred restoration** when they book it (see `RESTORATION_PATHWAY_PLAN.md`). |
 | < 55 | **F** | Failed lot | Do **not** subscribe first. Route into the **RemarkaRestore Pathway** (`RESTORATION_PATHWAY_PLAN.md`): phased or financed mill & overlay / reconstruction, with the subscription auto-quoted for the season after completion. |
 
 Keep the filled-in scorecard **attached to the contract** — it's the baseline the annual
@@ -87,30 +93,46 @@ liability shield the day a tenant claims a pothole "was your job").
 
 ## 3. The Three Tiers
 
-Todd's stated cadence **is the top tier.** Tiers below scale the *frequency* down — frequency
-is the tier engine, because that's what actually drives Todd's cost (drive time + labor). The
-capital services (crack/seal/re-stripe) stay in every tier but on **longer cycles** at the
-bottom.
+Todd's stated cadence **is the top tier.** Two dials differentiate the tiers: **frequency**
+of the included labor services (frequency drives Todd's cost — drive time + labor), and
+**discount depth** on the capital work (member pricing is the retention hook).
 
-| Service | **Tier 1 — Curb Appeal** | **Tier 2 — Presentation Pro** ⭐ *recommended* | **Tier 3 — White-Glove** |
+**What the monthly fee includes** — labor services only:
+
+| Included monthly | **Tier 1 — Curb Appeal** | **Tier 2 — Presentation Pro** ⭐ *recommended* | **Tier 3 — White-Glove** |
 |---|---|---|---|
 | **Porter visit** (trash + condition check + photos) | **1×/week** | **2×/week** | **3×/week** |
 | **Dumpster-pad pressure wash** | 1×/month | **1×/week** | **2×/week** |
 | **Window / storefront wash** | 1×/month | **2×/month** | 2×/month (weekly optional) |
-| **Striping touch-ups** | — (annual re-stripe only) | **Quarterly** | **Quarterly** |
-| **Full re-stripe** | Every 2 yrs (amortized) | **Annual** | **Annual** |
-| **Crack fill + sealcoat** | 3-yr cycle (amortized) | **2–3 yr cycle** (amortized) | **2-yr cycle** (amortized) |
-| **Pothole patch** (cold-patch, capped — §6) | Billed per visit | Up to 20 sq ft / quarter included | Included per §6 policy |
+| **Cold-patch pothole cap** (during a porter visit — §6) | — (billed per visit) | Up to **10 sq ft / quarter** | Up to **20 sq ft / quarter** |
 | **RemarkaReport™ photo log** | Monthly summary | **Per-visit** | Per-visit + **quarterly executive review** |
+| **Annual RemarkaScore re-grade + 5-yr capital plan** | ✓ | ✓ | ✓ |
+| **Waived mobilization fees** on member jobs | — | ✓ | ✓ |
 | **Response time (new issues)** | 5 business days | **48–72 hr** | **24–48 hr** |
-| **Indicative monthly** (typical 15–30k sq ft pad, 1 dumpster, ~15 panes) | **$300–$650** | **$750–$1,450** | **$1,600–$2,900** |
+| **Indicative monthly** (typical 15–30k sq ft pad, 1 dumpster, ~15 panes) | **$250–$550** | **$600–$1,150** | **$1,300–$2,400** |
 
-Those monthly bands line up with the industry's own Basic/Pro/Elite benchmarks
-(~$850 / $1,450 / $2,200) — Todd's numbers should land in the same neighborhood, adjusted
-down slightly for Oklahoma labor rates (the crack-fill plan already documented OK running
-~15–20% under national). **Aim the sales mix at ~20% Tier 1 / 60% Tier 2 / 20% Tier 3** —
-that mix produces the ~$1,480 ARPU the industry model assumes and keeps the recommended
-middle tier doing the heavy lifting.
+**Member pricing on capital work** — quoted per job at then-current rates, discount by tier:
+
+| Quoted work | Tier 1 | Tier 2 ⭐ | Tier 3 |
+|---|---|---|---|
+| Striping (touch-ups & full re-stripe) | **10% off** | **15% off** | **20% off** |
+| Crack fill / routing | **10% off** | **15% off** | **20% off** |
+| Sealcoating | **10% off** | **15% off** | **20% off** |
+| Pothole repair, hot-mix (beyond the included cold-patch cap) | **10% off** | **15% off** | **20% off** |
+| **Mill & overlay / reconstruction** (GC'd — see `RESTORATION_PATHWAY_PLAN.md`) | Priority scheduling | **5% off** after 12 mo active | **10% off** after 12 mo active |
+
+Discount rules (the anti-gaming print): member pricing requires an **active subscription at
+booking and through completion**; discounts apply to RemarkaPave's quoted scope, not
+pass-through materials escalation; self-performed discounts start **day one** (the 12-month
+minimum term is the guard — a customer who "games" a 20% sealcoat discount by subscribing
+just bought a year of Tier 3); the **mill & pave discount is tenure-gated to 12 months**
+because GC'd margin is thin (§4).
+
+The monthly bands land below the industry's Basic/Pro/Elite benchmarks (~$850 / $1,450 /
+$2,200) because capital work is no longer baked in — the capital revenue now arrives as
+discounted-but-still-profitable project work on top of MRR. **Aim the sales mix at ~20%
+Tier 1 / 60% Tier 2 / 20% Tier 3** and track *attach rate* (% of members who buy at least
+one capital job per year) as the metric that proves the model.
 
 ---
 
@@ -120,7 +142,8 @@ The public site stays **no-unit-price** (that's the deliberate strategy in the R
 `services.js` — value language + written quote). These numbers are the **internal quoting
 logic** behind the flat monthly fee, not website copy.
 
-**Monthly fee = (Σ per-visit cost × frequency × margin) + amortized capital line + report/overhead**
+**Monthly fee = (Σ per-visit cost × frequency × margin) + report/overhead** — labor only.
+Capital work is quoted per job with the member discount applied (§3).
 
 Per-visit market anchors (2026, adjusted toward OK's lower band):
 
@@ -131,10 +154,23 @@ Per-visit market anchors (2026, adjusted toward OK's lower band):
 | Storefront window wash (~15 panes, ground) | $1–$2 / pane high-freq | **$50–$130 / visit** |
 | Pothole cold-patch (throw & compact) | $75–$400 / pothole one-off | material ~cheap; **cost is the mobilization** |
 
-**Amortized capital line** — take the lot's real sealcoat + crack-fill + annual re-stripe
-quote (use the existing bid calculator), and **divide by the contract term in months.**
-Example: a $6,000 seal+crack job on a 36-month term = **+$167/month** baked into the fee, so
-the cash is collected *before* the work is done, not after. Re-stripe amortizes the same way.
+**Why the discount ladder is affordable — margin math:**
+
+- **Self-performed pavement work runs fat margins once equipment is owned.** The crack-fill
+  plan documented material at only 10–15% of billed price and post-equipment margins of
+  **45–55%**; striping and sealcoat behave similarly. A **20% member discount on a
+  50%-margin service still leaves ~30% margin** — cheap for what it buys: retention, the
+  inside track on every capital job on the property, and zero customer-acquisition cost on
+  that work. The discount isn't charity; it's replacing the sales/bidding cost of winning
+  that job competitively.
+- **GC'd mill & pave is the exception.** Todd's take is a **15–25% GC markup** on a sub's
+  price — a 10% customer discount consumes roughly half of it. That's why the ladder caps
+  mill & pave at **5–10%, tenure-gated to 12 months of active membership** (by then the
+  member has paid $7k–$29k in fees), and why Tier 1's mill & pave benefit is priority
+  scheduling, not a percentage.
+- **Waived mobilization is the sleeper perk.** The crack-fill plan carries a $100–$250
+  mobilization fee on small jobs. For members the porter route already passes the property,
+  so waiving it costs almost nothing and reads as real money to the customer.
 
 **Two hard rules that make or break margin:**
 
@@ -143,16 +179,21 @@ the cash is collected *before* the work is done, not after. Re-stripe amortizes 
    **by area** (or add a travel surcharge outside the core Ponca City / Kay County zone, the
    same way the crack-fill plan carries a $100–$250 mobilization fee for small jobs). One
    3×/week account 25 minutes out of the way can wipe out its own margin.
-2. **Minimum contract term = 36 months** (or 24 min), auto-renew, monthly billing. This is
-   what lets you amortize the capital work honestly. See rec #5 on "bimonthly."
+2. **Minimum contract term = 12 months, auto-renew, monthly billing.** With capital work out
+   of the flat fee there's no sinking fund to protect, so 36-month lock-ins are no longer
+   structurally necessary — 12 months is enough to make the day-one discounts self-guarding
+   and keeps the sale easy. Offer a rate-lock (no price increases) as the carrot for
+   24–36-month signings. See rec #5 on "bimonthly."
 
 ---
 
 ## 5. Contract terms, exclusions, seasonality
 
-- **Term:** 12-month minimum, 36-month preferred, **auto-renew**, monthly billing. Tier can
-  move at renewal (and you recommend *down* if the lot no longer needs it — mirrors the
-  existing Care Plan's honest-downgrade promise, which builds trust and referrals).
+- **Term:** 12-month minimum, **auto-renew**, monthly billing; 24–36-month signings earn a
+  rate-lock. Tier can move at renewal (and you recommend *down* if the lot no longer needs
+  it — mirrors the existing Care Plan's honest-downgrade promise, which builds trust and
+  referrals). Member discounts require active status at booking **and through completion**
+  of the discounted job.
 - **Onboarding fee:** one-time, grade-gated (§2). Covers first deep clean + any required
   restoration. Never fold a D/F lot's backlog into the flat fee.
 - **Oklahoma seasonality:** sealcoat/stripe season is ~**April–October** (needs dry pavement,
@@ -184,8 +225,9 @@ in a way that can quietly lose money and create liability. Two problems:
 **Tightened policy (recommended wording):**
 
 > *Included pothole service: surface potholes up to 4 sq ft each and ≤ 3" deep, **cold-patch
-> throw-and-compact only**, performed during a scheduled porter visit, up to **[20 sq ft
-> total per quarter]** included. Potholes showing base failure, alligatoring, or subgrade
+> throw-and-compact only**, performed during a scheduled porter visit, up to **[the sq ft
+> cap for your tier — 10/quarter on Tier 2, 20/quarter on Tier 3]** included; hot-mix repair
+> beyond the cap is quoted at member pricing. Potholes showing base failure, alligatoring, or subgrade
 > movement are **excluded** and documented (photo + location) for a separate hot-mix repair
 > quote. Cold-patch is a temporary stabilization, not a permanent structural repair.*
 
@@ -199,10 +241,14 @@ base-failure potholes to a paid, properly-scoped repair — protecting both marg
 
 Ranked by impact on Todd's margin and risk:
 
-1. **Amortize the capital work across a minimum term — don't bury it in a flat fee blind.**
-   The single biggest financial trap. A sealcoat every 2–3 years is real money; collect it
-   monthly on a 36-month contract *before* you spend it (§4). Without this, the plan looks
-   profitable for two years and then isn't.
+1. **Keep capital work out of the flat fee — membership discounts instead of amortization.**
+   *(Adopted July 2026 — Todd's restructure.)* The monthly fee covers labor services only;
+   striping, crack fill, sealcoat, pothole and mill & pave are quoted per job with tiered
+   member discounts (§3–§4). This removes the plan's single biggest financial trap (capital
+   dollars hidden in a flat fee), keeps every capital job priced at then-current rates, and
+   turns the discount into a retention lever. Guard it with the discount rules in §3:
+   active-through-completion, tenure-gate on mill & pave, discounts sized to per-service
+   margin (deep on self-performed, shallow on GC'd).
 
 2. **Grade-gate a one-time onboarding/restoration fee.** Never start a flat-fee subscription
    on a D/F lot. Fix the backlog as a separate quote, *then* maintain. The RemarkaScore rubric
@@ -216,10 +262,10 @@ Ranked by impact on Todd's margin and risk:
    same as the expensive one.
 
 5. **Resolve "bimonthly."** It means either *twice a month* or *every two months* — opposite
-   things. For a program built on weekly work + capital amortization, **bill monthly on an
-   annual auto-renew.** Every-two-months billing hurts cash flow and breaks the sinking-fund
-   math. (If "bimonthly" meant the *service* cadence, it's already superseded by the per-tier
-   frequencies.)
+   things. For a program built on weekly labor, **bill monthly on an annual auto-renew.**
+   Every-two-months billing hurts cash flow and makes the member-discount tenure math
+   awkward. (If "bimonthly" meant the *service* cadence, it's already superseded by the
+   per-tier frequencies.)
 
 6. **Make the photo log a named, standardized deliverable — RemarkaReport™.** You already own
    the brand, plus a worker + HubSpot logging pipeline (`/api/accept`, the worker). Turn every
