@@ -1,10 +1,13 @@
-// Quote-form API for remarkapave.com. Everything except POST /api/quote
+// Quote-form API for remarkapave.com. Everything except POST /api/quote and /api/accept
 // falls through to the static Astro build in ./dist.
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/api/quote' && request.method === 'POST') {
       return handleQuote(request, env, url.origin);
+    }
+    if (url.pathname === '/api/accept' && request.method === 'POST') {
+      return handleAccept(request, env, url.origin);
     }
     return env.ASSETS.fetch(request);
   },
@@ -66,6 +69,47 @@ async function handleQuote(request, env, origin) {
   return Response.redirect(origin + '/thank-you/', 302);
 }
 
+async function handleAccept(request, env, origin) {
+  try {
+    const data = await request.json();
+    const { proposal_id, client_name, client_email, signature, terms_accepted } = data;
+
+    if (!proposal_id || !client_name || !client_email || !signature || !terms_accepted) {
+      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+        status: 400, headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    const acceptance = {
+      proposal_id,
+      client_name,
+      client_email,
+      signature,
+      accepted_at: new Date().toISOString(),
+    };
+
+    // Send acceptance email to Todd
+    const emailResult = await sendAcceptanceEmail(acceptance, env);
+    if (!emailResult) {
+      return new Response(JSON.stringify({ error: 'Failed to process acceptance' }), {
+        status: 502, headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: 'Proposal accepted! Check your email for confirmation.',
+      proposal_id
+    }), {
+      status: 200, headers: { 'content-type': 'application/json' },
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 400, headers: { 'content-type': 'application/json' },
+    });
+  }
+}
+
 async function sendEmail(lead) {
   const res = await fetch('https://formsubmit.co/ajax/Todd@remarkapave.com', {
     method: 'POST',
@@ -111,4 +155,28 @@ async function pushToHubSpot(lead, env) {
       method: 'PATCH', headers, body: JSON.stringify({ properties }),
     });
   }
+}
+
+async function sendAcceptanceEmail(acceptance, env) {
+  const res = await fetch('https://formsubmit.co/ajax/Todd@remarkapave.com', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      accept: 'application/json',
+      origin: 'https://remarkapave.com',
+      referer: 'https://remarkapave.com/proposals/',
+    },
+    body: JSON.stringify({
+      _subject: `Proposal Accepted: ${acceptance.proposal_id}`,
+      _template: 'table',
+      proposal_id: acceptance.proposal_id,
+      client_name: acceptance.client_name,
+      client_email: acceptance.client_email,
+      accepted_at: acceptance.accepted_at,
+      signature_file: 'See attachment below',
+    }),
+  });
+  if (!res.ok) return false;
+  const body = await res.json().catch(() => ({}));
+  return body.success === 'true' || body.success === true;
 }
