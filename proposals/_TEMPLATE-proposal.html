@@ -125,6 +125,7 @@
   .ed[contenteditable="true"]{ border-bottom:1px dashed var(--edit); }
   .hright .ed[contenteditable="true"]{ border-bottom-color:var(--yellow); }
 
+  .accept{break-inside:avoid; page-break-inside:avoid;}
   .photos{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:8px;}
   .photo{position:relative; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:#fafafa; break-inside:avoid; page-break-inside:avoid;}
   .photo img{width:100%; display:block; max-height:2.7in; object-fit:cover;}
@@ -144,6 +145,7 @@
     .ed{border-bottom:none;}
     [contenteditable]:hover,[contenteditable]:focus{background:none; box-shadow:none;}
     .photo .delphoto{display:none;} .photos:empty{display:none;}
+    .page:last-of-type{page-break-after:auto;}
     @page{size:letter; margin:0;}
   }
 </style>
@@ -259,11 +261,6 @@
       <li class="ed" contenteditable="true"><b>Mobilization:</b> [[what's included; return-trip fee if lots blocked]]</li>
       <li class="ed" contenteditable="true"><b>Excludes:</b> [[striping, seal coat, traffic control, permits, repairs, etc.]]</li>
     </ul>
-
-    <div id="photoSection">
-      <h2 class="sec">Site Photos</h2>
-      <div class="photos" id="photos"></div>
-    </div>
 
     <div class="callout ed" contenteditable="true">
       [[Optional highlighted note — e.g. exclusion clause for out-of-spec conditions. Delete this box if not needed.]]
@@ -388,6 +385,30 @@
     </div>
   </div>
 
+  <div class="footwrap"><div class="yrule"></div><div class="fband"><div class="tag">PAVEMENT WORTHY OF ATTENTION</div><div class="fine">RemarkaPave LLC&nbsp;&nbsp;|&nbsp;&nbsp;Ponca City, OK&nbsp;&nbsp;|&nbsp;&nbsp;(580) 304-7225&nbsp;&nbsp;|&nbsp;&nbsp;remarkapave.com&nbsp;&nbsp;|&nbsp;&nbsp;Locally owned &amp; operated</div></div></div>
+</section>
+
+<!-- ============ PHOTOS (addendum) ============ -->
+<section class="page" id="photoPage" style="display:none">
+  <div class="hband">
+    <div class="hbrand">
+      <div class="mark"><svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="240" height="240" rx="44" fill="#FFFFFF"/><rect x="74" y="50" width="26" height="158" rx="7" fill="#0057B8"/><path d="M99 58 a40 39 0 1 1 0 72" fill="none" stroke="#0057B8" stroke-width="26"/><line x1="92" y1="118" x2="160" y2="194" stroke="#F5B700" stroke-width="26" stroke-linecap="round"/><rect x="60" y="210" width="120" height="8" rx="4" fill="#F5B700"/></svg></div>
+      <div>
+        <div class="htag">PAVEMENT WORTHY OF ATTENTION</div>
+        <div class="hcontact">(580) 304-7225 &nbsp;|&nbsp; Todd@remarkapave.com &nbsp;|&nbsp; remarkapave.com</div>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="qp">PHOTOS</div>
+      <div class="qnum">[[PROPOSAL-NO]]</div>
+      <div class="qmeta">Site &amp; job photos</div>
+    </div>
+  </div>
+  <div class="yrule"></div>
+  <div class="body">
+    <h2 class="sec">Photos</h2>
+    <div class="photos" id="photos"></div>
+  </div>
   <div class="footwrap"><div class="yrule"></div><div class="fband"><div class="tag">PAVEMENT WORTHY OF ATTENTION</div><div class="fine">RemarkaPave LLC&nbsp;&nbsp;|&nbsp;&nbsp;Ponca City, OK&nbsp;&nbsp;|&nbsp;&nbsp;(580) 304-7225&nbsp;&nbsp;|&nbsp;&nbsp;remarkapave.com&nbsp;&nbsp;|&nbsp;&nbsp;Locally owned &amp; operated</div></div></div>
 </section>
 
@@ -519,10 +540,10 @@
   function insertPhoto(src){
     const wrap = document.getElementById("photos"); if(!wrap) return;
     const fig = document.createElement("figure"); fig.className = "photo";
-    const btn = document.createElement("button"); btn.className = "delphoto"; btn.title = "Remove photo"; btn.textContent = "\u2715"; btn.onclick = () => fig.remove();
+    const btn = document.createElement("button"); btn.className = "delphoto"; btn.title = "Remove photo"; btn.textContent = "\u2715"; btn.onclick = () => { fig.remove(); syncPhotoPage(); };
     const im = document.createElement("img"); im.src = src;
     const cap = document.createElement("figcaption"); cap.setAttribute("contenteditable","true"); cap.textContent = "Caption (optional)";
-    fig.appendChild(btn); fig.appendChild(im); fig.appendChild(cap); wrap.appendChild(fig);
+    fig.appendChild(btn); fig.appendChild(im); fig.appendChild(cap); wrap.appendChild(fig); syncPhotoPage();
   }
   function downloadHtml(){
     const q = document.querySelector(".hright .qnum");
@@ -531,7 +552,7 @@
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name + ".html";
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
   }
-  window.addEventListener("beforeprint", () => { const s = document.getElementById("photoSection"), p = document.getElementById("photos"); if(s && p) s.style.display = p.children.length ? "" : "none"; });
+  function syncPhotoPage(){ const pg = document.getElementById("photoPage"), p = document.getElementById("photos"); if(pg && p) pg.style.display = p.children.length ? "" : "none"; }
   function wirePhotos(){
     const wrap = document.getElementById("photos"); if(!wrap) return;
     ["dragenter","dragover"].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.style.outline = "2px dashed var(--blue)"; }));
