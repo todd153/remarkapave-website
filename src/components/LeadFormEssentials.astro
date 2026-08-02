@@ -1,0 +1,207 @@
+---
+// Minimal lead collection form: Phone + Service + Location only
+// Additional info gathered during follow-up
+import { site, serviceAreas } from '../data/site.js';
+const {
+  heading = 'Get a Free Quote',
+  subheading = 'Quick 3-question form — we\'ll reach out within one business day.',
+  ctaText = 'Get My Free Quote'
+} = Astro.props;
+const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
+---
+<form
+  class="lead-form-essentials"
+  method="POST"
+  action={site.formEndpoint}
+  data-lead-form
+>
+  <h3>{heading}</h3>
+  <p class="sub">{subheading}</p>
+
+  <input type="hidden" name="lead_source_page" value="" data-lead-source />
+  <input type="hidden" name="form_loaded_at" value="" data-loaded-at />
+  <!-- Honeypot: bots fill it, humans never see it -->
+  <div class="hp-field" aria-hidden="true">
+    <label>Leave this field empty<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <label>Phone*
+    <input type="tel" name="phone" required autocomplete="tel" placeholder="(580) 000-0000" />
+  </label>
+
+  <fieldset>
+    <legend>Service needed*</legend>
+    <label class="check"><input type="checkbox" name="services" value="Line Striping" /> Line striping</label>
+    <label class="check"><input type="checkbox" name="services" value="Sealcoating" /> Sealcoating</label>
+    <label class="check"><input type="checkbox" name="services" value="Crack Filling" /> Crack filling</label>
+    <label class="check"><input type="checkbox" name="services" value="Pressure Washing" /> Pressure washing</label>
+    <label class="check"><input type="checkbox" name="services" value="RemarkaReport Assessment" /> RemarkaReport™ assessment</label>
+    <label class="check"><input type="checkbox" name="services" value="Care Plan" /> Care plan inquiry</label>
+    <label class="check"><input type="checkbox" name="services" value="Other" /> Other</label>
+  </fieldset>
+
+  <label>Town / City*
+    <select name="town" required>
+      <option value="" disabled selected>Select your town</option>
+      {townOptions.map((t) => <option value={t}>{t}</option>)}
+    </select>
+  </label>
+
+  {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey}></div>}
+  <button type="submit" class="btn btn-primary">{ctaText}</button>
+  <p class="form-fine">Or call us directly: <a href={site.phoneHref} data-track="call">{site.phone}</a></p>
+</form>
+
+{site.turnstileSiteKey && (
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+)}
+<script>
+  document.querySelectorAll('[data-lead-form]').forEach((form) => {
+    form.querySelector('[data-lead-source]').value = location.href;
+    form.querySelector('[data-loaded-at]').value = String(Date.now());
+
+    form.addEventListener('submit', (e) => {
+      // Spam: honeypot filled, or submitted within 3s of page load → block silently.
+      const hp = form.querySelector('input[name="company_website"]');
+      const loaded = Number(form.querySelector('[data-loaded-at]').value || 0);
+      if (hp.value || Date.now() - loaded < 3000) {
+        e.preventDefault();
+        return;
+      }
+      // At least one service checked.
+      if (![...form.querySelectorAll('input[name="services"]')].some((c) => c.checked)) {
+        e.preventDefault();
+        alert('Please pick at least one service.');
+        return;
+      }
+      // Store service info in localStorage for analytics/follow-up
+      localStorage.setItem('lead_services', [...form.querySelectorAll('input[name="services"]:checked')].map(c => c.value).join(', '));
+
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'conversion',
+          event_label: location.pathname,
+        });
+      }
+      // Let form submit naturally (Worker redirects to /thank-you/)
+    });
+  });
+</script>
+
+<style>
+  .lead-form-essentials {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+  }
+
+  .lead-form-essentials h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .lead-form-essentials .sub {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.95rem;
+    color: var(--text-muted, #666);
+  }
+
+  .lead-form-essentials label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .lead-form-essentials input[type="tel"],
+  .lead-form-essentials select {
+    padding: 0.75rem;
+    border: 1px solid var(--border, #ccc);
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+
+  .lead-form-essentials input[type="tel"]:focus,
+  .lead-form-essentials select:focus {
+    outline: none;
+    border-color: var(--primary, #0066cc);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  }
+
+  .lead-form-essentials fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .lead-form-essentials fieldset legend {
+    padding: 0;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .lead-form-essentials label.check {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .lead-form-essentials input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+  }
+
+  .lead-form-essentials button {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .lead-form-essentials .btn-primary {
+    background-color: var(--primary, #0066cc);
+    color: white;
+  }
+
+  .lead-form-essentials .btn-primary:hover {
+    background-color: var(--primary-dark, #0052a3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+  }
+
+  .lead-form-essentials .form-fine {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted, #666);
+    text-align: center;
+  }
+
+  .lead-form-essentials .form-fine a {
+    color: var(--primary, #0066cc);
+    text-decoration: none;
+  }
+
+  .lead-form-essentials .form-fine a:hover {
+    text-decoration: underline;
+  }
+</style>

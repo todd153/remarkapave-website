@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadFormEssentials from '../components/LeadFormEssentials.astro';
+---
+
+<Base title="Lead Form Essentials Demo">
+  <div style="max-width: 600px; margin: 4rem auto; padding: 0 1.5rem;">
+    <div style="margin-bottom: 3rem;">
+      <h1>Essential Lead Form Demo</h1>
+      <p style="font-size: 1.1rem; color: #666; margin-top: 0.5rem;">
+        Streamlined form collecting only the 3 most essential pieces of information: phone, service needed, and location.
+      </p>
+    </div>
+
+    <LeadFormEssentials
+      heading="Get Your Free Quote"
+      subheading="Just 3 questions — we'll get back to you within one business day."
+      ctaText="Get My Free Quote"
+    />
+
+    <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;">
+      <h2>What Changed</h2>
+      <ul style="line-height: 1.8;">
+        <li><strong>Removed:</strong> Name, email, quote preference, lot size, message field, "how did you hear about us?"</li>
+        <li><strong>Kept:</strong> Phone, service selection, location/town</li>
+        <li><strong>Benefit:</strong> 30-second form completion instead of 3+ minutes</li>
+        <li><strong>Follow-up:</strong> Sales team gathers additional info during phone call</li>
+      </ul>
+    </div>
+  </div>
+</Base>
