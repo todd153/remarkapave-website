@@ -8,7 +8,7 @@ export const services = [
     short: 'Line Striping',
     priceFrom: 'Priced per stall — free written quote',
     blurb:
-      'Crisp, bright, ADA-compliant lines laid with a Titan PowrLiner 2850 and PROMAR solvent-based acrylic traffic paint. New layouts or re-stripes.',
+      'Crisp, bright, ADA-compliant lines laid with a Titan PowrLiner 2850 and commercial-grade water-based traffic paint — fast-dry, low-odor, and open again the same day. New layouts or re-stripes.',
     answer:
       'RemarkaPave stripes commercial parking lots across Ponca City, Kay County, and the Tulsa metro. Re-stripes are priced per stall and quoted in writing — ADA stalls, fire lanes, arrows, and stencils itemized — before work begins.',
     included: [
@@ -21,7 +21,7 @@ export const services = [
     faqs: [
       { q: 'How much does parking lot striping cost?', a: 'Striping is priced per stall, and every job gets a free written materials-and-labor quote before we start — most come back within one business day. Job minimums apply.' },
       { q: 'How often should I re-stripe my lot?', a: 'Most Oklahoma lots need re-striping every 18–24 months. High-traffic retail lots fade faster; we check line condition free during any visit.' },
-      { q: 'What paint do you use?', a: 'PROMAR solvent-based acrylic traffic paint — commercial-grade material that holds its brightness under heavy traffic and Oklahoma weather.' },
+      { q: 'What paint do you use?', a: 'Commercial-grade water-based traffic paint as standard — it holds its brightness under heavy traffic and Oklahoma weather, dries fast, stays low-odor, and lets most lots reopen the same day. Solvent-based acrylic is available when a job or a bid spec calls for it, quoted as a specified upgrade. Either way it is commercial material through a Titan PowrLiner 2850, not box-store paint through a rented walk-behind.' },
       { q: 'Can you work around business hours?', a: 'Yes. We stripe early mornings, evenings, or in phases so your lot never has to fully close.' },
     ],
   },
@@ -133,6 +133,31 @@ export const services = [
     ],
   },
   {
+    slug: 'curb-painting',
+    name: 'Curb Painting & Fire Lane Curbs',
+    short: 'Curb Painting',
+    priceFrom: 'Priced per linear foot — free written quote',
+    blurb:
+      'Red fire lane curbs, yellow no-parking and loading zones, bollards and wheel stops — recoated with the striping visit, not as a second mobilization.',
+    answer:
+      'RemarkaPave paints fire lane curbs, no-parking curbs, loading zones, bollards, and wheel stops across Ponca City, Kay County, and the Tulsa metro. Curb face is priced per linear foot and bollards, wheel stops, and lettering per unit — itemized in a written quote so you can see what is compliance and what is cosmetic.',
+    included: [
+      'Red fire lane curbs with FIRE LANE / NO PARKING lettering',
+      'Yellow no-parking, loading zone & hazard curbs',
+      'Blue ADA access-aisle curbs & accessible route marking',
+      'Bollard and post painting — safety yellow or to spec',
+      'Wheel stop painting & refresh',
+      'Surface cleaning and prep so the coating actually bonds',
+    ],
+    faqs: [
+      { q: 'How often do fire lane curbs need repainting?', a: 'Most commercial red curbs need recoating every 12–24 months. Curbs weather faster than pavement striping because the face takes direct sun and gets scraped by tires — and unlike a faded stall, a faded fire lane is a citable condition. Anything that has gone chalky or pink instead of red is already past due.' },
+      { q: 'Can you paint curbs at the same time as striping?', a: 'Yes, and it costs less that way. Curb painting shares mobilization, layout, and cure time with a striping visit, so bundling avoids paying twice to bring a crew to the property. Most customers add curbs to a scheduled re-stripe rather than booking it standalone.' },
+      { q: 'Do you paint concrete curbs or just asphalt lots?', a: 'Concrete curbs, integral curb-and-gutter, extruded asphalt curbs, bollards, and precast wheel stops are all covered. Prep differs by surface — concrete needs cleaning and sometimes etching for the coating to bond — which is why curb work is quoted after a look at the surface rather than sight unseen.' },
+      { q: 'My fire marshal cited us. How fast can you get out?', a: 'Compliance work gets scheduled ahead of cosmetic work. Bring the citation or inspection letter to the walk-through so the quote covers exactly what was cited, in writing — that is usually what the marshal wants to see at the re-inspection.' },
+      { q: 'Why do repainted curbs peel so fast?', a: 'Almost always prep. Coating over dirt, chalking old paint, or a damp curb gives the new coat nothing to bond to, and it lifts within a season. Cleaning and dry time are priced into the job here rather than skipped to hit a lower number.' },
+    ],
+  },
+  {
     slug: 'stencils-markings',
     name: 'Stencils & Markings',
     short: 'Stencils',
@@ -157,6 +182,31 @@ export const services = [
     included: ['Pothole repair (incl. infrared)', 'Mill & overlay', 'Wheel stop installation', 'Helipads & warehouse layouts'],
     faqs: [
       { q: 'Do you handle small repair jobs?', a: 'Yes — wheel stops, single potholes, and small patches are welcome as part of a service visit, and they’re often where we catch bigger problems early.' },
+    ],
+  },
+  {
+    slug: 'snow-removal',
+    name: 'Commercial Snow Removal',
+    short: 'Snow Removal',
+    priceFrom: 'Seasonal contract or per-push — free written quote',
+    blurb:
+      'Plowing and ice management for commercial lots — from the crew that already knows where your wheel stops, drains, and ADA aisles are.',
+    answer:
+      'RemarkaPave clears commercial parking lots, drive lanes, fire lanes, and entrances across Ponca City, Kay County, and Bartlesville. Seasonal contracts run on a set trigger depth at a fixed rate you can budget; per-push is billed by the visit. Contract properties get priority in the queue during a storm.',
+    included: [
+      'Parking lot plowing — drive lanes, stalls & fire lanes',
+      'Entrance, sidewalk & building-approach clearing',
+      'Ice management — pre-treatment and post-storm de-icing',
+      'Snow stacking that keeps stalls and drains usable at melt',
+      'ADA stalls and access aisles cleared, not buried',
+      'Seasonal contracts with a defined trigger depth, or per-push',
+    ],
+    faqs: [
+      { q: 'Do you offer seasonal contracts or per-push?', a: 'Both. A seasonal contract sets a trigger depth — commonly two inches — and we show up automatically whenever it is met, at a fixed rate you can budget. Per-push is billed by the visit and suits properties that only need clearing for a specific event or occupancy. Contract customers get priority in the queue.' },
+      { q: 'Will plowing damage my striping or wheel stops?', a: 'It is a real risk, and the main reason to use a contractor who knows the lot. Blades catch wheel stops, scrape paint, and chip curbs. Because we lay out and stripe these lots, we know where the wheel stops, ADA aisles, drains, and patched areas are before the first pass — and anything that does get scuffed gets corrected at the spring re-stripe instead of becoming a separate repair bill.' },
+      { q: 'How fast do you respond after a storm?', a: 'Contract properties are on a route and get cleared in priority order, usually before opening hours. Per-push calls are scheduled after contract routes finish. In a major Oklahoma ice event every contractor in the state is oversubscribed — which is the honest argument for having a contract rather than a phone number.' },
+      { q: 'Do you handle ice, or just snow?', a: 'Both. Pre-treating ahead of a forecast storm keeps ice from bonding to the pavement and makes clearing faster. Post-storm de-icing handles refreeze on shaded approaches and north-facing entrances — which is where most slip-and-fall exposure actually sits.' },
+      { q: 'Where do you plow?', a: 'Ponca City, Newkirk, Tonkawa, Blackwell, and Bartlesville are the core snow-service area. Tulsa-metro properties are taken case by case depending on route capacity — call and ask before the season starts rather than during a storm.' },
     ],
   },
   {

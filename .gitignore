@@ -25,3 +25,8 @@ Thumbs.db
 *.pyc
 __pycache__/
 .firecrawl/
+
+# session backups / scratch (not part of the site)
+*.bak
+*.backup-transcript
+build.log

@@ -5,7 +5,7 @@ import CtaBand from '../../components/CtaBand.astro';
 import QuoteForm from '../../components/QuoteForm.astro';
 import { services, priceDisclaimer } from '../../data/services.js';
 import { towns, townServices } from '../../data/towns.js';
-import { breadcrumbSchema } from '../../utils/schema.js';
+import { breadcrumbSchema, itemListSchema } from '../../utils/schema.js';
 
 const trail = [
   { name: 'Home', href: '/' },
@@ -16,7 +16,7 @@ const description =
   'Line striping, sealcoating, crack filling, pressure washing & more across Ponca City & the Tulsa metro. Free written quotes — (580) 304-7225.';
 ---
 
-<Base {title} {description} schema={[breadcrumbSchema(trail)]}>
+<Base {title} {description} schema={[breadcrumbSchema(trail), itemListSchema('/services/', services)]}>
   <Breadcrumbs {trail} />
   <section class="section" style="padding-top:34px;">
     <div class="container">

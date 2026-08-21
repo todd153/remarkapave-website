@@ -1,6 +1,8 @@
 ---
-import { site, serviceAreas, reviews } from '../data/site.js';
-import { services } from '../data/services.js';
+import { site, reviews } from '../data/site.js';
+import {
+  organizationNode, personNode, websiteNode, webPageNode, ORG, WEBSITE,
+} from '../utils/schema.js';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ChatBot from '../components/ChatBot.astro';
@@ -10,81 +12,67 @@ const {
   title,
   description,
   ogImage = '/images/og-default.jpg',
-  schema = [],          // page-specific JSON-LD objects
+  schema = [],          // page-specific JSON-LD nodes (no @context — see utils/schema.js)
   noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
+const isHome = Astro.url.pathname === '/';
 
-const realReviews = reviews.filter((r) => r.real);
-const localBusiness = {
-  '@context': 'https://schema.org',
-  '@type': 'PavingContractor',
-  '@id': `${site.url}/#business`,
-  name: site.name,
-  image: `${site.url}/images/logo.png`,
-  logo: `${site.url}/images/logo.png`,
-  url: site.url,
-  telephone: '+1-580-304-7225',
-  email: site.email,
-  priceRange: '$$',
-  description: site.description,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: site.city,
-    addressRegion: site.state,
-    postalCode: site.zip,
-    addressCountry: 'US',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 36.7070,
-    longitude: -97.0856,
-  },
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '07:00',
-      closes: '18:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Saturday', 'Sunday'],
-      opens: '00:00',
-      closes: '00:00',
-    },
-  ],
-  areaServed: [...serviceAreas.home, ...serviceAreas.growth].map((name) => ({ '@type': 'City', name })),
-  sameAs: Object.values(site.social),
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Pavement Services',
-    itemListElement: services.map((s) => ({
-      '@type': 'Offer',
-      itemOffered: { '@type': 'Service', name: s.name, url: `${site.url}/services/${s.slug}/` },
-    })),
-  },
-  // AggregateRating only from REAL reviews — never fabricated.
-  ...(realReviews.length > 0
-    ? {
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: (realReviews.reduce((a, r) => a + r.rating, 0) / realReviews.length).toFixed(1),
-          reviewCount: realReviews.length,
-        },
-        review: realReviews.map((r) => ({
-          '@type': 'Review',
-          author: { '@type': 'Person', name: r.author },
-          datePublished: r.date,
-          reviewRating: { '@type': 'Rating', ratingValue: r.rating },
-          reviewBody: r.text,
-        })),
-      }
-    : {}),
-};
+// ---------------------------------------------------------------------
+// Review markup is scoped to the two pages actually ABOUT the business.
+// Google: an entity's own site is ineligible for the star review feature,
+// so this never produces stars — it is kept for AI/LLM readers. Emitting
+// it on /privacy-policy/ and /404/ would read as blanket stuffing.
+// ---------------------------------------------------------------------
+const reviewPages = ['/', '/about', '/about/'];
+const showReviews = reviewPages.includes(Astro.url.pathname);
+const realReviews = showReviews ? reviews.filter((r) => r.real) : [];
 
-const allSchema = [localBusiness, ...schema];
+// ---------------------------------------------------------------------
+// THE @graph
+//
+// The business entity is DEFINED once, on the homepage. Every other page
+// emits only a reference to it ({ "@id": ORG }) plus its own page nodes.
+// One company, 86 pages — instead of 86 rival copies of one company.
+// ---------------------------------------------------------------------
+const pageNode = webPageNode({
+  url: canonical,
+  name: title,
+  description,
+  image: new URL(ogImage, site.url).href,
+  // If the page defines a Service, the page is ABOUT that service.
+  about: (schema.find((n) => n && n['@type'] === 'Service') || {})['@id'],
+});
+
+// Stamp @id / isPartOf onto page nodes that don't carry their own, so every
+// node in the graph is addressable and tied back to this page.
+const pageNodes = schema.filter(Boolean).map((node) => {
+  const out = { ...node };
+  if (!out['@id']) {
+    const t = Array.isArray(out['@type']) ? out['@type'][0] : out['@type'];
+    out['@id'] = `${canonical}#${String(t).toLowerCase()}`;
+  }
+  if (!out.isPartOf) out.isPartOf = { '@id': pageNode['@id'] };
+  return out;
+});
+
+const graph = [
+  // Defined in full on the homepage; referenced by @id everywhere else.
+  isHome ? organizationNode(realReviews) : { '@type': 'PavingContractor', '@id': ORG },
+  ...(isHome ? [personNode(), websiteNode()] : [{ '@type': 'WebSite', '@id': WEBSITE }]),
+  pageNode,
+  ...pageNodes,
+];
+
+// /about/ is the one non-home page that still carries the reviews.
+if (!isHome && realReviews.length > 0) {
+  graph[0] = organizationNode(realReviews);
+}
+
+const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })
+  // Prevents a literal </script> inside any string from closing the tag early.
+  .replace(/</g, '\\u003c');
 ---
 
 <!DOCTYPE html>
@@ -118,7 +106,7 @@ const allSchema = [localBusiness, ...schema];
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Rubik:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Rubik:wght@400;500;600;700&display=swap" /></noscript>
 
-    {allSchema.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    <script type="application/ld+json" is:inline set:html={jsonld} />
 
     {site.ga4Id && (
       <>

@@ -91,7 +91,7 @@ export const townServices = [
     metaFor: (t) =>
       `Professional parking lot line striping in ${t.name}, OK. Crisp ADA-compliant stalls, fire lanes & arrows. Free quote — call RemarkaPave at (580) 304-7225.`,
     whatMatters:
-      'Faded, crooked, or non-compliant striping tells customers and tenants the details get ignored here — and it opens you up to ADA liability. Crisp PROMAR solvent-based acrylic lines fix both.',
+      'Faded, crooked, or non-compliant striping tells customers and tenants the details get ignored here — and it opens you up to ADA liability. Crisp, commercial-grade water-based lines fix both, and the lot reopens the same day.',
     bullets: [
       'Standard & angled stalls, new layouts or re-stripes',
       'ADA stalls, access aisles & van-accessible spaces',

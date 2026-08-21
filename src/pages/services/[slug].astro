@@ -40,7 +40,14 @@ if (type === 'service') {
     { name: s.short, href: `/services/${s.slug}/` },
   ];
   schema = [
-    serviceSchema({ name: s.name, description: s.blurb, url: `/services/${s.slug}/` }),
+    serviceSchema({
+      name: s.name,
+      description: s.answer || s.blurb,
+      url: `/services/${s.slug}/`,
+      serviceType: s.name,
+      alternateName: s.short,
+      priceFrom: s.priceFrom,
+    }),
     faqSchema(s.faqs),
     breadcrumbSchema(trail),
   ];
