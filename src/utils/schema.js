@@ -152,7 +152,7 @@ export function personNode() {
     email: site.email.toLowerCase(),
     telephone: '+1-580-304-7225',
     description:
-      'Todd is the owner-operator of RemarkaPave LLC and is on site for every job, start to finish - one owner accountable for the whole lot.',
+      'Todd is the owner-operator of RemarkaPave LLC. He personally runs every striping, crack filling, sealcoating, pressure washing and pothole repair job from start to finish, and is on site directing the work on larger jobs like mill and pave or concrete.',
     knowsAbout: [
       'Parking lot line striping layout',
       'ADA accessible parking compliance',
@@ -160,6 +160,7 @@ export function personNode() {
       'Asphalt sealcoating',
       'Hot-pour rubberized crack sealing',
       'Infrared asphalt repair',
+      'Saw cut and remove full-depth asphalt repair',
       'Commercial hot-water pressure washing',
     ],
   };
