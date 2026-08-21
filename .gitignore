@@ -30,3 +30,6 @@ __pycache__/
 *.bak
 *.backup-transcript
 build.log
+
+# scratch: files moved aside instead of deleted (bridge cannot rm)
+_to_delete/

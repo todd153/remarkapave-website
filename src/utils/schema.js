@@ -152,7 +152,7 @@ export function personNode() {
     email: site.email.toLowerCase(),
     telephone: '+1-580-304-7225',
     description:
-      'Todd is the owner-operator of RemarkaPave LLC. He runs every pavement job personally, start to finish, and is on site at the start and finish of any subcontracted work - sealcoat, crack fill, mill and pave, or concrete - so one person is accountable for the whole lot.',
+      'Todd is the owner-operator of RemarkaPave LLC and is on site for every job, start to finish - one owner accountable for the whole lot.',
     knowsAbout: [
       'Parking lot line striping layout',
       'ADA accessible parking compliance',
