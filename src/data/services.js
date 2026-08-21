@@ -87,6 +87,30 @@ export const services = [
     ],
   },
   {
+    slug: 'parking-lot-porter-service',
+    name: 'Parking Lot Porter Service',
+    short: 'Porter Service',
+    priceFrom: 'Monthly membership or per-visit \u2014 free written quote',
+    blurb:
+      'Recurring walk-through litter pickup for the whole property \u2014 lot, landscape beds, curb lines, and entryways \u2014 so the place looks tended between the bigger jobs.',
+    answer:
+      'RemarkaPave provides recurring porter service for commercial properties across Ponca City, Kay County, and the Tulsa metro: hand-picked litter across the lot, landscape beds, curb lines, and entryways, plus trash-corral tidying. Sold as a monthly membership on a set schedule, or per-visit.',
+    included: [
+      'Hand-picked litter across the full lot, not just the drive lanes',
+      'Landscape beds, curb lines, fence lines & storm-drain grates',
+      'Entryways, patios & smoking-area cleanup',
+      'Trash corral and dumpster-area tidying',
+      'Cigarette butts, cups, and blown-in debris at building approaches',
+      'Photo-documented visit log so you know it happened',
+    ],
+    faqs: [
+      { q: 'What is the difference between porter service and sweeping?', a: 'Sweeping is a machine pass that pulls grit, sand, and small debris off the pavement. Porter service is a person walking the property picking up what a sweeper cannot get \u2014 cups, bags, cigarette butts, litter in landscape beds and along fence lines. Most properties want both: sweeping on a longer cycle, porter service more often.' },
+      { q: 'How often should a property have porter service?', a: 'Retail, restaurant, and convenience properties usually want weekly or twice-weekly. Office, church, and light-industrial properties are usually fine monthly. High-traffic drive-thrus and anything near a highway on-ramp collect the fastest \u2014 those often justify more than once a week.' },
+      { q: 'Can porter service be bundled into a membership?', a: 'Yes. Porter visits are the backbone of the Care Plan memberships, bundled with sidewalk and dumpster-pad cleaning so the property stays presentable between the bigger striping and sealcoat jobs. One monthly rate, a set schedule, no per-visit approvals.' },
+      { q: 'Do you haul the trash away?', a: 'Collected litter goes into the property dumpster by default, which is what most owners want. If a property needs debris hauled off site instead, that is quoted separately since it carries disposal cost.' },
+    ],
+  },
+  {
     slug: 'parking-lot-sweeping',
     name: 'Parking Lot Sweeping',
     short: 'Sweeping',
