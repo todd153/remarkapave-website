@@ -1,17 +1,20 @@
 ---
 import { reviews, site } from '../data/site.js';
 const real = reviews.filter((r) => r.real);
+// Name the platforms the reviews actually came from (e.g. "Google and Facebook").
+const sourceNames = [...new Set(real.map((r) => (r.source === 'facebook' ? 'Facebook' : 'Google')))];
+const sourceText = sourceNames.join(' and ') || 'Google';
 ---
 <section class="section alt" id="reviews">
   <div class="container">
     <span class="kicker">What Customers Say</span>
     <h2>Straight from Our Customers</h2>
     {real.length > 0 ? (
-      <div class=”grid grid-3” style=”margin-top:28px;”>
+      <div class="grid grid-3" style="margin-top:28px;">
         {real.map((r) => (
-          <div class=”review-card”>
-            <div class=”stars” aria-label={`${r.rating} out of 5 stars`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
-            <blockquote>”{r.text}”</blockquote>
+          <div class="review-card">
+            <div class="stars" aria-label={`${r.rating} out of 5 stars`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
+            <blockquote>“{r.text}”</blockquote>
             <cite>— {r.author}, {r.source === 'facebook' ? 'Facebook' : 'Google'} review</cite>
           </div>
         ))}
@@ -24,7 +27,7 @@ const real = reviews.filter((r) => r.real);
       </p>
     )}
     <p class="note" style="margin-top:22px;">
-      Reviews shown verbatim from Google. <a href={site.social.facebook} rel="noopener" target="_blank">See more on Facebook →</a>
+      Reviews shown verbatim from {sourceText}. <a href={site.social.facebook} rel="noopener" target="_blank">See more on Facebook →</a>
     </p>
   </div>
 </section>

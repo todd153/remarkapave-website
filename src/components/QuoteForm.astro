@@ -1,11 +1,15 @@
 ---
 // The Kit's 7 fields + spam protection (honeypot + time check) + lead-source URL.
 import { site, serviceAreas } from '../data/site.js';
+import { services } from '../data/services.js';
 const {
   heading = 'Get a Free Quote',
   subheading = 'Tell us about your lot — we\'ll get back to you within one business day.',
   compact = false,
-  isCarePlan = false
+  isCarePlan = false,
+  // Which form this is — rides along with the lead (email, HubSpot, GA4) so
+  // you can see which placement actually produces quote requests.
+  variant = 'full-form'
 } = Astro.props;
 const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
 ---
@@ -20,6 +24,8 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
 
   <input type="hidden" name="lead_source_page" value="" data-lead-source />
   <input type="hidden" name="form_loaded_at" value="" data-loaded-at />
+  <input type="hidden" name="form_variant" value={variant} />
+  <input type="hidden" name="inquiry_type" value={isCarePlan ? 'Care Plan' : 'One-time quote'} />
   <!-- Honeypot: bots fill it, humans never see it -->
   <div class="hp-field" aria-hidden="true">
     <label>Leave this field empty<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
@@ -47,13 +53,11 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
     <label class="check"><input type="radio" name="quote_preference" value="Email me a PDF quote" /> Email me a written quote (I'll review it on my own time)</label>
   </fieldset>
 
-  <fieldset>
+  <fieldset class="choice-grid">
     <legend>Service(s) needed*</legend>
-    <label class="check"><input type="checkbox" name="services" value="Line Striping" /> Line striping</label>
-    <label class="check"><input type="checkbox" name="services" value="Sealcoating" /> Sealcoating</label>
-    <label class="check"><input type="checkbox" name="services" value="Crack Filling" /> Crack filling</label>
-    <label class="check"><input type="checkbox" name="services" value="Pressure Washing" /> Pressure washing</label>
-    <label class="check"><input type="checkbox" name="services" value="RemarkaReport Assessment" /> RemarkaReport™ assessment</label>
+    {services.map((svc) => (
+      <label class="check"><input type="checkbox" name="services" value={svc.short} /> {svc.short}</label>
+    ))}
     <label class="check"><input type="checkbox" name="services" value="Other" /> Other</label>
   </fieldset>
 
@@ -126,6 +130,7 @@ const townOptions = [...serviceAreas.home, ...serviceAreas.growth, 'Other'];
         window.gtag('event', 'generate_lead', {
           event_category: 'conversion',
           event_label: location.pathname,
+          form_variant: form.querySelector('input[name="form_variant"]').value,
         });
       }
       // Let form submit naturally (Worker redirects to /thank-you/)

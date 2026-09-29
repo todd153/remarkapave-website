@@ -45,11 +45,15 @@ async function handleQuote(request, env, origin) {
     phone: f('phone'),
     email: f('email'),
     town: f('town'),
+    // Left blank by forms that don't ask (the short hero form).
+    quote_preference: f('quote_preference') || 'Not asked (short form)',
+    inquiry_type: f('inquiry_type') || 'One-time quote',
     services: form.getAll('services').join(', '),
     lot_size: f('lot_size'),
     message: f('message'),
     heard_from: f('heard_from'),
     lead_source_page: f('lead_source_page'),
+    form_variant: f('form_variant') || 'unknown',
   };
 
   // Email (FormSubmit) + CRM (HubSpot) in parallel. Email is the critical
@@ -76,36 +80,50 @@ async function sendEmail(lead) {
       origin: 'https://remarkapave.com',
       referer: lead.lead_source_page || 'https://remarkapave.com/free-quote/',
     },
-    body: JSON.stringify({ _subject: 'New quote request — remarkapave.com', _template: 'table', ...lead }),
+    body: JSON.stringify({ _subject: emailSubject(lead), _template: 'table', ...lead }),
   });
   if (!res.ok) return false;
   const body = await res.json().catch(() => ({}));
   return body.success === 'true' || body.success === true;
 }
 
+// Care Plan interest and 2-hour callback requests are the leads to act on
+// first, so they get flagged right in the subject line.
+function emailSubject(lead) {
+  const tags = [];
+  if (lead.inquiry_type === 'Care Plan') tags.push('CARE PLAN');
+  if (lead.quote_preference === 'Call within 2 hours') tags.push('CALL WITHIN 2 HRS');
+  const prefix = tags.length ? `[${tags.join(' · ')}] ` : '';
+  return `${prefix}New quote request — remarkapave.com`;
+}
+
 async function pushToHubSpot(lead, env) {
-  if (!env.HUBSPOT_TOKEN || !lead.email) return;
+  // A phone number alone is still a lead worth having in the CRM.
+  if (!env.HUBSPOT_TOKEN || (!lead.email && !lead.phone)) return;
   const [firstname, ...rest] = lead.name.split(' ');
   const properties = {
     firstname,
     lastname: rest.join(' '),
-    email: lead.email,
+    ...(lead.email && { email: lead.email }),
     phone: lead.phone,
     city: lead.town,
     lifecyclestage: 'lead',
     message: [
+      `Inquiry: ${lead.inquiry_type}`,
+      `Quote preference: ${lead.quote_preference}`,
       `Services: ${lead.services}`,
       lead.lot_size && `Lot size: ${lead.lot_size}`,
       lead.message,
       lead.heard_from && `Heard from: ${lead.heard_from}`,
       lead.lead_source_page && `Source page: ${lead.lead_source_page}`,
+      `Form: ${lead.form_variant}`,
     ].filter(Boolean).join('\n'),
   };
   const headers = { authorization: `Bearer ${env.HUBSPOT_TOKEN}`, 'content-type': 'application/json' };
   const res = await fetch('https://api.hubapi.com/crm/v3/objects/contacts', {
     method: 'POST', headers, body: JSON.stringify({ properties }),
   });
-  if (res.status === 409) {
+  if (res.status === 409 && lead.email) {
     // Contact already exists — update it instead (repeat customers, second quotes).
     await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${encodeURIComponent(lead.email)}?idProperty=email`, {
       method: 'PATCH', headers, body: JSON.stringify({ properties }),

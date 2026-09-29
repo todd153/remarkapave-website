@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import QuoteForm from '../components/QuoteForm.astro';
+import HeroQuoteForm from '../components/HeroQuoteForm.astro';
 import FaqBlock from '../components/FaqBlock.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Testimonials from '../components/Testimonials.astro';
@@ -27,21 +28,28 @@ const description =
 <Base {title} {description} schema={[faqSchema(homeFaqs)]} ogImage="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg">
   <link slot="head" rel="preload" as="image" href="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg" fetchpriority="high" />
   <!-- ============ HERO ============ -->
-  <section class="hero-static" id="hero" aria-label="RemarkaPave — Integris Ponca City Hospital fire lane restriping">
-    <img
-      class="hero-bg" width="1600" height="900"
-      src="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg"
-      alt="Freshly painted crosswalk and red fire lane curb at the Integris Ponca City Hospital main entrance"
-      fetchpriority="high"
-    />
-    <div class="shade"></div>
-    <div class="hero-overlay">
-      <h1>Your lot is your first impression.</h1>
-      <p class="sub">We make it remarkable.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-quote" href="/free-quote/">Get a Free Quote</a>
-        <a class="btn btn-ghost-dark" href={site.phoneHref} data-track="call">Call {site.phone}</a>
+  <!-- Desktop: photo fills the hero, headline left, short form right.
+       Mobile: photo + headline on top, the form sits directly below it. -->
+  <section class="hero-static hero-with-form" id="hero" aria-label="RemarkaPave — Integris Ponca City Hospital fire lane restriping">
+    <div class="hero-top">
+      <img
+        class="hero-bg" width="1600" height="900"
+        src="/images/integris-ponca-city-fire-lane-crosswalk-striping.jpg"
+        alt="Freshly painted crosswalk and red fire lane curb at the Integris Ponca City Hospital main entrance"
+        fetchpriority="high"
+      />
+      <div class="shade"></div>
+      <div class="hero-overlay">
+        <h1>Your lot is your first impression.</h1>
+        <p class="sub">We make it remarkable — parking lot striping, sealcoating &amp; repair in Ponca City, Tulsa &amp; Bartlesville.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-quote hero-jump" href="#hero-quote">Get a Free Quote</a>
+          <a class="btn btn-ghost-dark" href={site.phoneHref} data-track="call">Call {site.phone}</a>
+        </div>
       </div>
+    </div>
+    <div class="hero-form-wrap">
+      <HeroQuoteForm />
     </div>
   </section>
 
@@ -177,7 +185,7 @@ const description =
           <li>Scheduled around your business hours</li>
         </ul>
       </div>
-      <QuoteForm />
+      <QuoteForm variant="home-bottom-form" />
     </div>
   </section>
 

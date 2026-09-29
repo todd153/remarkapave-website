@@ -1,0 +1,81 @@
+---
+// Short first-step quote form for the homepage hero: name, phone, email and
+// one service pick. Posts to the same Worker as the full form, tagged
+// form_variant=home-hero so hero leads can be compared against the full form.
+import { site } from '../data/site.js';
+import { services } from '../data/services.js';
+---
+<form
+  class="quote-form hero-form"
+  id="hero-quote"
+  method="POST"
+  action={site.formEndpoint}
+  data-hero-form
+>
+  <h2 class="hero-form-title">Get a free quote</h2>
+  <p class="sub">30 seconds. Written quote within one business day.</p>
+
+  <input type="hidden" name="lead_source_page" value="" data-lead-source />
+  <input type="hidden" name="form_loaded_at" value="" data-loaded-at />
+  <input type="hidden" name="form_variant" value="home-hero" />
+  <input type="hidden" name="inquiry_type" value="One-time quote" />
+  <!-- Honeypot: bots fill it, humans never see it -->
+  <div class="hp-field" aria-hidden="true">
+    <label>Leave this field empty<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <label>Name*
+    <input type="text" name="name" required autocomplete="name" placeholder="Full name" />
+  </label>
+  <label>Phone*
+    <input type="tel" name="phone" required autocomplete="tel" placeholder="(580) 000-0000" />
+  </label>
+  <label>Email*
+    <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+  </label>
+  <label>What do you need?*
+    <select name="services" required>
+      <option value="" disabled selected>Choose a service</option>
+      {services.map((svc) => <option value={svc.short}>{svc.short}</option>)}
+      <option value="Not sure yet">Not sure yet — take a look for me</option>
+    </select>
+  </label>
+
+  {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey}></div>}
+  <button type="submit" class="btn btn-quote">Get My Free Quote →</button>
+  <p class="form-fine">Free &amp; no obligation. Or call <a href={site.phoneHref} data-track="call">{site.phone}</a></p>
+</form>
+
+{site.turnstileSiteKey && (
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+)}
+<script>
+  document.querySelectorAll('[data-hero-form]').forEach((form) => {
+    form.querySelector('[data-lead-source]').value = location.href;
+    form.querySelector('[data-loaded-at]').value = String(Date.now());
+
+    form.addEventListener('submit', (e) => {
+      // Spam: honeypot filled, or submitted within 3s of page load → block silently.
+      const hp = form.querySelector('input[name="company_website"]');
+      const loaded = Number(form.querySelector('[data-loaded-at]').value || 0);
+      if (hp.value || Date.now() - loaded < 3000) {
+        e.preventDefault();
+        return;
+      }
+      // This form doesn't ask call-vs-email, so clear any stale answer from an
+      // earlier full-form visit; the thank-you page then shows its neutral copy.
+      try {
+        localStorage.removeItem('quote_preference');
+        localStorage.setItem('quote_services', form.querySelector('select[name="services"]').value);
+      } catch {}
+
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'conversion',
+          event_label: location.pathname,
+          form_variant: 'home-hero',
+        });
+      }
+    });
+  });
+</script>

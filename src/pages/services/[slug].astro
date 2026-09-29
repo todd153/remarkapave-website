@@ -160,7 +160,7 @@ const mainService = type === 'town' ? services.find((s) => s.slug === Astro.prop
 
   <section class="section" id="quote-form">
     <div class="container" style="max-width:640px;">
-      <QuoteForm heading={type === 'town' ? `Free quote for your ${Astro.props.page.town.name} property` : 'Get a Free Quote'} />
+      <QuoteForm heading={type === 'town' ? `Free quote for your ${Astro.props.page.town.name} property` : 'Get a Free Quote'} variant={type === 'town' ? 'town-page' : 'service-page'} />
     </div>
   </section>
 

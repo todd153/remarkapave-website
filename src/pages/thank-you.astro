@@ -16,6 +16,16 @@ const description = 'Your quote request is in. We’ll get back to you within on
       </p>
 
       <!-- Branch based on quote preference -->
+      <div id="thank-you-default" style="display:none;">
+        <p style="margin-top:18px; font-size:1.05rem;">
+          <strong>We'll reach out within one business day</strong> to confirm a few details about
+          your lot, then get your written quote over to you.
+        </p>
+        <p style="margin-top:16px; opacity:0.8; font-size:0.95rem;">
+          <strong>Want to speed it up?</strong> Have your lot's rough size or stall count handy, plus
+          any gates or tricky areas.
+        </p>
+      </div>
       <div id="thank-you-call" style="display:none;">
         <p style="margin-top:18px; font-size:1.05rem;">
           <strong>We'll call you within 2 hours</strong> (Mon–Fri, 7 AM–6 PM) to ask a few quick
@@ -66,8 +76,8 @@ const description = 'Your quote request is in. We’ll get back to you within on
     } else if (pref === 'Email me a PDF quote') {
       document.getElementById('thank-you-email').style.display = 'block';
     } else {
-      // Default to call message if preference not found
-      document.getElementById('thank-you-call').style.display = 'block';
+      // No preference (the short hero form doesn't ask) — don't promise a 2-hour call.
+      document.getElementById('thank-you-default').style.display = 'block';
     }
     // Clear preference after display
     localStorage.removeItem('quote_preference');
