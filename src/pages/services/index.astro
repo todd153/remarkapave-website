@@ -5,7 +5,10 @@ import CtaBand from '../../components/CtaBand.astro';
 import QuoteForm from '../../components/QuoteForm.astro';
 import { services, priceDisclaimer } from '../../data/services.js';
 import { towns, townServices } from '../../data/towns.js';
+import { potholeCities } from '../../data/pothole.js';
 import { breadcrumbSchema, itemListSchema } from '../../utils/schema.js';
+
+const potholeSlugs = new Set(potholeCities.map((c) => c.slug));
 
 const trail = [
   { name: 'Home', href: '/' },
@@ -52,6 +55,9 @@ const description =
             {townServices.map((s) => (
               <a href={`/services/${s.slugFor(t)}/`}>{s.key.replace('-', ' ')}</a>
             ))}
+            {potholeSlugs.has(t.slug) && (
+              <a href={`/services/pothole-repair-${t.slug}/`}>pothole repair</a>
+            )}
           </span>
         </div>
       ))}

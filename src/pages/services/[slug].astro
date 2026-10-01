@@ -6,10 +6,12 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import QuoteForm from '../../components/QuoteForm.astro';
 import FaqBlock from '../../components/FaqBlock.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { site } from '../../data/site.js';
 import { services, priceDisclaimer } from '../../data/services.js';
 import { towns, allTownPages } from '../../data/towns.js';
+import { potholeCities, potholePages } from '../../data/pothole.js';
 import { faqSchema, breadcrumbSchema, serviceSchema } from '../../utils/schema.js';
 
 export async function getStaticPaths() {
@@ -21,7 +23,11 @@ export async function getStaticPaths() {
     params: { slug: p.slug },
     props: { type: 'town', page: p },
   }));
-  return [...servicePages, ...townPages];
+  const potholeCityPages = potholePages().map((p) => ({
+    params: { slug: p.slug },
+    props: { type: 'pothole', city: p.city },
+  }));
+  return [...servicePages, ...townPages, ...potholeCityPages];
 }
 
 const { type } = Astro.props;
@@ -52,6 +58,30 @@ if (type === 'service') {
     breadcrumbSchema(trail),
   ];
   body = s;
+} else if (type === 'pothole') {
+  const c = Astro.props.city;
+  h1 = c.h1;
+  title = c.title;
+  description = c.meta;
+  faqs = c.faqs;
+  trail = [
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/services/' },
+    { name: 'Pothole Repair', href: '/services/pothole-repair/' },
+    { name: c.name, href: `/services/pothole-repair-${c.slug}/` },
+  ];
+  schema = [
+    serviceSchema({
+      name: c.h1,
+      description: c.meta,
+      url: `/services/pothole-repair-${c.slug}/`,
+      areaName: c.name,
+      serviceType: 'Infrared Pothole Repair',
+    }),
+    faqSchema(c.faqs),
+    breadcrumbSchema(trail),
+  ];
+  body = c;
 } else {
   const p = Astro.props.page;
   h1 = p.h1;
@@ -73,6 +103,15 @@ if (type === 'service') {
 
 const otherTowns = type === 'town' ? towns.filter((t) => t.slug !== Astro.props.page.town.slug).slice(0, 4) : [];
 const mainService = type === 'town' ? services.find((s) => s.slug === Astro.props.page.svc.serviceSlug) : null;
+
+// Nearby pothole-repair towns: prefer same county, then fill from the rest.
+const potholeNearby = (() => {
+  if (type !== 'pothole') return [];
+  const cur = Astro.props.city;
+  const same = potholeCities.filter((x) => x.slug !== cur.slug && x.county === cur.county);
+  const rest = potholeCities.filter((x) => x.slug !== cur.slug && x.county !== cur.county);
+  return [...same, ...rest].slice(0, 4);
+})();
 ---
 
 <Base {title} {description} {schema}>
@@ -92,6 +131,44 @@ const mainService = type === 'town' ? services.find((s) => s.slug === Astro.prop
           <ul style="margin:16px 0 0 20px; line-height:2.1;">
             {body.included.map((i) => <li>{i}</li>)}
           </ul>
+
+          {body.slug === 'pothole-repair' && (
+            <>
+              <h2 style="margin-top:44px;">Pothole repair by town</h2>
+              <p style="margin-top:12px;">Infrared pothole repair, with a local page for your town:</p>
+              <div class="area-tags" style="margin-top:14px;">
+                {potholeCities.map((c) => (
+                  <a href={`/services/pothole-repair-${c.slug}/`}>{c.name}</a>
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      ) : type === 'pothole' ? (
+        <>
+          <p class="lede" style="margin-top:16px;"><strong>{body.answer}</strong></p>
+
+          <p style="margin-top:22px;">{body.intro}</p>
+          <p style="margin-top:14px;">{body.para}</p>
+
+          <h2 style="margin-top:40px;">What an infrared repair includes in {body.name}</h2>
+          <ul style="margin:16px 0 0 20px; line-height:2.1;">
+            {body.included.map((i) => <li>{i}</li>)}
+          </ul>
+
+          <h2 style="margin-top:40px;">Where infrared fits — and where it doesn’t</h2>
+          <p style="margin-top:14px;">{body.infrared}</p>
+
+          <div style="margin-top:34px; padding:22px 24px; background:var(--bg-alt); border:1px solid var(--line); border-radius:var(--radius);">
+            <p style="margin:0;"><strong>More pavement services in {body.name}:</strong></p>
+            <div class="area-tags" style="margin-top:12px;">
+              <a href={`/services/parking-lot-striping-${body.slug}/`}>Line striping</a>
+              <a href={`/services/sealcoating-${body.slug}/`}>Sealcoating</a>
+              <a href={`/services/crack-filling-${body.slug}/`}>Crack filling</a>
+              <a href={`/services/pressure-washing-${body.slug}/`}>Pressure washing</a>
+              <a href="/services/pothole-repair/">How infrared repair works →</a>
+            </div>
+          </div>
         </>
       ) : (
         <>
@@ -125,6 +202,44 @@ const mainService = type === 'town' ? services.find((s) => s.slug === Astro.prop
               Full service details and pricing: <a href={`/services/${mainService.slug}/`}>{mainService.name}</a>.
             </p>
           )}
+
+          {body.town.jobProof && body.town.jobProof.service === body.svc.key && (
+            <div class="job-proof" style="margin-top:44px; padding:26px; background:var(--bg-alt); border:1px solid var(--line); border-radius:var(--radius);">
+              <h2 style="margin-top:0;">{body.town.jobProof.heading}</h2>
+              <p class="lede" style="margin-top:12px;">{body.town.jobProof.lead}</p>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:18px; margin:24px 0;">
+                {body.town.jobProof.stats.map((st) => (
+                  <div style="text-align:center;">
+                    <div style="font-family:var(--font-head); font-size:2.1rem; color:var(--blue); line-height:1;">{st.n}</div>
+                    <div style="font-size:0.9rem; color:var(--muted); margin-top:6px;">{st.label}</div>
+                  </div>
+                ))}
+              </div>
+              <p style="margin-top:6px;">{body.town.jobProof.note}</p>
+              <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; margin-top:22px;">
+                {body.town.jobProof.photos.length > 0
+                  ? body.town.jobProof.photos.map((ph) => (
+                      <img src={ph.src} alt={ph.alt} width="800" height="600" loading="lazy" style="width:100%; height:auto; border-radius:8px; display:block;" />
+                    ))
+                  : [0, 1, 2].map(() => (
+                      <div style="aspect-ratio:4/3; border:2px dashed var(--line); border-radius:8px; display:grid; place-items:center; text-align:center; padding:12px; color:var(--muted); font-size:0.85rem;">
+                        Stillwater job photo &mdash; coming soon
+                      </div>
+                    ))}
+              </div>
+              {body.town.jobProof.beforeAfter && (
+                <div style="max-width:760px; margin:26px auto 0;">
+                  <BeforeAfter
+                    before={body.town.jobProof.beforeAfter.before}
+                    after={body.town.jobProof.beforeAfter.after}
+                    beforeAlt={body.town.jobProof.beforeAfter.beforeAlt}
+                    afterAlt={body.town.jobProof.beforeAfter.afterAlt}
+                    caption={body.town.jobProof.beforeAfter.caption}
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>
@@ -132,7 +247,7 @@ const mainService = type === 'town' ? services.find((s) => s.slug === Astro.prop
 
   <section class="section alt">
     <div class="container" style="max-width:860px;">
-      <FaqBlock {faqs} heading={type === 'town' ? `${Astro.props.page.town.name} questions, answered` : 'Frequently Asked Questions'} />
+      <FaqBlock {faqs} heading={type === 'town' ? `${Astro.props.page.town.name} questions, answered` : type === 'pothole' ? `${Astro.props.city.name} pothole repair questions` : 'Frequently Asked Questions'} />
     </div>
   </section>
 
@@ -158,9 +273,31 @@ const mainService = type === 'town' ? services.find((s) => s.slug === Astro.prop
     </section>
   )}
 
+  {type === 'pothole' && (
+    <section class="section">
+      <div class="container">
+        <h2>Pothole repair in nearby towns</h2>
+        <div class="area-tags" style="margin-top:18px;">
+          {potholeNearby.map((t) => (
+            <a href={`/services/pothole-repair-${t.slug}/`}>{t.name}</a>
+          ))}
+          <a href="/services/pothole-repair/">All pothole repair →</a>
+        </div>
+        <iframe
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(Astro.props.city.name + ', Oklahoma')}&output=embed`}
+          style="border:0; width:100%; height:400px; margin-top:28px; border-radius:8px; display:block;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title={`${Astro.props.city.name} pothole repair service area map`}
+        ></iframe>
+      </div>
+    </section>
+  )}
+
   <section class="section" id="quote-form">
     <div class="container" style="max-width:640px;">
-      <QuoteForm heading={type === 'town' ? `Free quote for your ${Astro.props.page.town.name} property` : 'Get a Free Quote'} />
+      <QuoteForm heading={type === 'town' ? `Free quote for your ${Astro.props.page.town.name} property` : type === 'pothole' ? `Free pothole repair quote for your ${Astro.props.city.name} property` : 'Get a Free Quote'} />
     </div>
   </section>
 
