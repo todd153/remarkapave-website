@@ -87,6 +87,30 @@ export const services = [
     ],
   },
   {
+    slug: 'pothole-repair',
+    name: 'Infrared Pothole Repair',
+    short: 'Pothole Repair',
+    priceFrom: 'Priced per repair — free written quote',
+    blurb:
+      'Infrared asphalt repair reheats the pavement you already have, rakes in hot mix, and compacts it as one — a bonded patch with no cold seam for water to find, drivable in about an hour.',
+    answer:
+      'RemarkaPave repairs potholes across Ponca City, Kay County, and the Tulsa metro with infrared asphalt repair. Instead of dropping cold mix into a hole, an infrared heater reheats the existing asphalt to about 300°F, we rake in fresh hot mix, and we compact old and new together into a single bonded surface. There is no cold seam, so there is no joint for water to get under — and the repair is traffic-ready in about an hour.',
+    included: [
+      'Existing asphalt reheated in place to a workable temperature — no cut-out square left behind',
+      'Fresh hot mix raked in and compacted with the reheated pavement as one bonded surface',
+      'A finished patch with no cold seam, so water and freeze-thaw have no edge to work under',
+      'Best for surface damage — potholes, settled spots, failed seams, trip hazards — over a solid base',
+      'Honest call on base failure: alligator cracking, soft spots, and deep settlement get full-depth repair instead',
+      'Traffic-ready in about an hour, scheduled around your business hours',
+    ],
+    faqs: [
+      { q: 'What is infrared pothole repair?', a: 'An infrared heater warms the existing asphalt in place until it is workable at about 300°F. We rake fresh hot mix into the softened area and compact old and new together, so the repair bonds into one surface with no cold seam — the edge where ordinary patches fail.' },
+      { q: 'Is infrared better than a cold-patch?', a: 'For a lasting fix, yes. A cold-patch leaves loose mix and a hard seam that water works under within a season. Infrared reheats and fuses the new mix to the existing asphalt, so there is no seam to open up.' },
+      { q: 'How soon can I drive on the repair?', a: 'About an hour after compaction. We schedule around your hours so the lot never has to fully close.' },
+      { q: 'What if the base under my pavement has failed?', a: 'Then infrared is the wrong fix and we will tell you. Alligator cracking, soft spongy spots, and wide settlement mean the base is gone and needs full-depth repair — saw-cut, remove, and rebuild — not a surface patch.' },
+    ],
+  },
+  {
     slug: 'parking-lot-porter-service',
     name: 'Parking Lot Porter Service',
     short: 'Porter Service',
